@@ -2,14 +2,9 @@ html,
 body {
   padding: 0;
   margin: 0;
-<<<<<<< HEAD
   /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
     font-family: 'Custom-font', playfair;
-=======
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
->>>>>>> 705011b932b9dad6200fe0095fbb2e48db1f6769
 }
 
 a {
@@ -21,7 +16,6 @@ a {
   box-sizing: border-box;
 }
 
-<<<<<<< HEAD
 :root{
   --orange-blur: #FFCD61;
   --custom-grey: #B8BECD;
@@ -85,7 +79,6 @@ a {
   font-style: normal;
   font-display: swap;
 }
-=======
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -95,4 +88,3 @@ a {
     background: black;
   }
 }
->>>>>>> 705011b932b9dad6200fe0095fbb2e48db1f6769
