@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "layout/main.jsx";
 import styles from "styles/Landing.module.css";
 import { ChevronRight, StarFill } from "react-bootstrap-icons";
-import Image from "next/image"
+import Image from "next/image";
 import { useRouter } from "next/router";
 
 export default function LandingPage() {
