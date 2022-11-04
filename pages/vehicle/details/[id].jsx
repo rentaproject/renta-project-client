@@ -3,15 +3,17 @@ import Layout from "layout/main.jsx";
 import styles from "styles/Details.module.css";
 import Image from "next/image";
 import { ChevronLeft, Plus, Dash, HeartFill } from "react-bootstrap-icons";
+import { useRouter } from "next/router";
 
-export default function LandingPage() {
+export default function Vehicle() {
+  const router = useRouter();
   return (
-    <Layout>
+    <Layout title="Vehicle">
       <div className={styles.title}>
         <ChevronLeft />
         <div>Detail</div>
       </div>
-      <div className={`row ${styles.detailContainer}`}>
+      <div className={`row m-0 ${styles.detailContainer}`}>
         <div className={`col-sm-12 col-md-12 col-lg-6 ${styles.leftContainer}`}>
           <div className={styles.mainImageContainer}>
             <Image
@@ -70,11 +72,18 @@ export default function LandingPage() {
           </div>
         </div>
       </div>
-      <div className={`row justify-content-between ${styles.buttonContainer}`}>
+      <div
+        className={`row justify-content-between m-0 ${styles.buttonContainer}`}
+      >
         <div className={`col-sm-12 col-md-4 col-lg-4  ${styles.chatAdmin}`}>
           Chat Admin
         </div>
-        <div className={`col-sm-12 col-md-4 col-lg-4  ${styles.reservation}`}>
+        <div
+          className={`col-sm-12 col-md-4 col-lg-4  ${styles.reservation}`}
+          onClick={() => {
+            router.push(`/reservation/s`);
+          }}
+        >
           Reservation
         </div>
         <div className={`col-sm-12 col-md-2 col-lg-3  ${styles.like}`}>
