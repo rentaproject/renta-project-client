@@ -1,4 +1,14 @@
 import React from "react";
+<<<<<<< HEAD
+import Layout from "layout/main.jsx"
+export default function LandingPage() {
+
+  return (
+    <Layout>
+    <div>
+      <h1>Landing Pages</h1>
+    </div>
+=======
 import Layout from "layout/main.jsx";
 import styles from "styles/Landing.module.css";
 import { ChevronRight, StarFill } from "react-bootstrap-icons";
@@ -139,6 +149,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+>>>>>>> 705011b932b9dad6200fe0095fbb2e48db1f6769
     </Layout>
   );
 }

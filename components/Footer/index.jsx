@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import styles from "styles/Footer.module.css";
+import styles from "../../styles/Footer.module.css";
 import {
   Facebook,
   Twitter,
@@ -17,7 +17,7 @@ function Footer() {
         <div className={`col-sm-12 col-md-6 col-lg-3 ${styles.footerMain}`}>
           <div className={styles.footerLogoContainer}>
             <Image
-              src={require("public/Logo-1.png")}
+              src={require("../../public/Logo-1.png")}
               alt="logo"
               className={styles.footerLogo}
             />

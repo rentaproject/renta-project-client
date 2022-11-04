@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import styles from "styles/Header.module.css";
+import styles from "../../styles/Header.module.css";
 
 function Header() {
   const login = false;
@@ -70,7 +70,7 @@ function Header() {
                 >
                   <div className={styles.profileContainer}>
                     <Image
-                      src={require("public/Profile-Empty.png")}
+                      src={require("../../public/Profile-Empty.png")}
                       alt="profile"
                       className={styles.profile}
                       width={40}
