@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap");
+.history_search {
+  width: 130vh;
+}
+.history_filter {
+  width: 30vh;
+}
+.history_tittle {
+  font-size: 20px;
+  font-family: "Nunito";
+  margin-bottom: 20px;
+  margin-left: 30px !important;
+  margin-top: 20px !important;
+}
+.history_tittle_2 {
+  font-size: 20px;
+  margin-left: 30px !important;
+  margin-top: 20px !important;
+  margin-bottom: 20px;
+}
+.history_info_vehicle {
+  font-size: 9px;
+  font-family: "Nunito";
+}
+.history_status {
+  color: #087e0d;
+}
+.history_button_del {
+  width: 120px;
+  height: 50px;
+  background: #ffcd61;
+  box-shadow: 0px 0px 20px rgba(251, 143, 29, 0.4);
+  border-radius: 10px;
+  color: black;
+  border: none;
+}
+.history_message {
+  font-family: "Nunito";
+  font-style: normal;
+}
+.card_right_tittle {
+  font-family: "Playfair Display";
+  color: #393939;
+  margin-left: 150px !important;
+  margin-bottom: 30px;
+  margin-top: 10px;
+  margin-top: 10px;
+}
+.new_arrival_img {
+  margin-left: 60px;
+}
+.info_vehicle {
+  width: 150px;
+  position: absolute;
+}
+
+.card_arrival {
+  width: 286px;
+  height: 360px;
+  background-color: aqua;
+}
+.card_text {
+  background-color: white !important;
+  margin-top: -60px;
+  width: 130px;
+  height: 70px !important;
+  border: none;
+}
+.history_more_button {
+  margin-top: 20px;
+  margin-left: 180px !important;
+  color: #b8becd;
+  font-family: "Nunito";
+}
+.history_row_icon {
+  margin-left: 20px;
+}
+.buttonno {
+  width: 100px;
+  margin-left: 130px;
+  height: 50px;
+  background-color: #393939;
+  border: none;
+  border-radius: 10px;
+  color: #ffcd61;
+}
+.buttonyes {
+  width: 100px;
+  height: 50px;
+  background-color: #ffcd61;
+  border: none;
+  border-radius: 10px;
+  color: black;
+}
+.group_button_modal {
+  padding: 10vh;
+}
+.modal_tittle {
+  width: 300px;
+  text-align: center;
+  margin-left: 100px;
+}
+@media (max-width: 575.98px) {
+  .history_tittle {
+    font-size: 16px;
+  }
+  .history_message {
+    width: 100px;
+  }
+  .history_colum_one {
+    width: 100vh !important;
+  }
+  .history_tittle_2 {
+    font-size: 16px;
+    margin-left: -10px;
+    font-family: "Nunito";
+  }
+  .form-control {
+    display: none !important;
+  }
+  .history_filter {
+    display: none !important;
+  }
+  .rightside {
+    display: none !important;
+  }
+  .history_card_vehicle {
+    margin-bottom: 30px;
+  }
+  .history_button_del {
+    width: 60px;
+    margin-left: -6vh;
+  }
+  .history_info_vehicle {
+    font-size: 6px !important;
+  }
+}
