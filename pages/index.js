@@ -1,21 +1,15 @@
 import React from "react";
-<<<<<<< HEAD
-import Layout from "layout/main.jsx"
-export default function LandingPage() {
-
-  return (
-    <Layout>
-    <div>
-      <h1>Landing Pages</h1>
-    </div>
-=======
 import Layout from "layout/main.jsx";
 import styles from "styles/Landing.module.css";
 import { ChevronRight, StarFill } from "react-bootstrap-icons";
 import Image from "next/image";
+import { useRouter } from "next/router";
+
 export default function LandingPage() {
+  const router = useRouter();
+
   return (
-    <Layout>
+    <Layout title="Home">
       <section className={styles.mainBanner}>
         <div className={styles.container}>
           <div className={styles.bannerTitle}>
@@ -55,12 +49,22 @@ export default function LandingPage() {
       <section className={styles.popularContainer}>
         <div className={styles.titleContainer}>
           <div className={styles.title}>Popular in town</div>
-          <div className={styles.view}>
+          <div
+            className={styles.view}
+            onClick={() => {
+              router.push(`/vehicle/type/s`);
+            }}
+          >
             View all <ChevronRight />
           </div>
         </div>
         <div className={styles.itemContainer}>
-          <div className={styles.item}>
+          <div
+            className={styles.item}
+            onClick={() => {
+              router.push(`/vehicle/details/s`);
+            }}
+          >
             <Image
               src={require("../public/Background-1.png")}
               alt="item"
@@ -74,7 +78,12 @@ export default function LandingPage() {
               <div className={styles.itemLocation}>Location</div>
             </div>
           </div>
-          <div className={styles.item}>
+          <div
+            className={styles.item}
+            onClick={() => {
+              router.push(`/vehicle/details/s`);
+            }}
+          >
             <Image
               src={require("../public/Background-1.png")}
               alt="item"
@@ -88,7 +97,12 @@ export default function LandingPage() {
               <div className={styles.itemLocation}>Location</div>
             </div>
           </div>
-          <div className={styles.item}>
+          <div
+            className={styles.item}
+            onClick={() => {
+              router.push(`/vehicle/details/s`);
+            }}
+          >
             <Image
               src={require("../public/Background-1.png")}
               alt="item"
@@ -102,7 +116,12 @@ export default function LandingPage() {
               <div className={styles.itemLocation}>Location</div>
             </div>
           </div>
-          <div className={styles.item}>
+          <div
+            className={styles.item}
+            onClick={() => {
+              router.push(`/vehicle/details/s`);
+            }}
+          >
             <Image
               src={require("../public/Item-Empty.webp")}
               alt="item"
@@ -149,7 +168,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
->>>>>>> 705011b932b9dad6200fe0095fbb2e48db1f6769
     </Layout>
   );
 }
