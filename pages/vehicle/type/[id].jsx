@@ -4,16 +4,23 @@ import styles from "styles/VehicleMore.module.css";
 import {} from "react-bootstrap-icons";
 import Image from "next/image";
 import { ChevronRight, StarFill } from "react-bootstrap-icons";
+import { useRouter } from "next/router";
 
-export default function LandingPage() {
+export default function Vehicle() {
+  const router = useRouter();
   return (
-    <Layout>
+    <Layout title="Vehicle">
       <section className={styles.popularContainer}>
         <div className={styles.titleContainer}>
           <div className={styles.title}>Popular in town</div>
         </div>
         <div className={styles.itemContainer}>
-          <div className={styles.item}>
+          <div
+            className={styles.item}
+            onClick={() => {
+              router.push(`/vehicle/details/s`);
+            }}
+          >
             <Image
               src={require("../../../public/Background-1.png")}
               alt="item"
@@ -27,7 +34,12 @@ export default function LandingPage() {
               <div className={styles.itemLocation}>Location</div>
             </div>
           </div>
-          <div className={styles.item}>
+          <div
+            className={styles.item}
+            onClick={() => {
+              router.push(`/vehicle/details/s`);
+            }}
+          >
             <Image
               src={require("../../../public/Background-1.png")}
               alt="item"
@@ -41,7 +53,12 @@ export default function LandingPage() {
               <div className={styles.itemLocation}>Location</div>
             </div>
           </div>
-          <div className={styles.item}>
+          <div
+            className={styles.item}
+            onClick={() => {
+              router.push(`/vehicle/details/s`);
+            }}
+          >
             <Image
               src={require("../../../public/Background-1.png")}
               alt="item"
@@ -55,7 +72,12 @@ export default function LandingPage() {
               <div className={styles.itemLocation}>Location</div>
             </div>
           </div>
-          <div className={styles.item}>
+          <div
+            className={styles.item}
+            onClick={() => {
+              router.push(`/vehicle/details/s`);
+            }}
+          >
             <Image
               src={require("../../../public/Item-Empty.webp")}
               alt="item"
