@@ -1,0 +1,207 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap");
+.title {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  color: #000000;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  column-gap: 30px;
+  padding: 5vh 10vw;
+  cursor: pointer;
+  border-bottom: 2x solid transparent;
+}
+.title:active {
+  color: #fb8f1d;
+}
+.detailContainer {
+  padding: 0 10vw 5vh;
+}
+.leftContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+.mainImageContainer {
+  width: 100%;
+  cursor: pointer;
+}
+.mainImage {
+  object-fit: cover;
+  border-radius: 10px;
+}
+.sideImageWrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.sideImageContainer {
+  width: 40%;
+  cursor: pointer;
+}
+.sideImage {
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.rightContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0vh 5vh;
+}
+.name {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  color: #042521;
+  mix-blend-mode: normal;
+}
+.location {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  color: #042521;
+  mix-blend-mode: normal;
+}
+.stock {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  color: #087e0d;
+}
+.repayment {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  color: #9b0a0a;
+}
+.description {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  color: #393939;
+}
+.price {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 30px;
+  text-align: right;
+  width: 100%;
+  color: #000000;
+}
+.quantityContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 30px;
+  color: #000000;
+  margin-top: 40px;
+  width: 100%;
+}
+.plusButton {
+  background: #ffcd61;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+.plusButton:active {
+  background: rgba(203, 203, 212, 0.8);
+}
+.minusButton {
+  background: rgba(203, 203, 212, 0.8);
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+.minusButton:active {
+  background: #ffcd61;
+}
+
+.buttonContainer {
+  padding: 0vh 10vw 10vh;
+  row-gap: 20px;
+}
+.chatAdmin {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  text-align: center;
+  color: #ffcd61;
+  background: #393939;
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+}
+.chatAdmin:active {
+  background: #ffcd61;
+  color: #393939;
+}
+.reservation {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  text-align: center;
+  background: #ffcd61;
+  color: #393939;
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+}
+.reservation:active {
+  color: #ffcd61;
+  background: #393939;
+}
+.like {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  text-align: center;
+  color: #ffcd61;
+  background: #393939;
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+}
+.like:active {
+  background: #ffcd61;
+  color: #393939;
+}
