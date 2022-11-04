@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap");
+.navbar {
+  padding: 2vh 15vw;
+  margin: 0;
+}
+.logoContainer {
+  width: 100px;
+}
+.logo {
+  width: 100%;
+  height: auto;
+  display: none;
+}
+.navItem {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  color: #202336;
+}
+.profileContainer {
+  width: 40px !important;
+  height: 40px !important;
+  cursor: pointer;
+}
+.profile {
+  object-fit: cover !important;
+  border-radius: 100px;
+}
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+}
+.whiteButton {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  color: #393939;
+  mix-blend-mode: normal;
+  text-align: center;
+
+  border: 1px solid #ffcd61;
+  border-radius: 8px;
+  padding: 5px;
+  cursor: pointer;
+  width: 100px;
+}
+.whiteButton:active {
+  background: #ffcd61;
+}
+.yellowButton {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  color: #393939;
+  mix-blend-mode: normal;
+  text-align: center;
+
+  background: #ffcd61;
+  border-radius: 8px;
+  padding: 5px;
+  cursor: pointer;
+  border: 1px solid #ffcd61;
+  width: 100px;
+}
+.yellowButton:active {
+  background-color: #ffffff;
+}

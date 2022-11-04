@@ -1,0 +1,139 @@
+.mainContainer{
+    margin-left: 130px;
+}
+
+.itemTitle {
+    font-size: 30px;
+    font-family: 'Custom-font', playfair;
+}
+
+.itemLoc {
+    font-size: 25px;
+    font-family: 'Custom-font', playfair-regular;
+}
+
+.itemStatus {
+    margin-top: 10px;
+    font-family: 'Custom-font', nunito;
+    font-weight: bold;
+    color: var(--avaiable);
+}
+
+.itemPay {
+    display: block;
+    margin-top: 10px;
+    color: var(--custom-grey);
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Custom-font', nunito;
+}
+
+.btnCopy{
+    margin-top: 20px;
+    margin-bottom: 50px;
+    border: none;
+    border-radius: 5px;
+}
+
+.bookingCode{
+    font-family: 'Custom-font', playfair;
+    font-size: 25px;
+}
+
+.bookingCodeCpy{
+    font-family: 'Custom-font', playfair;
+    font-size: 15px;
+}
+
+.btncpy{
+    border-radius: 5px;
+    border: none;
+    width: 100px;
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+}
+
+.itemPrice {
+    font-size: 25px;
+    font-family: 'Custom-font', playfair;
+    text-align: right;
+    padding-right: 20px;
+}
+
+.count {
+    color: black;
+    font-family: 'Custom-font', nunito2;
+    font-size: 30px;
+}
+
+.imgSub {
+    width: 196px;
+    height: 140px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.box{
+    border-radius: 5px;
+    outline: 1px solid var(--custom-grey);
+    padding: 20px 10px 20px 30px;
+    margin-bottom: 10px;
+    font-family: 'Custom-font', nunito;
+}
+
+.boxIden{
+    border-radius: 5px;
+    outline: 1px solid var(--custom-grey);
+    padding: 20px 10px 20px 30px;
+    margin-bottom: 10px;
+    font-family: 'Custom-font', nunito;
+}
+
+.boxRes{
+    border-radius: 5px;
+    outline: 1px solid var(--custom-grey);
+    padding: 20px 10px 20px 30px;
+    margin-bottom: 10px;
+    font-family: 'Custom-font', nunito;
+}
+
+.boxtitle{
+    font-weight: bold;
+    color: black;
+}
+
+.boxPay{
+    width: 100%;
+}
+
+.paytitle{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+@media (min-width: 768px) {
+    .boxRes{
+        margin-bottom: 10px;
+        height: 64px;
+        padding: 20px 10px 20px 30px;
+    }
+    .boxPayRight{
+        margin-top: 22px;
+    }
+}
+
+@media (min-width: 992px) {
+    .rightItem {
+        width: 43%;
+    }
+    .boxRes{
+        padding: 20px 10px 20px 30px;
+    }
+    .boxPay{
+        width: 79%;
+    }
+    .boxPayRight{
+        margin-top: 16px;
+    }
+}

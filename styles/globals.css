@@ -1,0 +1,81 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+    font-family: 'Custom-font', playfair;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root{
+  --orange-blur: #FFCD61;
+  --custom-grey: #B8BECD;
+  --footer-color: #F9F9FB;
+  --custom-black: #393939;
+  --avaiable: #087E0D;
+  --noPay: #9B0A0A;
+}
+
+.bg-orange{
+  background-color: var(--orange-blur);
+  color: #393939;
+}
+
+.bg-black{
+  background-color: var(--custom-black);
+  color: var(--orange-blur);
+}
+
+.navActive{
+  color: black !important;
+}
+
+.img-history{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+@font-face{
+  font-family: 'playfair';
+  src: url('../public/fonts/playfair/PlayfairDisplay-Black.otf');
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: 'playfair-regular';
+  src: url('../public/fonts/playfair/PlayfairDisplay-Regular.otf');
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: 'mulish';
+  src: url('../public/fonts/mulish/Mulish-Regular.ttf');
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: 'nunito';
+  src: url('../public/fonts/nunito/Nunito-Regular.ttf');
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face{
+  font-family: 'nunito2';
+  src: url('../public/fonts/nunito/Nunito-Black.ttf');
+  font-style: normal;
+  font-display: swap;
+}
