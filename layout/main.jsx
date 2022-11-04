@@ -5,7 +5,7 @@ import Footer from "components/Footer";
 function main(props) {
   return (
     <div>
-      <Header />
+      <Header title={props.title} />
       {props.children}
       <Footer />
     </div>
