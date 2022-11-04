@@ -1,0 +1,281 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+.mainBanner {
+  min-height: 90vh;
+  background-image: url("../public/Background-1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 10vh 10vw;
+}
+.container {
+  max-width: 400px;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+.bannerTitle {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 80px;
+  color: #202336;
+  mix-blend-mode: normal;
+}
+.bannerSubtitle {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 30px;
+  color: #202336;
+}
+.strip {
+  color: #202336;
+}
+.inputType {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  color: #393939;
+  mix-blend-mode: normal;
+  background: rgba(255, 255, 255, 0.5);
+  border: 0.8px solid #afb0b9;
+  border-radius: 6px;
+  padding: 10px 20px;
+  width: 100%;
+}
+.inputType::placeholder {
+  color: #393939;
+}
+.inputType:focus {
+  outline: none;
+}
+.inputContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 20px;
+}
+.inputLocation {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  color: #393939;
+  mix-blend-mode: normal;
+  background: rgba(255, 255, 255, 0.5);
+  border: 0.8px solid #afb0b9;
+  border-radius: 6px;
+  padding: 10px 20px;
+  width: 190px;
+}
+.inputLocation::placeholder {
+  color: #393939;
+}
+.inputLocation:focus {
+  outline: none;
+}
+.inputDate {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  color: #393939;
+  mix-blend-mode: normal;
+  background: rgba(255, 255, 255, 0.5);
+  border: 0.8px solid #afb0b9;
+  border-radius: 6px;
+  padding: 10px 20px;
+  width: 190px;
+}
+.inputDate::placeholder {
+  color: #393939;
+}
+.inputDate:focus {
+  outline: none;
+}
+.button {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 60px;
+  color: #393939;
+  mix-blend-mode: normal;
+  background: #ffcd61;
+  border-radius: 8px;
+  border: 2px solid #ffcd61;
+  width: 150px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button:active {
+  border: 2px solid #393939;
+}
+
+.popularContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 15vh 10vw;
+}
+.titleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.title {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 50px;
+  color: #000000;
+  mix-blend-mode: normal;
+  margin-bottom: 40px;
+}
+.view {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 60px;
+  display: flex;
+  align-items: center;
+  color: #fb8f1d;
+  mix-blend-mode: normal;
+  cursor: pointer;
+}
+.view:active {
+  color: #000000;
+}
+.itemContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  row-gap: 20px;
+  flex-wrap: wrap;
+}
+.item {
+  width: 250px !important;
+  height: 300px !important;
+  cursor: pointer;
+}
+.itemImage {
+  /* width: 100% !important;s */
+  object-fit: cover !important;
+  border-radius: 8px;
+  position: absolute !important;
+  border: 2px solid transparent !important;
+}
+.itemImage:hover {
+  border: 2px solid #d5d9e4 !important;
+  z-index: 10;
+}
+.itemImage:active {
+  border: 2px solid #b8becd !important;
+  z-index: 10;
+}
+.itemDetail {
+  background: #ffffff;
+  border-radius: 0px 8px;
+  position: relative;
+  width: 120px;
+  height: 60px;
+  bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.itemName {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 25px;
+  display: flex;
+  align-items: center;
+  color: #042521;
+  mix-blend-mode: normal;
+}
+.itemLocation {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 25px;
+  display: flex;
+  align-items: center;
+  color: #b8becd;
+  mix-blend-mode: normal;
+}
+
+.testiContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0vh 10vw 10vh;
+}
+.testiItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.testi {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  row-gap: 20px;
+}
+.testiStars {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  color: #ffbb0c;
+}
+.testiText {
+  max-width: 400px;
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 36px;
+  color: #393939;
+  mix-blend-mode: normal;
+}
+.testiName {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+  mix-blend-mode: normal;
+}
+.testiJob {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  color: rgba(57, 57, 57, 0.85);
+  mix-blend-mode: normal;
+}

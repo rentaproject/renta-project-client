@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap");
 .navbar {
+<<<<<<< HEAD
   padding: 2vh 15vw;
+=======
+  padding: 2vh 15vw 2vh 10vw;
+>>>>>>> 705011b932b9dad6200fe0095fbb2e48db1f6769
   margin: 0;
 }
 .logoContainer {
@@ -20,8 +24,13 @@
   color: #202336;
 }
 .profileContainer {
+<<<<<<< HEAD
   width: 40px !important;
   height: 40px !important;
+=======
+  width: 35px !important;
+  height: 35px !important;
+>>>>>>> 705011b932b9dad6200fe0095fbb2e48db1f6769
   cursor: pointer;
 }
 .profile {
