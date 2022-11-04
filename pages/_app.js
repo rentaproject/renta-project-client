@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "../styles/HistoryUser.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Provider } from "react-redux";
