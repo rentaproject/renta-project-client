@@ -35,6 +35,20 @@ a {
   left: 8px;
   transform: translateY(-50%);
 }
+
+.inputfile {
+  margin-top: -50px;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.label-add-item {
+  margin-top: -100px !important;
+  align-items: center;
+}
 :root {
   --orange-blur: #ffcd61;
   --custom-grey: #b8becd;

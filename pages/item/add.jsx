@@ -1,9 +1,35 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Layout from "layout/main";
 import defaultItem from "../../public/defaultPhotoItem.png";
+import styles from "styles/addItem.module.css";
 
-export default function addItem() {
+export default function Additem() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [formImage, setFormImage] = useState({
+    image: null,
+  });
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(preview);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+  }, [preview, selectedFile]);
+
+  const handleSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(null);
+      return;
+    }
+    setSelectedFile(e.target.files[0]);
+    setFormImage({ ...formImage, image: e.target.files[0] });
+  };
+
   const isError = true;
   const message = true;
   const form = [
@@ -18,14 +44,6 @@ export default function addItem() {
     { name: "Description", type: "text" },
   ];
 
-  const handleSelectFile = (e) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(null);
-      return;
-    }
-    setSelectedFile(e.target.files[0]);
-    setFormImage({ ...formImage, image: e.target.files[0] });
-  };
   return (
     <>
       <Layout>
@@ -49,28 +67,79 @@ export default function addItem() {
           </div>
           <div className="row item-row">
             <div className="col-md-5 h-100  ">
-              <div className=" bg-light vh-50 w-60 pt-5 pb-5 pe-md-5 ps-md-5 d-flex  justify-content-center">
-                <div className="d-inline">
-                  <div
-                    className="text-center mx-auto my-auto pt-md-5 pb-md-5 "
-                    style={{ height: "20%", width: "20%" }}
-                  >
+              <div
+                className=" bg-light  pt-5 pb-5 pe-md-5 ps-md-5 d-flex  justify-content-center"
+                style={{ height: "100%", width: "100%" }}
+              >
+                <div
+                  className="text-center mx-auto my-auto pt-md-5 pb-md-5 "
+                  style={{ height: "100%", width: "100%" }}
+                >
+                  <label className="labela-add-item" for="formfile">
                     <Image
                       className=""
-                      src={defaultItem}
+                      src={preview ? preview : defaultItem}
                       alt="itempicture"
-                      width={200}
-                      height={200}
+                      width={30}
+                      height={30}
                       objectFit="cover"
                     />
-                  </div>
+                    <br />
+                    Click to add image
+                  </label>
                   <input
-                    className="form-control visually-hidden"
                     type="file"
-                    id="formFile"
+                    name="file"
+                    id="formfile"
+                    class="inputfile"
                     onChange={handleSelectFile}
                   />
-                  Click to add image
+                </div>
+              </div>
+              <div className="d-flex justify-conten-center gap-2">
+                <div
+                  className="text-center  p-5 mx-auto bg-light mt-2 my-auto pt-md-5 pb-md-5 "
+                  style={{ height: "100%", width: "50%" }}
+                >
+                  <label className="labela-add-item" for="formfile">
+                    <Image
+                      className=""
+                      src={preview ? preview : defaultItem}
+                      alt="itempicture"
+                      width={30}
+                      height={30}
+                      objectFit="cover"
+                    />
+                    <br />
+                    Click to add image
+                  </label>
+                  <input
+                    type="file"
+                    name="file"
+                    id="formfile"
+                    class="inputfile"
+                    onChange={handleSelectFile}
+                  />
+                </div>
+                <div
+                  className="text-center  p-5 mx-auto bg-light mt-2 my-auto pt-md-5 pb-md-5 "
+                  style={{ height: "50%", width: "50%" }}
+                >
+                  <label className="labela-add-item" for="formfile">
+                    <i
+                      className="bi bi-plus "
+                      style={{ height: "50%", width: "50%" }}
+                    ></i>
+                    <br />
+                    Add more
+                  </label>
+                  <input
+                    type="file"
+                    name="file"
+                    id="formfile"
+                    class="inputfile"
+                    onChange={handleSelectFile}
+                  />
                 </div>
               </div>
             </div>
