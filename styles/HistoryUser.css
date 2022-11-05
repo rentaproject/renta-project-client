@@ -115,7 +115,7 @@
     margin-left: -10px;
     font-family: "Nunito";
   }
-  .form-control {
+  .form-control-history {
     display: none !important;
   }
   .history_filter {

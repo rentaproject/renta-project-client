@@ -33,7 +33,7 @@ export default function HistoryUser() {
             {/* start search */}
             <div className="history_search d-flex mt-3">
               <input
-                className="form-control me-2"
+                className="form-control-history me-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"

@@ -3,8 +3,8 @@ body {
   padding: 0;
   margin: 0;
   /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
-    font-family: 'Custom-font', playfair;
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+  font-family: "Custom-font", playfair;
 }
 
 a {
@@ -15,67 +15,86 @@ a {
 * {
   box-sizing: border-box;
 }
-
-:root{
-  --orange-blur: #FFCD61;
-  --custom-grey: #B8BECD;
-  --footer-color: #F9F9FB;
+.form-control {
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid black !important;
+}
+.form-control:focus {
+  border: 0 !important;
+  border-bottom: 1px solid var(--custom-black) !important;
+  box-shadow: none !important;
+}
+.input-with-icon {
+  position: relative;
+}
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  transform: translateY(-50%);
+}
+:root {
+  --orange-blur: #ffcd61;
+  --custom-grey: #b8becd;
+  --footer-color: #f9f9fb;
   --custom-black: #393939;
-  --avaiable: #087E0D;
-  --noPay: #9B0A0A;
+  --avaiable: #087e0d;
+  --noPay: #9b0a0a;
 }
 
-.bg-orange{
+.bg-orange {
   background-color: var(--orange-blur);
   color: #393939;
 }
 
-.bg-black{
+.bg-black {
   background-color: var(--custom-black);
   color: var(--orange-blur);
 }
 
-.navActive{
+.navActive {
   color: black !important;
 }
 
-.img-history{
+.img-history {
   width: 100%;
   height: 100%;
   border-radius: 10px;
 }
 
-@font-face{
-  font-family: 'playfair';
-  src: url('../public/fonts/playfair/PlayfairDisplay-Black.otf');
+@font-face {
+  font-family: "playfair";
+  src: url("../public/fonts/playfair/PlayfairDisplay-Black.otf");
   font-style: normal;
   font-display: swap;
 }
 
-@font-face{
-  font-family: 'playfair-regular';
-  src: url('../public/fonts/playfair/PlayfairDisplay-Regular.otf');
+@font-face {
+  font-family: "playfair-regular";
+  src: url("../public/fonts/playfair/PlayfairDisplay-Regular.otf");
   font-style: normal;
   font-display: swap;
 }
 
-@font-face{
-  font-family: 'mulish';
-  src: url('../public/fonts/mulish/Mulish-Regular.ttf');
+@font-face {
+  font-family: "mulish";
+  src: url("../public/fonts/mulish/Mulish-Regular.ttf");
   font-style: normal;
   font-display: swap;
 }
 
-@font-face{
-  font-family: 'nunito';
-  src: url('../public/fonts/nunito/Nunito-Regular.ttf');
+@font-face {
+  font-family: "nunito";
+  src: url("../public/fonts/nunito/Nunito-Regular.ttf");
   font-style: normal;
   font-display: swap;
 }
 
-@font-face{
-  font-family: 'nunito2';
-  src: url('../public/fonts/nunito/Nunito-Black.ttf');
+@font-face {
+  font-family: "nunito2";
+  src: url("../public/fonts/nunito/Nunito-Black.ttf");
   font-style: normal;
   font-display: swap;
 }
@@ -86,5 +105,21 @@ a {
   body {
     color: white;
     background: black;
+  }
+}
+.btn-profile {
+  height: 80px;
+}
+@media (max-width: 768px) {
+  .btn-profile {
+    height: 40px;
+    padding: 2px !important;
+    font-size: 12px !important;
+  }
+  .fs-profile {
+    font-size: 12px !important;
+  }
+  .img-profile {
+    width: 100px !important;
   }
 }
