@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer";
 import Modal from "react-bootstrap/Modal";
-
+import Vespa from "../../public/vespa.png";
+import Image from "next/image.js";
+import Lambo from "../../public/lambo.png";
+import Jeep from "../../public/jeep.png";
+import Rowdown from "../../public/rowdown.png";
+import Vector from "../../public/Vector2.png";
+import Cb from "../../public/cb.png";
 export default function HistoryUser() {
   const [showDelete, setShowDelete] = useState(false);
   const [show, setShow] = useState(false);
@@ -30,6 +36,7 @@ export default function HistoryUser() {
       <div className="container-fluid history_container">
         <div className="row">
           <div className="leftside col col-md-8">
+            <img src={Vespa} alt="" />
             {/* start search */}
             <div className="history_search d-flex mt-3">
               <input
@@ -41,34 +48,34 @@ export default function HistoryUser() {
               {/* input filter */}
               <div className="history_filter">
                 <button
-                  class="btn btn-light dropdown-toggle"
+                  className="btn btn-light dropdown-toggle"
                   type="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   Filter
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul className="dropdown-menu dropdown-menu-end">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Action
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Another action
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Something else here
                     </a>
                   </li>
                   <li>
-                    <hr class="dropdown-divider" />
+                    <hr className="dropdown-divider" />
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       Separated link
                     </a>
                   </li>
@@ -82,7 +89,7 @@ export default function HistoryUser() {
               <div className="col d-flex">
                 {/* <div className="img_topup"> */}
                 {/* <img
-                    src="icon3.png"
+                    src="../../public/icon3.png"
                     alt=""
                     style={{ width: 20, height: 20 }}
                   /> */}
@@ -117,8 +124,8 @@ export default function HistoryUser() {
                   <hr />
                 </div>
                 <div className="col col-md-2 ">
-                  <img
-                    src="Vector2.png"
+                  <Image
+                    src={Vector}
                     alt=""
                     style={{ width: 10, height: 15 }}
                   />
@@ -126,14 +133,14 @@ export default function HistoryUser() {
                 <div className="col">
                   <div className="form-check">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="checkbox"
                       value=""
                       id="flexCheckDefault"
                     />
                     <label
                       className="form-check-label"
-                      for="flexCheckDefault"
+                      htmlFor="flexCheckDefault"
                     ></label>
                   </div>
                 </div>
@@ -147,8 +154,8 @@ export default function HistoryUser() {
                   <hr />
                 </div>
                 <div className="col col-md-2">
-                  <img
-                    src="Vector2.png"
+                  <Image
+                    src={Vector}
                     alt=""
                     style={{ width: 10, height: 15 }}
                   />
@@ -156,14 +163,14 @@ export default function HistoryUser() {
                 <div className="col">
                   <div className="form-check">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="checkbox"
                       value=""
                       id="flexCheckDefault"
                     />
                     <label
                       className="form-check-label"
-                      for="flexCheckDefault"
+                      htmlFor="flexCheckDefault"
                     ></label>
                   </div>
                 </div>
@@ -178,10 +185,10 @@ export default function HistoryUser() {
                   >
                     {showDelete ? (
                       <div className="col image d-flex gap-3">
-                        <img
-                          src="vespa.png"
+                        <Image
+                          src={Vespa}
                           alt=""
-                          style={{ width: 100, heiht: 50 }}
+                          style={{ width: 100, height: 50 }}
                         />
                         <div className="flex-fill history_info_vehicle">
                           <h6>Vespa Matic</h6>
@@ -195,8 +202,8 @@ export default function HistoryUser() {
                       </div>
                     ) : (
                       <div className="col image d-flex gap-3">
-                        <img
-                          src="vespa.png"
+                        <Image
+                          src={Vespa}
                           alt=""
                           style={{ width: 100, heiht: 50 }}
                         />
@@ -221,8 +228,8 @@ export default function HistoryUser() {
                   >
                     {showDelete ? (
                       <div className="col image d-flex gap-3">
-                        <img
-                          src="cb.png"
+                        <Image
+                          src={Cb}
                           alt=""
                           style={{ width: 100, heiht: 50 }}
                         />
@@ -243,8 +250,8 @@ export default function HistoryUser() {
                       </div>
                     ) : (
                       <div className="col image d-flex gap-3">
-                        <img
-                          src="cb.png"
+                        <Image
+                          src={Cb}
                           alt=""
                           style={{ width: 100, heiht: 50 }}
                         />
@@ -268,8 +275,8 @@ export default function HistoryUser() {
               <div className="new_arrival_img mb-3">
                 <div className="card_arrival">
                   <div className="overlay">
-                    <img
-                      src="lambo.png"
+                    <Image
+                      src={Lambo}
                       alt=""
                       style={{ width: 286, height: 360 }}
                     />
@@ -283,8 +290,8 @@ export default function HistoryUser() {
               <div className="new_arrival_img">
                 <div className="card_arrival">
                   <div className="overlay">
-                    <img
-                      src="jeep.png"
+                    <Image
+                      src={Jeep}
                       alt=""
                       style={{ width: 286, height: 360 }}
                     />
@@ -298,8 +305,8 @@ export default function HistoryUser() {
               <div className="history_more_button">
                 <h6>View More</h6>
                 <div className="history_row_icon">
-                  <img
-                    src="rowdown.png"
+                  <Image
+                    src={Rowdown}
                     alt=""
                     style={{ width: 43, height: 22 }}
                   />
