@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import defaultImage from "../../public/defaultAvatar.png";
 import moment from "moment";
@@ -8,40 +8,37 @@ import Footer from "../../components/Footer";
 export default function Profile() {
   const isError = true;
   const message = true;
-  const personalInfos = [
-    {
-      name: "Email Adress",
-      value: "user@gmail.com",
-      destination: "/profile/update-profile",
-    },
-    {
-      name: "Adress",
-      value: "Lampung",
-      destination: "/profile/update-profile",
-    },
-    { name: "Mobile Number", value: "087675868", destination: "" },
-  ];
 
-  const identity = [
-    {
-      name: "Name",
-      value: "Ahmad Dhohir",
-      type: "text",
-      id: "myDate",
-    },
-    {
-      name: "Birthday",
-      value: moment("2001-12-12").format("YYYY-MM-DD"),
-      type: "date",
-      id: "myDate",
-    },
-  ];
+  const dataUser = { name };
+
+  const user = {
+    name: "ari",
+    mobileNumber: "08888",
+    birthDay: moment("2001-12-12").format("YYYY-MM-DD"),
+    email: "user1@gmail.com",
+    adress: "Lampung",
+  };
+
+  const { name, mobileNumber, birthDay, email, adress } = user;
+  const [form, setForm] = useState({
+    name,
+    mobileNumber,
+    birthDay,
+    email,
+    adress,
+  });
+
+  const handleChangeForm = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
   let gender = "checked";
+
   return (
     <>
       <Header />
       <div
-        className="container  shadow  position-relative  mt-5 mb-5"
+        className="container shadow  position-relative  mt-5 mb-5 fs=profile"
         style={{ padding: "5% ", borderRadius: "25px" }}
       >
         <div className="d-flex align-items-center mb-4 mb-md-3 ">
@@ -55,7 +52,7 @@ export default function Profile() {
         </div>
         <div className="bg-white  p-4 p-md-5 h-100 d-flex flex-column justify-content-center align-items-center position-relative">
           <div
-            className="d-inline-block mb-2"
+            className="d-inline-block mb-2 img-profile"
             style={{ width: "20%", height: "20%", borderRadius: "50%" }}
           >
             <Image
@@ -77,11 +74,13 @@ export default function Profile() {
           </button>
         </div>
         <div className="bg-white r h-100 d-flex flex-column justify-content-center align-items-center position-relative">
-          <h2 className="fs-4 fw-bold mt-0">Bakso</h2>
-          <p className="opacity-75 mb-0">user@gmail</p>
-          <p className="opacity-75 mb-0">0857674479</p>
-          <p className="opacity-75 mb-0">Has been active since 2013</p>
-          <div className="d-flex mt-5 gap-5 text-start">
+          <h2 className="  fw-bold mt-0">Bakso</h2>
+          <p className="opacity-75 mb-0 fs-profile">user@gmail</p>
+          <p className="opacity-75 mb-0 fs-profile">0857674479</p>
+          <p className="opacity-75 mb-0 fs-profile">
+            Has been active since 2013
+          </p>
+          <div className="d-flex mt-4 mb-3 gap-5 text-start">
             <div class="form-check ms-5 me-5">
               <input
                 class="form-check-input "
@@ -109,46 +108,94 @@ export default function Profile() {
         </div>
         <div>
           <p className="  mb-3 me-2 ms-2 ms-5 me-5 fw-bold">Contacts</p>
-          {personalInfos.map((info, index) => (
-            <div
-              className="  mb-1 d-flex justify-content-between align-items-center border-bottom ms-5 me-5"
-              key={index}
-            >
-              <div>
-                <p className="opacity-75 fs-7 mb-1 ">{info.name}</p>
-                <input className="fw-bold mb-2 border-0" value={info.value} />
-              </div>
+
+          <div className="  mb-1 align-items-center  ms-5 me-5">
+            <div>
+              <p className="opacity-75 fs-7 mb-1  ">Email Adress</p>
+              <input
+                type="text"
+                className="form-control ps-0"
+                id=""
+                name="email"
+                placeholder="Email Adress"
+                value={form.email}
+                onChange={handleChangeForm}
+                required
+              />
             </div>
-          ))}
+            <div>
+              <p className="opacity-75 fs-7 mb-1  mt-3">Adress</p>
+              <input
+                type="text"
+                className="form-control ps-0"
+                id=""
+                name="adress"
+                placeholder="Email Adress"
+                value={form.adress}
+                onChange={handleChangeForm}
+                required
+              />
+            </div>
+            <div>
+              <p className="opacity-75 fs-7 mb-1  mt-3">Mobile Number</p>
+              <input
+                type="text"
+                className="form-control ps-0"
+                id=""
+                name="mobileNumber"
+                placeholder="Mobile Number"
+                value={form.mobileNumber}
+                onChange={handleChangeForm}
+                required
+              />
+            </div>
+          </div>
+
           <p className="fw-bold mt-4 ms-5 me-5">Identity</p>
+          <div className="d-flex justify-content-center ms-5 me-5 gap-5">
+            <p className="opacity-75 fs-7 mb-1  mt-3 me-auto ">Name</p>
+            <p className="opacity-75 fs-7 mb-1   mt-3 me-auto ms-5">DD/MM/YY</p>
+          </div>
+
           <div className="d-flex justify-content-center ms-5 me-5 gap-5 ">
-            {identity.map((info, index) => (
-              <div className=" mb-1  w-50 border-bottom" key={index}>
-                <div>
-                  <p className="opacity-75 fs-7 mb-1 ">{info.name}</p>
-                  <input
-                    className="fw-bold mb-2 border-0"
-                    type={info.type}
-                    value={info.value}
-                    id={info.id}
-                  />
-                </div>
-              </div>
-            ))}
+            <input
+              type="text"
+              className="form-control ps-0 "
+              id="name"
+              name="name"
+              placeholder="name"
+              value={form.name}
+              onChange={handleChangeForm}
+              required
+            />
+
+            <input
+              type="date"
+              className="form-control "
+              id="mobileNumber"
+              name="birthDay"
+              placeholder="mobileNumber"
+              value={form.birthDay}
+              onChange={handleChangeForm}
+              required
+            />
           </div>
         </div>
-        <div className="d-flex justify-content-center mt-5 ms-5 me-5">
+        <div className="d-flex justify-content-center mt-5 ms-5 fs-5 me-5">
           <button
-            className="btn btn-warning shadow me-auto p-3"
+            className="btn btn-warning btn-profile  shadow me-auto "
             style={{ width: "32%" }}
           >
             Save Change
           </button>
-          <button className="btn  btn-dark shadow" style={{ width: "32%" }}>
+          <button
+            className="btn  btn-dark shadow btn-profile fs-sm-6"
+            style={{ width: "32%" }}
+          >
             Edit Password
           </button>
           <button
-            className="btn btn-light  shadow ms-auto "
+            className="btn btn-light  shadow ms-auto btn-profile fs-sm-5"
             style={{ width: "32%" }}
           >
             Cancel
