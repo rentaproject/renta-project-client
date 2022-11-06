@@ -4,6 +4,7 @@ import React from "react";
 import styles from "../../styles/Header.module.css";
 
 function Header(props) {
+  const role = "admin";
   const login = false;
   const router = useRouter();
   const title = props.title;
@@ -69,7 +70,13 @@ function Header(props) {
                 }`}
                 aria-current="page"
                 onClick={() => {
-                  router.push("/history");
+                  if (role === "admin") {
+                    return router.push("/history/admin");
+                  }
+                  if (role === "user") {
+                    return router.push("/history/user");
+                  }
+                  router.push("/auth/signin");
                 }}
               >
                 History
