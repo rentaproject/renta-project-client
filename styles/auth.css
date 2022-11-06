@@ -1,0 +1,206 @@
+* {
+  /* margin: 0 !important;
+  padding: 0 !important; */
+}
+.title--auth {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 64px;
+
+  color: #000000;
+}
+.auth-left {
+  padding: 0 !important;
+}
+.img-auth {
+  margin: 0;
+  padding: 0;
+  width: 900px;
+}
+.form-auth {
+  margin-top: 200px;
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-bottom: 135px;
+}
+.input--auth {
+  height: 50px;
+  padding-left: 20px;
+  background: rgba(218, 218, 218, 0.28) !important;
+  border: 0.5px solid rgba(78, 78, 78, 0.5);
+  border-radius: 10px;
+}
+.auth--right {
+  padding: 0 !important;
+}
+.btn--auth {
+  height: 50px;
+
+  background: #ffcd61 !important;
+  box-shadow: 0px 0px 20px rgba(248, 161, 112, 0.47);
+  border-radius: 10px;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 33px;
+}
+.btn--auth:hover {
+  background: #393939 !important;
+  color: #ffcd61 !important;
+}
+.legend {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #4e4e4e;
+  line-height: 0.1em;
+  margin: 10px 0 20px;
+}
+.legend span {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+
+  color: rgba(57, 57, 57, 0.5) !important;
+  background: #fff !important;
+  padding: 0 10px;
+}
+.btn--google {
+  background: #ffffff !important;
+  box-shadow: 0px 0px 20px rgba(78, 78, 78, 0.4);
+  border-radius: 10px;
+  height: 50px;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 33px;
+  /* identical to box height */
+
+  color: #000000 !important;
+}
+.btn--or {
+  height: 50px;
+  background: #393939 !important;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 33px;
+  /* identical to box height */
+
+  color: #ffcd61 !important;
+}
+.btn--or:hover {
+  background: #ffcd61 !important;
+  color: #000000 !important;
+}
+/* FORGOT PASSWORD */
+
+.banner--forgot {
+  position: relative;
+  background-image: url("../public/bg-forgot-pw.png");
+  background-size: cover;
+  /* width: 100%; */
+  min-height: 80vh;
+  /* background-color: ; */
+  /* background-position: ; */
+}
+.title-forgot {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 85px;
+
+  color: #ffffff;
+}
+.overlay {
+  /* background-color: transparent; */
+  background-color: rgba(0, 0, 0, 0.5);
+  min-height: 80vh;
+}
+.form-forgot {
+  margin: 0 300px;
+}
+.input-forgot {
+  width: 447px;
+  height: 79px;
+  left: 495px;
+  top: 309px;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 33px;
+  /* identical to box height */
+
+  text-align: center;
+
+  /* color: #ffffff; */
+  background: rgba(255, 255, 255, 0.26);
+  color: white;
+  border-radius: 10px;
+}
+.btn-forgot {
+  height: 79px;
+  width: 447px;
+  background: #ffcd61 !important;
+  box-shadow: 0px 0px 20px rgba(248, 161, 112, 0.47);
+  border-radius: 10px;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 33px;
+}
+.btn--auth:hover {
+  background: #393939 !important;
+  color: #ffcd61 !important;
+}
+.desc-forgot {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 33px;
+  text-align: center;
+
+  color: #ffffff;
+}
+.back-forgot {
+  font-size: 24px !important;
+  margin-left: 200px;
+}
+@media (max-width: 575.98px) {
+  /* * {
+    background: #F6F7F8;
+  } */
+
+  .auth-left {
+    display: none;
+  }
+  .auth--right {
+    margin: 0 !important;
+    /* padding-left: -20px !important; */
+    /* width: 1000px !important; */
+    width: 500px !important;
+    padding: 0 !important;
+    /* background-color: red; */
+  }
+  .form-auth {
+    /* width: 400px; */
+    /* height: 1000px; */
+    margin: 0 !important;
+
+    padding: 0 !important;
+  }
+  .banner--forgot {
+    width: 1000px;
+    height: 1000px;
+  }
+}
