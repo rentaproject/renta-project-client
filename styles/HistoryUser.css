@@ -57,7 +57,6 @@
 .card_arrival {
   width: 286px;
   height: 360px;
-  background-color: aqua;
 }
 .card_text {
   background-color: white !important;
@@ -115,7 +114,7 @@
     margin-left: -10px;
     font-family: "Nunito";
   }
-  .form-control {
+  .form-control-history {
     display: none !important;
   }
   .history_filter {
