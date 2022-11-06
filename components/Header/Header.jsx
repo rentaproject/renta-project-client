@@ -124,8 +124,22 @@ function Header(props) {
               </ul>
             ) : (
               <div className={styles.buttonContainer}>
-                <div className={styles.whiteButton}>Login</div>
-                <div className={styles.yellowButton}>Register</div>
+                <div
+                  className={styles.whiteButton}
+                  onClick={() => {
+                    router.push("/auth/signin");
+                  }}
+                >
+                  Login
+                </div>
+                <div
+                  className={styles.yellowButton}
+                  onClick={() => {
+                    router.push("/auth/signup");
+                  }}
+                >
+                  Register
+                </div>
               </div>
             )}
           </div>
