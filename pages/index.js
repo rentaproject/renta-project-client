@@ -45,6 +45,7 @@ export default function LandingPage() {
           keyword: form.keyword,
           date: form.date,
           location: form.location,
+          search: true,
         },
       },
       "/vehicle"
@@ -148,8 +149,8 @@ export default function LandingPage() {
                   >
                     <Image
                       src={
-                        item.vehicleImage
-                          ? process.env.URL_CLOUDINARY
+                        item.image1
+                          ? `${process.env.URL_CLOUDINARY}${item.image1}`
                           : require("../public/Item-Empty.webp")
                       }
                       alt="item"
