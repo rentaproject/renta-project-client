@@ -5,7 +5,7 @@ import axios from "utilities/axiosClient";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
-import styles from "../../styles/Footer.module.css";
+import styles from "../../../styles/Footer.module.css";
 import {
   Facebook,
   Twitter,
@@ -137,7 +137,9 @@ export default function Signin() {
                 // type="button"
                 className="btn btn--or w-100 mb-3"
                 //   onClick={handleSignin}
-                href="signup"
+                onClick={() => {
+                  router.push("/auth/register");
+                }}
               >
                 Signup
               </button>
@@ -168,9 +170,12 @@ export default function Signin() {
                   <div className={` ${styles.footerMain}`}>
                     <div className={styles.footerLogoContainer}>
                       <Image
-                        src={require("../../public/Logo-1.png")}
+                        src={require("../../../public/Logo-1.png")}
                         alt="logo"
                         className={styles.footerLogo}
+                        onClick={() => {
+                          router.push("/");
+                        }}
                       />
                     </div>
                     <div className={styles.footerText}>
