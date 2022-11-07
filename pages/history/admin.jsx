@@ -10,7 +10,7 @@ import Vector from "../../public/Vector2.png";
 import axios from "../../utilities/axiosClient";
 import Cookies from "js-cookie";
 
-export default function HistoryAdmin() {
+export default function HistoryUser() {
   const [showDelete, setShowDelete] = useState(false);
   const [show, setShow] = useState(false);
   const [datahistory, setDataHistory] = useState([]);
