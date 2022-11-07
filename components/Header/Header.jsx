@@ -134,7 +134,7 @@ function Header(props) {
                 <div
                   className={styles.whiteButton}
                   onClick={() => {
-                    router.push("/auth/signin");
+                    router.push("/auth/login");
                   }}
                 >
                   Login
@@ -142,7 +142,7 @@ function Header(props) {
                 <div
                   className={styles.yellowButton}
                   onClick={() => {
-                    router.push("/auth/signup");
+                    router.push("/auth/register");
                   }}
                 >
                   Register
