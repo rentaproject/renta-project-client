@@ -42,7 +42,8 @@ export default function Signin() {
       setShowToast(true);
       router.push("/");
     } catch (error) {
-      // setMsg(error.response.data.msg);
+      console.log(error);
+      setMsg(error.response.data.msg);
       setLoading(false);
       setShowToast(true);
       //   console.log(error);
@@ -136,8 +137,9 @@ export default function Signin() {
               <button
                 // type="button"
                 className="btn btn--or w-100 mb-3"
-                //   onClick={handleSignin}
-                href="signup"
+                onClick={() => {
+                  router.push("signup");
+                }}
               >
                 Signup
               </button>
