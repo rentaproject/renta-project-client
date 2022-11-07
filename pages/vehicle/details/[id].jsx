@@ -20,13 +20,9 @@ export default function Vehicle() {
 
   const getVehicleById = async () => {
     try {
-      console.log(router, router.query, id);
       const result = await axiosApiIntances.get(`/api/vehicle/${id}`);
-      console.log(result.data.data[0]);
       setVehicleData(result.data.data[0]);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const increaseHandler = () => {
@@ -53,8 +49,10 @@ export default function Vehicle() {
           <div className={styles.mainImageContainer}>
             <Image
               src={
-                vehicleData.image1
-                  ? `${process.env.URL_CLOUDINARY}${vehicleData.image1}`
+                vehicleData
+                  ? vehicleData.image1
+                    ? `${process.env.URL_CLOUDINARY}${vehicleData.image1}`
+                    : require("../../../public/Item-Empty.webp")
                   : require("../../../public/Item-Empty.webp")
               }
               alt="item"
@@ -68,8 +66,10 @@ export default function Vehicle() {
             <div className={styles.sideImageContainer}>
               <Image
                 src={
-                  vehicleData.image2
-                    ? `${process.env.URL_CLOUDINARY}${vehicleData.image2}`
+                  vehicleData
+                    ? vehicleData.image2
+                      ? `${process.env.URL_CLOUDINARY}${vehicleData.image2}`
+                      : require("../../../public/Item-Empty.webp")
                     : require("../../../public/Item-Empty.webp")
                 }
                 alt="item"
@@ -82,8 +82,10 @@ export default function Vehicle() {
             <div className={styles.sideImageContainer}>
               <Image
                 src={
-                  vehicleData.image3
-                    ? `${process.env.URL_CLOUDINARY}${vehicleData.image3}`
+                  vehicleData
+                    ? vehicleData.image3
+                      ? `${process.env.URL_CLOUDINARY}${vehicleData.image3}`
+                      : require("../../../public/Item-Empty.webp")
                     : require("../../../public/Item-Empty.webp")
                 }
                 alt="item"
@@ -105,7 +107,11 @@ export default function Vehicle() {
             {vehicleData ? vehicleData.locationName : ""}
           </div>
           <div className={styles.stock}>
-            {vehicleData.stock > 0 ? "Available" : "Out of Stock"}
+            {vehicleData
+              ? vehicleData.stock > 0
+                ? "Available"
+                : "Out of Stock"
+              : ""}
           </div>
           <div className={styles.repayment}>No prepayment</div>
           <div className={styles.description}>
@@ -118,7 +124,11 @@ export default function Vehicle() {
             <div>Reservation before 2 PM</div>
           </div>
           <div className={styles.price}>
-            {vehicleData.price ? `Rp. ${vehicleData.price}` : "Out of Stock"}
+            {vehicleData
+              ? vehicleData.price
+                ? `Rp. ${vehicleData.price}`
+                : "Out of Stock"
+              : ""}
           </div>
           <div className={styles.quantityContainer}>
             <div className={styles.plusButton} onClick={increaseHandler}>
