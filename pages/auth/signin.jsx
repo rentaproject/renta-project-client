@@ -42,10 +42,10 @@ export default function Signin() {
       setShowToast(true);
       router.push("/");
     } catch (error) {
-      // setMsg(error.response.data.msg);
+      setMsg(error.response.data.msg);
       setLoading(false);
       setShowToast(true);
-      //   console.log(error);
+      console.log(error);
     }
   };
   return (

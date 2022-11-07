@@ -1,44 +1,79 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import defaultImage from "../../public/defaultAvatar.png";
-import moment from "moment";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer";
+import Cookies from "js-cookie";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getDataUserById,
+  updateDataUser,
+  updateUserImage,
+} from "stores/action/user";
 
 export default function Profile() {
+  const dispatch = useDispatch();
+  const dataUser = useSelector((state) => state.user.data);
+  const userId = Cookies.get("userId");
+  const [data, setData] = useState({ dataUser });
+  const [newImage, setNewImage] = useState({});
+  const [imagePreview, setImagePreview] = useState("");
+  const lengthImage = Object.keys(newImage).length;
+  const [show, setShow] = useState(false);
+  console.log(data);
+  console.log(userId);
   const isError = true;
   const message = true;
 
-  const dataUser = { name };
+  console.log(data);
 
-  const user = {
-    name: "ari",
-    mobileNumber: "08888",
-    birthDay: moment("2001-12-12").format("YYYY-MM-DD"),
-    email: "user1@gmail.com",
-    adress: "Lampung",
+  useEffect(() => {
+    getDataUser();
+  }, []);
+
+  const getDataUser = () => {
+    dispatch(getDataUserById(userId)).then((response) => {
+      setData(response.value.data.data[0]);
+    });
   };
+  const dateOfBirth = data.dateOfBirth?.split("T")[0];
 
-  const { name, mobileNumber, birthDay, email, adress } = user;
-  const [form, setForm] = useState({
-    name,
-    mobileNumber,
-    birthDay,
-    email,
-    adress,
-  });
+  const { name, mobileNumber, email } = data;
 
-  const handleChangeForm = (e) => {
+  const inputData = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setData({ ...data, [name]: value });
+    setShow(true);
   };
-  let gender = "checked";
+
+  const handleUpdateDataUser = () => {
+    dispatch(updateDataUser(userId, data)).then(() => {
+      dispatch(getDataUserById(userId));
+    });
+  };
+
+  const handleInputImage = (e) => {
+    const { name, files } = e.target;
+    setNewImage({ [name]: files[0] });
+    setImagePreview(URL.createObjectURL(files[0]));
+  };
+
+  const handleUpdateImage = () => {
+    const imageData = new FormData();
+    imageData.append("image", newImage.image);
+    dispatch(updateUserImage(userId, imageData))
+      .then((response) => {
+        alert(response.value.data.msg);
+        dispatch(getDataUserById(userId));
+      })
+      .catch((error) => alert(error.response.data.msg));
+  };
 
   return (
     <>
       <Header />
       <div
-        className="container shadow  position-relative  mt-5 mb-5 fs=profile"
+        className="container  position-relative  mb-5 fs-profile"
         style={{ padding: "5% ", borderRadius: "25px" }}
       >
         <div className="d-flex align-items-center mb-4 mb-md-3 ">
@@ -50,33 +85,89 @@ export default function Profile() {
           </button>
           <h2 className="fs-5 fw-bold m-0">Profile</h2>
         </div>
-        <div className="bg-white  p-4 p-md-5 h-100 d-flex flex-column justify-content-center align-items-center position-relative">
-          <div
-            className="d-inline-block mb-2 img-profile"
-            style={{ width: "20%", height: "20%", borderRadius: "50%" }}
-          >
-            <Image
-              src={defaultImage}
-              alt="profile picture"
-              width={220}
-              height={220}
-              objectFit="cover"
-              style={{ borderRadius: "50%" }}
-            />
+
+        {imagePreview.length < 1 ? (
+          <div className="bg-white  p-4 p-md-5 h-100 d-flex flex-column justify-content-center align-items-center position-relative">
+            <div
+              className="d-inline-block mb-2 img-profile"
+              style={{ width: "20%", height: "20%", borderRadius: "50%" }}
+            >
+              <Image
+                src={
+                  lengthImage > 0
+                    ? imagePreview
+                    : data.image
+                    ? `${URL_CLOUDINARY$}${dataUser.image}`
+                    : defaultImage
+                }
+                alt="profile picture"
+                width={220}
+                height={220}
+                objectFit="cover"
+                style={{ borderRadius: "50%" }}
+              />
+            </div>
+            <div className="text-center mb-3">
+              <label className="border-0 bg-transparent" htmlFor="image">
+                <input
+                  type="file"
+                  name="image"
+                  id="image"
+                  className="d-none"
+                  onChange={handleInputImage}
+                />
+                <div className="d-flex align-items-center color-gray gap-2">
+                  <i className="bi bi-pen opacity-75 fs-7 me-2 mb-0"></i>
+                  Edit
+                </div>
+              </label>
+            </div>
           </div>
-          <button
-            className="btn py-0 mb-0"
-            data-bs-toggle="modal"
-            data-bs-target="#editImageModal"
-          >
-            <i className="bi bi-pen opacity-75 fs-7 me-2 mb-0"></i>
-            Edit
-          </button>
-        </div>
-        <div className="bg-white r h-100 d-flex flex-column justify-content-center align-items-center position-relative">
-          <h2 className="  fw-bold mt-0">Bakso</h2>
-          <p className="opacity-75 mb-0 fs-profile">user@gmail</p>
-          <p className="opacity-75 mb-0 fs-profile">0857674479</p>
+        ) : (
+          <div className="bg-white  p-4 p-md-5 h-100 d-flex flex-column justify-content-center align-items-center position-relative">
+            <div
+              className="d-inline-block mb-2 img-profile"
+              style={{ width: "20%", height: "20%", borderRadius: "50%" }}
+            >
+              <Image
+                src={
+                  lengthImage > 0
+                    ? imagePreview
+                    : data.image
+                    ? `${URL_CLOUDINARY$}${dataUser.image}`
+                    : defaultImage
+                }
+                alt="profile picture"
+                width={220}
+                height={220}
+                objectFit="cover"
+                style={{ borderRadius: "50%" }}
+              />
+            </div>
+            <div className="d-flex gap-2">
+              <button
+                type="button"
+                className="btn btn-outline-danger px-4"
+                data-bs-toggle="modal"
+                data-bs-target="#confirmDeleteModal"
+              >
+                Delete
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary px-4 "
+                onClick={handleUpdateImage}
+              >
+                Update
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className=" container bg-white  r h-100 d-flex flex-column justify-content-center align-items-center position-relative  ">
+          <h2 className="  fw-bold mt-0">{name}</h2>
+          <p className="opacity-75 mb-0 fs-profile">{email}</p>
+          <p className="opacity-75 mb-0 fs-profile">{mobileNumber}</p>
           <p className="opacity-75 mb-0 fs-profile">
             Has been active since 2013
           </p>
@@ -118,8 +209,8 @@ export default function Profile() {
                 id=""
                 name="email"
                 placeholder="Email Adress"
-                value={form.email}
-                onChange={handleChangeForm}
+                value={data.email ? data.email : ""}
+                onChange={inputData}
                 required
               />
             </div>
@@ -129,10 +220,10 @@ export default function Profile() {
                 type="text"
                 className="form-control ps-0"
                 id=""
-                name="adress"
-                placeholder="Email Adress"
-                value={form.adress}
-                onChange={handleChangeForm}
+                name="address"
+                placeholder="Input Adress"
+                value={data.address ? data.address : ""}
+                onChange={inputData}
                 required
               />
             </div>
@@ -143,9 +234,9 @@ export default function Profile() {
                 className="form-control ps-0"
                 id=""
                 name="mobileNumber"
-                placeholder="Mobile Number"
-                value={form.mobileNumber}
-                onChange={handleChangeForm}
+                placeholder="Input Mobile Number"
+                value={data.mobileNumber ? data.mobileNumber : ""}
+                onChange={inputData}
                 required
               />
             </div>
@@ -163,9 +254,9 @@ export default function Profile() {
               className="form-control ps-0 "
               id="name"
               name="name"
-              placeholder="name"
-              value={form.name}
-              onChange={handleChangeForm}
+              placeholder="Input Name"
+              value={data.name ? data.name : ""}
+              onChange={inputData}
               required
             />
 
@@ -173,10 +264,9 @@ export default function Profile() {
               type="date"
               className="form-control "
               id="mobileNumber"
-              name="birthDay"
-              placeholder="mobileNumber"
-              value={form.birthDay}
-              onChange={handleChangeForm}
+              name="dateOfBirth"
+              value={data.dateOfBirth ? dateOfBirth : ""}
+              onChange={inputData}
               required
             />
           </div>
@@ -185,6 +275,7 @@ export default function Profile() {
           <button
             className="btn btn-warning btn-profile  shadow me-auto "
             style={{ width: "32%" }}
+            onClick={handleUpdateDataUser}
           >
             Save Change
           </button>
@@ -202,6 +293,7 @@ export default function Profile() {
           </button>
         </div>
       </div>
+
       {/* Edit Profile Image Modal */}
       <div
         className="modal fade"
@@ -254,6 +346,8 @@ export default function Profile() {
                   className="form-control visually-hidden"
                   type="file"
                   id="formFile"
+                  name="image"
+                  onChange={handleInputImage}
                 />
               </div>
               {message ? (
@@ -272,7 +366,11 @@ export default function Profile() {
                 >
                   Delete
                 </button>
-                <button type="submit" className="btn btn-primary px-4">
+                <button
+                  type="submit"
+                  className="btn btn-primary px-4 "
+                  onClick={handleUpdateImage}
+                >
                   Update
                 </button>
               </div>
