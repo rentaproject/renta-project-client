@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from "../../styles/Footer.module.css";
+import styles from "../../../styles/Footer.module.css";
 import axios from "utilities/axiosClient";
 import {
   Facebook,
@@ -143,8 +143,9 @@ export default function Signup() {
               <button
                 // type="button"
                 className="btn btn--or w-100 mb-3"
-                //   onClick={handleSignup}
-                // href="signup"
+                onClick={() => {
+                  Router.push("/");
+                }}
               >
                 Signin
               </button>
@@ -175,9 +176,12 @@ export default function Signup() {
                   <div className={` ${styles.footerMain}`}>
                     <div className={styles.footerLogoContainer}>
                       <Image
-                        src={require("../../public/Logo-1.png")}
+                        src={require("../../../public/Logo-1.png")}
                         alt="logo"
                         className={styles.footerLogo}
+                        onClick={() => {
+                          Router.push("/");
+                        }}
                       />
                     </div>
                     <div className={styles.footerText}>

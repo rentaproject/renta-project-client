@@ -5,7 +5,7 @@ import axios from "utilities/axiosClient";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 
-import styles from "../../styles/Footer.module.css";
+import styles from "../../../styles/Footer.module.css";
 import {
   Facebook,
   Twitter,
@@ -42,10 +42,10 @@ export default function Signin() {
       setShowToast(true);
       router.push("/");
     } catch (error) {
-      // setMsg(error.response.data.msg);
+      setMsg(error.response.data.msg);
       setLoading(false);
       setShowToast(true);
-      //   console.log(error);
+      console.log(error);
     }
   };
   return (
@@ -111,7 +111,7 @@ export default function Signin() {
                 </button>
               )}
 
-              <Link href="forgot-password" className="mb-5 color-black ">
+              <Link href="/auth/password/forgot" className="mb-5 color-black ">
                 <p
                   style={{
                     cursor: "pointer",
@@ -137,7 +137,9 @@ export default function Signin() {
                 // type="button"
                 className="btn btn--or w-100 mb-3"
                 //   onClick={handleSignin}
-                href="signup"
+                onClick={() => {
+                  router.push("/auth/register");
+                }}
               >
                 Signup
               </button>
@@ -168,9 +170,12 @@ export default function Signin() {
                   <div className={` ${styles.footerMain}`}>
                     <div className={styles.footerLogoContainer}>
                       <Image
-                        src={require("../../public/Logo-1.png")}
+                        src={require("../../../public/Logo-1.png")}
                         alt="logo"
                         className={styles.footerLogo}
+                        onClick={() => {
+                          router.push("/");
+                        }}
                       />
                     </div>
                     <div className={styles.footerText}>

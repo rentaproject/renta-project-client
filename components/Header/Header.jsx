@@ -4,6 +4,7 @@ import React from "react";
 import styles from "../../styles/Header.module.css";
 
 function Header(props) {
+  const role = "admin";
   const login = false;
   const router = useRouter();
   const title = props.title;
@@ -69,7 +70,13 @@ function Header(props) {
                 }`}
                 aria-current="page"
                 onClick={() => {
-                  router.push("/history");
+                  if (role === "admin") {
+                    return router.push("/history/admin");
+                  }
+                  if (role === "user") {
+                    return router.push("/history/user");
+                  }
+                  router.push("/auth/signin");
                 }}
               >
                 History
@@ -127,7 +134,7 @@ function Header(props) {
                 <div
                   className={styles.whiteButton}
                   onClick={() => {
-                    router.push("/auth/signin");
+                    router.push("/auth/login");
                   }}
                 >
                   Login
@@ -135,7 +142,7 @@ function Header(props) {
                 <div
                   className={styles.yellowButton}
                   onClick={() => {
-                    router.push("/auth/signup");
+                    router.push("/auth/register");
                   }}
                 >
                   Register
