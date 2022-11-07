@@ -39,7 +39,7 @@ export default function ConfirmResetPassword() {
     <div>
       <div className="banner--forgot ">
         <div className="overlay">
-          <Link href="signin" className="mb-5  bg-primary mt-5">
+          <Link href="/auth/login" className="mb-5  bg-primary mt-5">
             <p
               className="back-forgot"
               style={{

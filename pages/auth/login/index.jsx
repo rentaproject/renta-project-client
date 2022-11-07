@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import styles from "../../styles/Footer.module.css";
 import axios from "utilities/axiosClient";
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+
+import styles from "../../../styles/Footer.module.css";
 import {
   Facebook,
   Twitter,
@@ -13,38 +15,41 @@ import {
   // Link,
 } from "react-bootstrap-icons";
 import { Toast, ToastContainer } from "react-bootstrap";
-export default function Signup() {
-  const Router = useRouter();
-  const [succes, setSucces] = useState(false);
-  const [msg, setMsg] = useState();
-  const [showToast, setShowToast] = useState(false);
-  const [loading, setLoading] = useState(false);
+export default function Signin() {
+  const router = useRouter();
   const [form, setForm] = useState({
-    name: "",
     email: "",
     password: "",
   });
-
+  const [succes, setSucces] = useState(false);
+  const [msg, setMsg] = useState();
+  const [loading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const handleOnChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-  const handleSignup = async () => {
+  const handleSignin = async () => {
     setLoading(true);
     try {
-      const result = await axios.post("/api/auth/user/register", form);
+      const result = await axios.post("api/auth/login", form);
+      console.log(result);
+      console.log(form);
+      Cookies.set("userId", result.data.data.userId);
+      Cookies.set("token", result.data.data.token);
       setSucces(true);
       setLoading(false);
       setMsg(result.data.msg);
       setShowToast(true);
-      Router.push("signin");
+      router.push("/");
     } catch (error) {
+<<<<<<< HEAD:pages/auth/signin.jsx
       console.log(error);
+=======
+>>>>>>> 465c5b837ff3429177f2c1d15f60eb02611477a6:pages/auth/login/index.jsx
       setMsg(error.response.data.msg);
-      // Router.push("signup");
-
       setLoading(false);
       setShowToast(true);
-      //   console.log(error);
+      console.log(error);
     }
   };
   return (
@@ -52,7 +57,7 @@ export default function Signup() {
       <div className="container-fluid w-100">
         <div className="row">
           <div
-            className="col-6 bg-auth auth-left"
+            className="col-6 bg-auth  auth-left"
             // className=""
             // style={{ marginLeft: "20px" }}
           >
@@ -61,22 +66,15 @@ export default function Signup() {
               width={600}
               height={800}
               layout="responsive"
-              style={{ margin: "0" }}
+              // style={{ margin: "0" }}
             />
           </div>
           <div className="col-6 auth--right">
-            <div className="form-auth" style={{ marginTop: "135px" }}>
+            <div className="form-auth  ">
               <div className="form--header  mb-5">
-                <p className="title--auth">Register</p>
+                <p className="title--auth">Login</p>
               </div>
 
-              <input
-                type="text"
-                placeholder="Name"
-                className="w-100 input--auth mb-3"
-                name="name"
-                onChange={handleOnChange}
-              />
               <input
                 type="text"
                 placeholder="Email"
@@ -91,23 +89,20 @@ export default function Signup() {
                 placeholder="Password (min 6 character)"
                 className="w-100 input--auth mb-5 "
               />
-              {!form.email ||
-              !form.password ||
-              !form.name ||
-              form.password.length < 6 ? (
+              {!form.email || !form.password || form.password.length < 6 ? (
                 <button
                   type="button"
                   className="btn btn--auth w-100 mb-2"
-                  onClick={handleSignup}
+                  onClick={handleSignin}
                   disabled
                 >
-                  Signup
+                  Signin
                 </button>
               ) : (
                 <button
                   type="button"
                   className="btn btn--auth w-100 mb-2"
-                  onClick={handleSignup}
+                  onClick={handleSignin}
                   disabled={loading}
                 >
                   {loading ? (
@@ -115,29 +110,47 @@ export default function Signup() {
                       <span className="sr-only"></span>
                     </div>
                   ) : (
-                    "Sign up"
+                    "Sign In"
                   )}
                 </button>
               )}
 
+              <Link href="/auth/password/forgot" className="mb-5 color-black ">
+                <p
+                  style={{
+                    cursor: "pointer",
+
+                    marginRight: "380px",
+                  }}
+                >
+                  Forgot password?
+                </p>
+              </Link>
               <p className="legend mt-5 mb-5">
                 <span> or try another way</span>
               </p>
               <button
                 type="button"
                 className="btn btn--google w-100 mb-4 "
-                //   onClick={handleSignup}
+                //   onClick={handleSignin}
               >
                 <img src="/google.png" alt="" style={{ marginRight: "5px" }} />
-                Signup With Google
+                Signin With Google
               </button>
               <button
                 // type="button"
                 className="btn btn--or w-100 mb-3"
-                //   onClick={handleSignup}
-                // href="signup"
+<<<<<<< HEAD:pages/auth/signin.jsx
+                onClick={() => {
+                  router.push("signup");
+=======
+                //   onClick={handleSignin}
+                onClick={() => {
+                  router.push("/auth/register");
+>>>>>>> 465c5b837ff3429177f2c1d15f60eb02611477a6:pages/auth/login/index.jsx
+                }}
               >
-                Signin
+                Signup
               </button>
               <ToastContainer
                 position="top-center"
@@ -166,9 +179,12 @@ export default function Signup() {
                   <div className={` ${styles.footerMain}`}>
                     <div className={styles.footerLogoContainer}>
                       <Image
-                        src={require("../../public/Logo-1.png")}
+                        src={require("../../../public/Logo-1.png")}
                         alt="logo"
                         className={styles.footerLogo}
+                        onClick={() => {
+                          router.push("/");
+                        }}
                       />
                     </div>
                     <div className={styles.footerText}>
