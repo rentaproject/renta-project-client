@@ -1,21 +1,58 @@
-import React from "react";
-<<<<<<< HEAD
-import Layout from "layout/main.jsx"
-export default function LandingPage() {
-
-  return (
-    <Layout>
-    <div>
-      <h1>Landing Pages</h1>
-    </div>
-=======
+import React, { useEffect, useState } from "react";
 import Layout from "layout/main.jsx";
 import styles from "styles/Landing.module.css";
-import { ChevronRight, StarFill } from "react-bootstrap-icons";
+import { ChevronRight, StarFill, DashLg } from "react-bootstrap-icons";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllVehicle, getLocation } from "stores/action/vehicle";
+
 export default function LandingPage() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [form, setForm] = useState([]);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const popularData = useSelector((state) => state.vehicle.popularData);
+  const locationData = useSelector((state) => state.vehicle.location);
+
+  useEffect(() => {
+    getDataPopular();
+    getLocationData();
+  }, []);
+
+  const getDataPopular = async () => {
+    try {
+      setIsLoading(true);
+      await dispatch(getAllVehicle());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+  const getLocationData = async () => {
+    try {
+      await dispatch(getLocation());
+    } catch (error) {}
+  };
+  const formHandler = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  const searchHandler = () => {
+    router.push(
+      {
+        pathname: "/vehicle",
+        query: {
+          keyword: form.keyword,
+          date: form.date,
+          location: form.location,
+        },
+      },
+      "/vehicle"
+    );
+  };
+
   return (
-    <Layout>
+    <Layout title="Home">
       <section className={styles.mainBanner}>
         <div className={styles.container}>
           <div className={styles.bannerTitle}>
@@ -24,22 +61,37 @@ export default function LandingPage() {
             Travel
           </div>
           <div className={styles.bannerSubtitle}>Vehicle Finder</div>
-          <span className={`material-symbols-outlined ${styles.strip}`}>
-            horizontal_rule
-          </span>
+          <div className={styles.strip}>
+            <DashLg />
+          </div>
           <div>
             <input
               type="text"
               placeholder="Type the vehicle (ex. motorbike)"
               className={styles.inputType}
+              name="keyword"
+              onChange={formHandler}
             />
           </div>
           <div className={styles.inputContainer}>
-            <select name="cars" id="cars" className={styles.inputLocation}>
-              <option value="saab">Location</option>
-              <option value="volvo">Yogyakarta</option>
-              <option value="saab">Malang</option>
-              <option value="mercedes">Kalimantan</option>
+            <select
+              name="location"
+              id="location"
+              className={styles.inputLocation}
+              onChange={formHandler}
+            >
+              <option value="">Location</option>
+              {locationData.length > 0 ? (
+                locationData.map((item) => {
+                  return (
+                    <option value={item.locationId} key={item.locationId}>
+                      {item.name}
+                    </option>
+                  );
+                })
+              ) : (
+                <></>
+              )}
             </select>
             <input
               type="text"
@@ -47,76 +99,81 @@ export default function LandingPage() {
               className={styles.inputDate}
               onFocus={(e) => (e.target.type = "date")}
               onBlur={(e) => (e.target.type = "text")}
+              name="date"
+              onChange={formHandler}
             />
           </div>
-          <div className={styles.button}>Search</div>
+          <div
+            className={styles.button}
+            onClick={() => {
+              searchHandler();
+            }}
+          >
+            Search
+          </div>
         </div>
       </section>
       <section className={styles.popularContainer}>
         <div className={styles.titleContainer}>
           <div className={styles.title}>Popular in town</div>
-          <div className={styles.view}>
+          <div
+            className={styles.view}
+            onClick={() => {
+              router.push(`/vehicle/type/popular`);
+            }}
+          >
             View all <ChevronRight />
           </div>
         </div>
-        <div className={styles.itemContainer}>
-          <div className={styles.item}>
-            <Image
-              src={require("../public/Background-1.png")}
-              alt="item"
-              className={styles.itemImage}
-              width={250}
-              height={300}
-              unoptimized={true}
-            />
-            <div className={styles.itemDetail}>
-              <div className={styles.itemName}>Name</div>
-              <div className={styles.itemLocation}>Location</div>
+        {isLoading ? (
+          <div className={styles.itemContainerEmpty}>
+            <div class="spinner-border spinner-border-sm" role="status">
+              <span class="visually-hidden">Loading...</span>
             </div>
           </div>
-          <div className={styles.item}>
-            <Image
-              src={require("../public/Background-1.png")}
-              alt="item"
-              className={styles.itemImage}
-              width={250}
-              height={300}
-              unoptimized={true}
-            />
-            <div className={styles.itemDetail}>
-              <div className={styles.itemName}>Name</div>
-              <div className={styles.itemLocation}>Location</div>
-            </div>
+        ) : (
+          <div className={styles.itemContainer}>
+            {popularData.length > 0 ? (
+              popularData.map((item, index) => {
+                if (index > 3) {
+                  return;
+                }
+                return (
+                  <div
+                    key={item.vehicleId}
+                    className={styles.item}
+                    onClick={() => {
+                      router.push(`/vehicle/details/${item.vehicleId}`);
+                    }}
+                  >
+                    <Image
+                      src={
+                        item.vehicleImage
+                          ? process.env.URL_CLOUDINARY
+                          : require("../public/Item-Empty.webp")
+                      }
+                      alt="item"
+                      className={styles.itemImage}
+                      width={250}
+                      height={300}
+                      unoptimized={true}
+                    />
+                    <div className={styles.itemDetail}>
+                      <div className={styles.itemName}>{item.name}</div>
+                      <div className={styles.itemLocation}>
+                        {item.location ? item.location : "Indonesia"}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className={styles.itemContainerEmpty}>
+                <div className={styles.notFound}>Sorry, vehicle not found</div>
+              </div>
+            )}
           </div>
-          <div className={styles.item}>
-            <Image
-              src={require("../public/Background-1.png")}
-              alt="item"
-              className={styles.itemImage}
-              width={250}
-              height={300}
-              unoptimized={true}
-            />
-            <div className={styles.itemDetail}>
-              <div className={styles.itemName}>Name</div>
-              <div className={styles.itemLocation}>Location</div>
-            </div>
-          </div>
-          <div className={styles.item}>
-            <Image
-              src={require("../public/Item-Empty.webp")}
-              alt="item"
-              className={styles.itemImage}
-              width={250}
-              height={300}
-              unoptimized={true}
-            />
-            <div className={styles.itemDetail}>
-              <div className={styles.itemName}>Name</div>
-              <div className={styles.itemLocation}>Location</div>
-            </div>
-          </div>
-        </div>
+        )}
       </section>
       <section className={styles.testiContainer}>
         <div className={styles.title}>Testimonials</div>
@@ -149,7 +206,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
->>>>>>> 705011b932b9dad6200fe0095fbb2e48db1f6769
     </Layout>
   );
 }

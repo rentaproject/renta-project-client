@@ -1,47 +1,79 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import defaultImage from "../../public/defaultAvatar.png";
-import moment from "moment";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer";
+import Cookies from "js-cookie";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getDataUserById,
+  updateDataUser,
+  updateUserImage,
+} from "stores/action/user";
 
 export default function Profile() {
+  const dispatch = useDispatch();
+  const dataUser = useSelector((state) => state.user.data);
+  const userId = Cookies.get("userId");
+  const [data, setData] = useState({ dataUser });
+  const [newImage, setNewImage] = useState({});
+  const [imagePreview, setImagePreview] = useState("");
+  const lengthImage = Object.keys(newImage).length;
+  const [show, setShow] = useState(false);
+  console.log(data);
+  console.log(userId);
   const isError = true;
   const message = true;
-  const personalInfos = [
-    {
-      name: "Email Adress",
-      value: "user@gmail.com",
-      destination: "/profile/update-profile",
-    },
-    {
-      name: "Adress",
-      value: "Lampung",
-      destination: "/profile/update-profile",
-    },
-    { name: "Mobile Number", value: "087675868", destination: "" },
-  ];
 
-  const identity = [
-    {
-      name: "Name",
-      value: "Ahmad Dhohir",
-      type: "text",
-      id: "myDate",
-    },
-    {
-      name: "Birthday",
-      value: moment("2001-12-12").format("YYYY-MM-DD"),
-      type: "date",
-      id: "myDate",
-    },
-  ];
-  let gender = "checked";
+  console.log(data);
+
+  useEffect(() => {
+    getDataUser();
+  }, []);
+
+  const getDataUser = () => {
+    dispatch(getDataUserById(userId)).then((response) => {
+      setData(response.value.data.data[0]);
+    });
+  };
+  const dateOfBirth = data.dateOfBirth?.split("T")[0];
+
+  const { name, mobileNumber, email } = data;
+
+  const inputData = (e) => {
+    const { name, value } = e.target;
+    setData({ ...data, [name]: value });
+    setShow(true);
+  };
+
+  const handleUpdateDataUser = () => {
+    dispatch(updateDataUser(userId, data)).then(() => {
+      dispatch(getDataUserById(userId));
+    });
+  };
+
+  const handleInputImage = (e) => {
+    const { name, files } = e.target;
+    setNewImage({ [name]: files[0] });
+    setImagePreview(URL.createObjectURL(files[0]));
+  };
+
+  const handleUpdateImage = () => {
+    const imageData = new FormData();
+    imageData.append("image", newImage.image);
+    dispatch(updateUserImage(userId, imageData))
+      .then((response) => {
+        alert(response.value.data.msg);
+        dispatch(getDataUserById(userId));
+      })
+      .catch((error) => alert(error.response.data.msg));
+  };
+
   return (
     <>
       <Header />
       <div
-        className="container  shadow  position-relative  mt-5 mb-5"
+        className="container  position-relative  mb-5 fs-profile"
         style={{ padding: "5% ", borderRadius: "25px" }}
       >
         <div className="d-flex align-items-center mb-4 mb-md-3 ">
@@ -53,35 +85,93 @@ export default function Profile() {
           </button>
           <h2 className="fs-5 fw-bold m-0">Profile</h2>
         </div>
-        <div className="bg-white  p-4 p-md-5 h-100 d-flex flex-column justify-content-center align-items-center position-relative">
-          <div
-            className="d-inline-block mb-2"
-            style={{ width: "20%", height: "20%", borderRadius: "50%" }}
-          >
-            <Image
-              src={defaultImage}
-              alt="profile picture"
-              width={220}
-              height={220}
-              objectFit="cover"
-              style={{ borderRadius: "50%" }}
-            />
+
+        {imagePreview.length < 1 ? (
+          <div className="bg-white  p-4 p-md-5 h-100 d-flex flex-column justify-content-center align-items-center position-relative">
+            <div
+              className="d-inline-block mb-2 img-profile"
+              style={{ width: "20%", height: "20%", borderRadius: "50%" }}
+            >
+              <Image
+                src={
+                  lengthImage > 0
+                    ? imagePreview
+                    : data.image
+                    ? `${URL_CLOUDINARY$}${dataUser.image}`
+                    : defaultImage
+                }
+                alt="profile picture"
+                width={220}
+                height={220}
+                objectFit="cover"
+                style={{ borderRadius: "50%" }}
+              />
+            </div>
+            <div className="text-center mb-3">
+              <label className="border-0 bg-transparent" htmlFor="image">
+                <input
+                  type="file"
+                  name="image"
+                  id="image"
+                  className="d-none"
+                  onChange={handleInputImage}
+                />
+                <div className="d-flex align-items-center color-gray gap-2">
+                  <i className="bi bi-pen opacity-75 fs-7 me-2 mb-0"></i>
+                  Edit
+                </div>
+              </label>
+            </div>
           </div>
-          <button
-            className="btn py-0 mb-0"
-            data-bs-toggle="modal"
-            data-bs-target="#editImageModal"
-          >
-            <i className="bi bi-pen opacity-75 fs-7 me-2 mb-0"></i>
-            Edit
-          </button>
-        </div>
-        <div className="bg-white r h-100 d-flex flex-column justify-content-center align-items-center position-relative">
-          <h2 className="fs-4 fw-bold mt-0">Bakso</h2>
-          <p className="opacity-75 mb-0">user@gmail</p>
-          <p className="opacity-75 mb-0">0857674479</p>
-          <p className="opacity-75 mb-0">Has been active since 2013</p>
-          <div className="d-flex mt-5 gap-5 text-start">
+        ) : (
+          <div className="bg-white  p-4 p-md-5 h-100 d-flex flex-column justify-content-center align-items-center position-relative">
+            <div
+              className="d-inline-block mb-2 img-profile"
+              style={{ width: "20%", height: "20%", borderRadius: "50%" }}
+            >
+              <Image
+                src={
+                  lengthImage > 0
+                    ? imagePreview
+                    : data.image
+                    ? `${URL_CLOUDINARY$}${dataUser.image}`
+                    : defaultImage
+                }
+                alt="profile picture"
+                width={220}
+                height={220}
+                objectFit="cover"
+                style={{ borderRadius: "50%" }}
+              />
+            </div>
+            <div className="d-flex gap-2">
+              <button
+                type="button"
+                className="btn btn-outline-danger px-4"
+                data-bs-toggle="modal"
+                data-bs-target="#confirmDeleteModal"
+              >
+                Delete
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary px-4 "
+                onClick={handleUpdateImage}
+              >
+                Update
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className=" container bg-white  r h-100 d-flex flex-column justify-content-center align-items-center position-relative  ">
+          <h2 className="  fw-bold mt-0">{name}</h2>
+          <p className="opacity-75 mb-0 fs-profile">{email}</p>
+          <p className="opacity-75 mb-0 fs-profile">{mobileNumber}</p>
+          <p className="opacity-75 mb-0 fs-profile">
+            Has been active since 2013
+          </p>
+          <div className="d-flex mt-4 mb-3 gap-5 text-start">
             <div class="form-check ms-5 me-5">
               <input
                 class="form-check-input "
@@ -109,52 +199,101 @@ export default function Profile() {
         </div>
         <div>
           <p className="  mb-3 me-2 ms-2 ms-5 me-5 fw-bold">Contacts</p>
-          {personalInfos.map((info, index) => (
-            <div
-              className="  mb-1 d-flex justify-content-between align-items-center border-bottom ms-5 me-5"
-              key={index}
-            >
-              <div>
-                <p className="opacity-75 fs-7 mb-1 ">{info.name}</p>
-                <input className="fw-bold mb-2 border-0" value={info.value} />
-              </div>
+
+          <div className="  mb-1 align-items-center  ms-5 me-5">
+            <div>
+              <p className="opacity-75 fs-7 mb-1  ">Email Adress</p>
+              <input
+                type="text"
+                className="form-control ps-0"
+                id=""
+                name="email"
+                placeholder="Email Adress"
+                value={data.email ? data.email : ""}
+                onChange={inputData}
+                required
+              />
             </div>
-          ))}
+            <div>
+              <p className="opacity-75 fs-7 mb-1  mt-3">Adress</p>
+              <input
+                type="text"
+                className="form-control ps-0"
+                id=""
+                name="address"
+                placeholder="Input Adress"
+                value={data.address ? data.address : ""}
+                onChange={inputData}
+                required
+              />
+            </div>
+            <div>
+              <p className="opacity-75 fs-7 mb-1  mt-3">Mobile Number</p>
+              <input
+                type="text"
+                className="form-control ps-0"
+                id=""
+                name="mobileNumber"
+                placeholder="Input Mobile Number"
+                value={data.mobileNumber ? data.mobileNumber : ""}
+                onChange={inputData}
+                required
+              />
+            </div>
+          </div>
+
           <p className="fw-bold mt-4 ms-5 me-5">Identity</p>
+          <div className="d-flex justify-content-center ms-5 me-5 gap-5">
+            <p className="opacity-75 fs-7 mb-1  mt-3 me-auto ">Name</p>
+            <p className="opacity-75 fs-7 mb-1   mt-3 me-auto ms-5">DD/MM/YY</p>
+          </div>
+
           <div className="d-flex justify-content-center ms-5 me-5 gap-5 ">
-            {identity.map((info, index) => (
-              <div className=" mb-1  w-50 border-bottom" key={index}>
-                <div>
-                  <p className="opacity-75 fs-7 mb-1 ">{info.name}</p>
-                  <input
-                    className="fw-bold mb-2 border-0"
-                    type={info.type}
-                    value={info.value}
-                    id={info.id}
-                  />
-                </div>
-              </div>
-            ))}
+            <input
+              type="text"
+              className="form-control ps-0 "
+              id="name"
+              name="name"
+              placeholder="Input Name"
+              value={data.name ? data.name : ""}
+              onChange={inputData}
+              required
+            />
+
+            <input
+              type="date"
+              className="form-control "
+              id="mobileNumber"
+              name="dateOfBirth"
+              value={data.dateOfBirth ? dateOfBirth : ""}
+              onChange={inputData}
+              required
+            />
           </div>
         </div>
-        <div className="d-flex justify-content-center mt-5 ms-5 me-5">
+        <div className="d-flex justify-content-center mt-5 ms-5 fs-5 me-5">
           <button
-            className="btn btn-warning shadow me-auto p-3"
+            className="btn btn-warning btn-profile  shadow me-auto "
             style={{ width: "32%" }}
+            onClick={handleUpdateDataUser}
           >
             Save Change
           </button>
-          <button className="btn  btn-dark shadow" style={{ width: "32%" }}>
+          <button
+            className="btn  btn-dark shadow btn-profile fs-sm-6"
+            style={{ width: "32%" }}
+          >
             Edit Password
           </button>
           <button
-            className="btn btn-light  shadow ms-auto "
+            className="btn btn-light  shadow ms-auto btn-profile fs-sm-5"
             style={{ width: "32%" }}
           >
             Cancel
           </button>
         </div>
       </div>
+
       {/* Edit Profile Image Modal */}
       <div
         className="modal fade"
@@ -207,6 +346,8 @@ export default function Profile() {
                   className="form-control visually-hidden"
                   type="file"
                   id="formFile"
+                  name="image"
+                  onChange={handleInputImage}
                 />
               </div>
               {message ? (
@@ -225,7 +366,11 @@ export default function Profile() {
                 >
                   Delete
                 </button>
-                <button type="submit" className="btn btn-primary px-4">
+                <button
+                  type="submit"
+                  className="btn btn-primary px-4 "
+                  onClick={handleUpdateImage}
+                >
                   Update
                 </button>
               </div>

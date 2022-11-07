@@ -1,0 +1,14 @@
+.input {
+  width: 100%;
+  background-color: white;
+  color: #80918e;
+  font-family: "Custom-font", nunito;
+  border: none;
+  border-bottom: 2px solid grey;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.input:focus {
+  outline: none;
+}

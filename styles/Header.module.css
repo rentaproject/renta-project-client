@@ -5,6 +5,7 @@
 }
 .logoContainer {
   width: 100px;
+  cursor: pointer;
 }
 .logo {
   width: 100%;
@@ -17,7 +18,17 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 22px;
-  color: #202336;
+  color: #b8becd !important;
+  cursor: pointer;
+}
+.navItemActive {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  color: #202336 !important;
+  cursor: pointer;
 }
 .profileContainer {
   width: 35px !important;

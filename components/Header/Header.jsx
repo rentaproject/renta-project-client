@@ -1,13 +1,23 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 import styles from "../../styles/Header.module.css";
 
-function Header() {
+function Header(props) {
+  const role = "admin";
   const login = false;
+  const router = useRouter();
+  const title = props.title;
+
   return (
     <nav className="navbar navbar-expand-lg py-0">
       <div className={`container-fluid ${styles.navbar}`}>
-        <div className={styles.logoContainer}>
+        <div
+          className={styles.logoContainer}
+          onClick={() => {
+            router.push("/");
+          }}
+        >
           <Image
             src={require("../../public/Logo-1.png")}
             alt="Logo"
@@ -29,31 +39,54 @@ function Header() {
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <div
-                className={`nav-link active ${styles.navItem}`}
+                className={`nav-link active ${
+                  title === "Home" ? styles.navItemActive : styles.navItem
+                }`}
                 aria-current="page"
+                onClick={() => {
+                  router.push("/");
+                }}
               >
                 Home
               </div>
             </li>
             <li className="nav-item">
               <div
-                className={`nav-link active ${styles.navItem}`}
+                className={`nav-link active ${
+                  title === "Vehicle" ? styles.navItemActive : styles.navItem
+                }`}
                 aria-current="page"
+                onClick={() => {
+                  router.push("/vehicle");
+                }}
               >
                 Vehicle Type
               </div>
             </li>
             <li className="nav-item">
               <div
-                className={`nav-link active ${styles.navItem}`}
+                className={`nav-link active ${
+                  title === "History" ? styles.navItemActive : styles.navItem
+                }`}
                 aria-current="page"
+                onClick={() => {
+                  if (role === "admin") {
+                    return router.push("/history/admin");
+                  }
+                  if (role === "user") {
+                    return router.push("/history/user");
+                  }
+                  router.push("/auth/signin");
+                }}
               >
                 History
               </div>
             </li>
             <li className="nav-item">
               <div
-                className={`nav-link active ${styles.navItem}`}
+                className={`nav-link active ${
+                  title === "About" ? styles.navItemActive : styles.navItem
+                }`}
                 aria-current="page"
               >
                 About
@@ -98,8 +131,22 @@ function Header() {
               </ul>
             ) : (
               <div className={styles.buttonContainer}>
-                <div className={styles.whiteButton}>Login</div>
-                <div className={styles.yellowButton}>Register</div>
+                <div
+                  className={styles.whiteButton}
+                  onClick={() => {
+                    router.push("/auth/login");
+                  }}
+                >
+                  Login
+                </div>
+                <div
+                  className={styles.yellowButton}
+                  onClick={() => {
+                    router.push("/auth/register");
+                  }}
+                >
+                  Register
+                </div>
               </div>
             )}
           </div>
