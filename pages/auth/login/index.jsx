@@ -111,7 +111,7 @@ export default function Signin() {
                 </button>
               )}
 
-              <Link href="forgot-password" className="mb-5 color-black ">
+              <Link href="/auth/password/forgot" className="mb-5 color-black ">
                 <p
                   style={{
                     cursor: "pointer",
