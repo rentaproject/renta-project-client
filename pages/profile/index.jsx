@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import defaultImage from "../../public/defaultAvatar.png";
 import moment from "moment";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer";
+import axios from "axios";
 
 export default function Profile() {
   const isError = true;
   const message = true;
+
+  useEffect(() => {
+    getDataUser();
+  });
+
+  const getDataUser = async () => {
+    const result = await axios.get(`/`);
+  };
 
   const dataUser = { name };
 
