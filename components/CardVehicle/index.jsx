@@ -2,12 +2,24 @@ import React, { useState } from "react";
 import Vespa from "../../public/vespa.png";
 import Image from "next/image.js";
 import Modal from "react-bootstrap/Modal";
+import axios from "../../utilities/axiosClient";
 
 export default function CardVehicle(props) {
   const [showDelete, setShowDelete] = useState(false);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleDelete = async () => {
+    try {
+      const result = await axios.delete(
+        `/api/reservation/${props.data.reservationId}`
+      );
+      console.log(result.data.data);
+      alert("succes");
+    } catch (error) {
+      alert(error);
+    }
+  };
   console.log(props.data);
   return (
     <div>
@@ -32,7 +44,9 @@ export default function CardVehicle(props) {
               </Modal.Header>
               <Modal.Body>
                 <div className="group_button_modal me-2">
-                  <button className="buttonyes">Yes</button>
+                  <button className="buttonyes" onClick={handleDelete}>
+                    Yes
+                  </button>
                   <button className="buttonno">No</button>
                 </div>
               </Modal.Body>
@@ -49,13 +63,17 @@ export default function CardVehicle(props) {
           >
             {showDelete ? (
               <div className="col image d-flex gap-3">
-                <Image src={Vespa} alt="" style={{ width: 100, height: 50 }} />
+                <img
+                  className="imgg-history"
+                  src={`https://res.cloudinary.com/di6rwbzkv/image/upload/v1667466293/User/${props.data.vehicleImage}`}
+                  alt="imgVechile"
+                />
                 <div className="flex-fill history_info_vehicle">
                   <h6>{props.data.name}</h6>
                   <h6>
-                    {props.data.satrtDate}to{props.data.returnDate}
+                    {props.data.startDate}to{props.data.returnDate}
                   </h6>
-                  <h6>Prepayment:Rp P{props.data.price}</h6>
+                  <h6>Prepayment:Rp{props.data.price}</h6>
                   <h6 className="history_status">
                     Has Been returned{props.data.status}
                   </h6>
@@ -68,7 +86,11 @@ export default function CardVehicle(props) {
               </div>
             ) : (
               <div className="col image d-flex gap-3">
-                <Image src={Vespa} alt="" style={{ width: 100, heiht: 50 }} />
+                <img
+                  className="imgg-history"
+                  src={`https://res.cloudinary.com/di6rwbzkv/image/upload/v1667466293/User/${props.data.vehicleImage}`}
+                  alt="imgVechile"
+                />
                 <div className="flex-fill history_info_vehicle">
                   <h6>{props.data.name}</h6>
                   <h6>
