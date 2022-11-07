@@ -117,10 +117,18 @@ export default function Vehicle() {
           <div className={styles.description}>
             <div>
               {vehicleData
-                ? `Description : ${vehicleData.description}`
-                : "Capacity : 1 person"}
+                ? vehicleData.description
+                  ? `Description : ${vehicleData.description}`
+                  : "Capacity : 1 person"
+                : ""}
             </div>
-            <div>Type : Bike</div>
+            <div>
+              {vehicleData
+                ? vehicleData.typeName
+                  ? `Type : ${vehicleData.typeName}`
+                  : "Type : unknown"
+                : ""}
+            </div>
             <div>Reservation before 2 PM</div>
           </div>
           <div className={styles.price}>
