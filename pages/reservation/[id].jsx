@@ -6,26 +6,32 @@ import { useState } from "react";
 import Image from "next/image";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer";
-// import ButtonCount from "../../../components/base/ButtonCount";
-// import InputOpt from "../../../components/base/InputOpt";
-// import ButtonPay from "../../../components/base/ButtonPay";
-// import axios from "axios";
+import axios from "../../utilities/axiosClient";
 // import swal from "sweetalert";
 
 export const getServerSideProps = async (context) => {
   try {
-    const vehicleId = context.query.id;
-    const vehicle = {
-      vehicleId,
-      name: "Fixie",
-      location: "Jakarta",
-      price: 10000,
-      stock: 5,
-      rented: 5,
-      image:
-        "https://res.cloudinary.com/di6rwbzkv/image/upload/v1667466293/User/robert-bye-tG36rvCeqng-unsplash_3_qbhxiv.png",
-    };
-    const image = `https://res.cloudinary.com/di6rwbzkv/image/upload/v1667466293/User/robert-bye-tG36rvCeqng-unsplash_3_qbhxiv.png`;
+    const params = context.query;
+    const result = await axios.get(
+      `${process.env.URL_BACKEND}/api/vehicle/${params.id}`
+    );
+    // const vehicle = {
+    //   vehicleId:params.id,
+    //   name: "Fixie",
+    //   location: "Jakarta",
+    //   price: 10000,
+    //   stock: 5,
+    //   rented: 5,
+    //   image:
+    //     "https://res.cloudinary.com/di6rwbzkv/image/upload/v1667466293/User/robert-bye-tG36rvCeqng-unsplash_3_qbhxiv.png",
+    // };
+    const vehicle = result.data.data[0];
+    const image = vehicle
+      ? vehicle.image1
+        ? `https://res.cloudinary.com/dnhoxflfj/image/upload/v1667823115/${vehicle.image1}`
+        : require("../../../public/Item-Empty.webp")
+      : require("../../../public/Item-Empty.webp");
+    console.log(result.data.data[0].image1);
     return {
       props: { vehicle, image },
     };
@@ -35,8 +41,10 @@ export const getServerSideProps = async (context) => {
 };
 
 const Reservation = (props) => {
+  const router = useRouter();
+  const { query } = router;
   const { back, push } = useRouter();
-  let [amount, setamount] = useState(5);
+  let [amount, setamount] = useState(Number(query.quantity));
   const [date, setdate] = useState("Select date");
   const [day, setday] = useState(1);
   const dataDate = [
@@ -56,8 +64,8 @@ const Reservation = (props) => {
 
   useEffect(() => {
     rental;
-    console.log(rental);
-    console.log(amount + "amount");
+    console.log(query);
+    // console.log(amount + "amount");
   }, [rental]);
 
   const handlePlus = () => {
@@ -84,6 +92,7 @@ const Reservation = (props) => {
       ...rental,
       totalPayment: vehicle.price * amount * day,
       quantity: amount,
+      status:"Pending"
     });
   };
 
@@ -114,7 +123,7 @@ const Reservation = (props) => {
       <Header />
       <div className="">
         <div className="container">
-          <div className="d-flex align-items-center mt-3 mb-lg-5 mb-md-4 mb-4" >
+          <div className="d-flex align-items-center mt-3 mb-lg-5 mb-md-4 mb-4">
             <Image
               src={require("../../assets/icons/backButton.png")}
               alt="back Icon"
@@ -128,9 +137,13 @@ const Reservation = (props) => {
           <div className="row">
             <div
               className={`${styles.imgwrapper} col-12 col-md-6 col-lg-6 position-relative`}
-              
             >
-              <img src={image} className={styles.vehicleImg} alt="imgVechile" style={{borderRadius: "10px"}}/>
+              <img
+                src={image}
+                className={styles.vehicleImg}
+                alt="imgVechile"
+                style={{ borderRadius: "10px" }}
+              />
             </div>
             <div
               className={`${styles.rightItem} col-12 col-md-6 col-lg-6 pe-lg-5 ps-lg-5`}
@@ -139,7 +152,7 @@ const Reservation = (props) => {
                 {vehicle.name}
               </span>
               <span className={`d-block ${styles.itemLoc}`}>
-                {vehicle.location}
+                {vehicle.locationName}
               </span>
               <span className={`d-block ${styles.itemPay}`}>No Prepayment</span>
               <span className={`d-block ${styles.itemavaiable}`}>
@@ -147,7 +160,6 @@ const Reservation = (props) => {
               </span>
               <div className="d-flex justify-content-between w-100 mt-5 align-items-center">
                 <div>
-                  {/* <ButtonCount text="-" onClick={() => handleMinus()} /> */}
                   <button
                     className={styles.btncount}
                     onClick={() => handleMinus()}
@@ -158,11 +170,6 @@ const Reservation = (props) => {
                 </div>
                 <span className={styles.count}>{amount}</span>
                 <div>
-                  {/* <ButtonCount
-                    text="+"
-                    bg="bg-orange"
-                    onClick={() => handlePlus()}
-                  /> */}
                   <button
                     className={`bg-orange ${styles.btncountPlus}`}
                     onClick={() => handlePlus()}
