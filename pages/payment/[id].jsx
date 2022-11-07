@@ -4,7 +4,8 @@ import Image from "next/image";
 import BtnPayment from "../../components/BtnPayment/index.jsx";
 import styles from "../../styles/payment.module.css";
 // import { useRouter } from "next/router";
-// import axios from "axios";
+// import axios from "utilities/axiosClient";
+// import Cookies from "js-cookie";
 import swal from "sweetalert";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/index.jsx";
@@ -97,7 +98,16 @@ const Payment = () => {
                   <span className={`d-block ${styles.bookingCodeCpy}`}>
                     #FG1209878YZS
                   </span>
-                  <button className={`${styles.btncpy} bg-black`}>Copy</button>
+                  <button
+                    className={`${styles.btncpy} bg-black`}
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        "Copy this text to clipboard"
+                      )
+                    }
+                  >
+                    Copy
+                  </button>
                 </span>
               </div>
               <div className={`${styles.boxPayRight} col-12 col-md-4 col-lg-4`}>
@@ -212,9 +222,10 @@ const Payment = () => {
             <>
               <BtnPayment
                 // onClick={handlePayment}
-                text="Finish Payment"
+                text="Finish Payment "
                 className="w-100 mt-lg-3 bg-black"
               />
+
               <BtnPayment
                 // onClick={handleCancelRental}
                 text="Cancel rental"
