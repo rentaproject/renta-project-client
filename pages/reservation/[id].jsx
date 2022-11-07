@@ -7,7 +7,8 @@ import Image from "next/image";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer";
 import axios from "../../utilities/axiosClient";
-// import swal from "sweetalert";
+import Cookies from "js-cookie";
+import swal from "sweetalert";
 
 export const getServerSideProps = async (context) => {
   try {
@@ -15,16 +16,6 @@ export const getServerSideProps = async (context) => {
     const result = await axios.get(
       `${process.env.URL_BACKEND}/api/vehicle/${params.id}`
     );
-    // const vehicle = {
-    //   vehicleId:params.id,
-    //   name: "Fixie",
-    //   location: "Jakarta",
-    //   price: 10000,
-    //   stock: 5,
-    //   rented: 5,
-    //   image:
-    //     "https://res.cloudinary.com/di6rwbzkv/image/upload/v1667466293/User/robert-bye-tG36rvCeqng-unsplash_3_qbhxiv.png",
-    // };
     const vehicle = result.data.data[0];
     const image = vehicle
       ? vehicle.image1
@@ -44,7 +35,7 @@ const Reservation = (props) => {
   const router = useRouter();
   const { query } = router;
   const { back, push } = useRouter();
-  let [amount, setamount] = useState(Number(query.quantity));
+  let [amount, setamount] = useState(1);
   const [date, setdate] = useState("Select date");
   const [day, setday] = useState(1);
   const dataDate = [
@@ -59,12 +50,15 @@ const Reservation = (props) => {
     totalPayment: vehicle.price,
     startDate: "",
     returnDate: "",
-    quantity: 5,
+    quantity: 1,
+    status: "Pending",
+    userId: Cookies.get("userId"),
   });
+  const [reservation, setReservation] = useState({});
 
   useEffect(() => {
     rental;
-    console.log(query);
+    console.log(reservation);
     // console.log(amount + "amount");
   }, [rental]);
 
@@ -92,7 +86,6 @@ const Reservation = (props) => {
       ...rental,
       totalPayment: vehicle.price * amount * day,
       quantity: amount,
-      status:"Pending"
     });
   };
 
@@ -115,7 +108,27 @@ const Reservation = (props) => {
   };
 
   const handlePay = () => {
-    console.log(rental);
+    // const reservation = axios
+    //   .post(`http://localhost:8000/api/reservation/`, rental)
+    //   .then((res) => {
+    //     swal("Success", "Rental Success, please finish the payment", "success");
+    //     // .then(() => {
+    //     //   // push('/history')
+    //     // })
+    //     return res
+    //   })
+    //   .catch((err) => {
+    //     swal("Error", "Rental failed, please check vehicle info", "error");
+    //     // console.log(err.response);
+    //   });
+    // setReservation({ reservation });
+    router.push(
+      {
+        pathname: `/payment/${vehicle.vehicleId}`,
+        query: rental,
+      },
+      `/payment/${vehicle.vehicleId}`
+    );
   };
 
   return (

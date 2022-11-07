@@ -14,19 +14,26 @@ export default function HistoryUser() {
   const [showDelete, setShowDelete] = useState(false);
   const [show, setShow] = useState(false);
   const [datahistory, setDataHistory] = useState([]);
+  const [keyword, setKeyword] = useState("");
   console.log(datahistory);
   const userid = Cookies.get("userId");
   useEffect(() => {
     getDataHistory();
   }, []);
+  useEffect(() => {
+    getDataHistory();
+  }, [keyword]);
   const getDataHistory = async () => {
     try {
-      const result = await axios.get(`/api/reservation/user/${userid}`);
+      const result = await axios.get(
+        `/api/reservation/user/${userid}?keyword=${keyword}`
+      );
       console.log(result.data.data);
       setDataHistory(result.data.data);
-      alert("succes");
+      // alert("succes");
     } catch (error) {
-      alert(error);
+      // alert(error);
+      console.log(error.response)
     }
   };
 
@@ -43,6 +50,7 @@ export default function HistoryUser() {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                onChange={(e) => setKeyword(e.target.value)}
               ></input>
               {/* input filter */}
               <div className="history_filter">
