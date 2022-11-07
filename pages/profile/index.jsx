@@ -20,12 +20,8 @@ export default function Profile() {
   const [imagePreview, setImagePreview] = useState("");
   const lengthImage = Object.keys(newImage).length;
   const [show, setShow] = useState(false);
-  console.log(data);
-  console.log(userId);
   const isError = true;
   const message = true;
-
-  console.log(data);
 
   useEffect(() => {
     getDataUser();

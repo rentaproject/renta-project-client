@@ -12,7 +12,8 @@ const nextConfig = {
     ],
   },
   env: {
-    URL_BACKEND: "https://renta-project-server.vercel.app",
+    URL_BACKEND:
+      "https://renta-project-server-j3yis97bh-rentaproject.vercel.app/",
     URL_CLOUDINARY:
       "https://res.cloudinary.com/dnhoxflfj/image/upload/v1667823115/",
   },

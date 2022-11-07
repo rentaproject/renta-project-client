@@ -5,6 +5,8 @@ import BtnPayment from "../../components/BtnPayment/index.jsx";
 import styles from "../../styles/payment.module.css";
 // import { useRouter } from "next/router";
 import axios from "../../utilities/axiosClient";
+// import axios from "utilities/axiosClient";
+// import Cookies from "js-cookie";
 import swal from "sweetalert";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/index.jsx";
@@ -145,7 +147,16 @@ const Payment = (props) => {
                   <span className={`d-block ${styles.bookingCodeCpy}`}>
                     #FG1209878YZS
                   </span>
-                  <button className={`${styles.btncpy} bg-black`}>Copy</button>
+                  <button
+                    className={`${styles.btncpy} bg-black`}
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        "Copy this text to clipboard"
+                      )
+                    }
+                  >
+                    Copy
+                  </button>
                 </span>
               </div>
               <div className={`${styles.boxPayRight} col-12 col-md-4 col-lg-4`}>
