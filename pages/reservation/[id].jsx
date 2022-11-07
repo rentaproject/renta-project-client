@@ -114,7 +114,7 @@ const Reservation = (props) => {
       <Header />
       <div className="">
         <div className="container">
-          <div className="d-flex align-items-center mt-3 mb-lg-5 mb-md-4 mb-4">
+          <div className="d-flex align-items-center mt-3 mb-lg-5 mb-md-4 mb-4" >
             <Image
               src={require("../../assets/icons/backButton.png")}
               alt="back Icon"
@@ -128,8 +128,9 @@ const Reservation = (props) => {
           <div className="row">
             <div
               className={`${styles.imgwrapper} col-12 col-md-6 col-lg-6 position-relative`}
+              
             >
-              <img src={image} className={styles.vehicleImg} alt="imgVechile" />
+              <img src={image} className={styles.vehicleImg} alt="imgVechile" style={{borderRadius: "10px"}}/>
             </div>
             <div
               className={`${styles.rightItem} col-12 col-md-6 col-lg-6 pe-lg-5 ps-lg-5`}
@@ -163,7 +164,7 @@ const Reservation = (props) => {
                     onClick={() => handlePlus()}
                   /> */}
                   <button
-                    className={`bg-orange ${styles.btncount}`}
+                    className={`bg-orange ${styles.btncountPlus}`}
                     onClick={() => handlePlus()}
                   >
                     {" "}
@@ -172,7 +173,7 @@ const Reservation = (props) => {
                 </div>
               </div>
               <span className={styles.resdate}>Reservation Date : </span>
-              <div className="row">
+              <div className="column">
                 <div className="col-12 col-md-12 col-lg-6">
                   <input
                     type="date"

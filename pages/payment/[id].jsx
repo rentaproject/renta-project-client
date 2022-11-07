@@ -101,11 +101,13 @@ const Payment = () => {
                 </span>
               </div>
               <div className={`${styles.boxPayRight} col-12 col-md-4 col-lg-4`}>
-                <span
+                <select
                   className={`${styles.box} ${styles.boxPay} mb-3 d-inline-block`}
                 >
-                  Select payment method
-                </span>
+                  <option value="Cash">Select payment method</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Transfer">Transfer</option>
+                </select>
               </div>
             </div>
           </div>
