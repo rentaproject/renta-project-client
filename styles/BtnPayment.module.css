@@ -1,0 +1,19 @@
+.btn{
+    border: none;
+    height: 50px;
+    border-radius: 10px;
+    font-family: 'Custom-font', nunito2;
+}
+
+
+@media (min-width: 768px) {
+    .btn{
+        width: 60px;
+    }
+}
+
+@media (min-width: 992px) {
+    .btn{
+        height: 70px;
+    }
+}

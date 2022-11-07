@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap");
+
+.popularContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10vh 10vw;
+}
+.titleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.title {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 50px;
+  color: #000000;
+  mix-blend-mode: normal;
+  margin-bottom: 40px;
+}
+.view {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 60px;
+  display: flex;
+  align-items: center;
+  color: #fb8f1d;
+  mix-blend-mode: normal;
+  cursor: pointer;
+}
+.view:active {
+  color: #000000;
+}
+.itemContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  row-gap: 20px;
+  flex-wrap: wrap;
+}
+.item {
+  width: 250px !important;
+  height: 300px !important;
+  cursor: pointer;
+}
+.itemImage {
+  /* width: 100% !important;s */
+  object-fit: cover !important;
+  border-radius: 8px;
+  position: absolute !important;
+  border: 2px solid transparent !important;
+}
+.itemImage:hover {
+  border: 2px solid #d5d9e4 !important;
+  z-index: 10;
+}
+.itemImage:active {
+  border: 2px solid #b8becd !important;
+  z-index: 10;
+}
+.itemDetail {
+  background: #ffffff;
+  border-radius: 0px 8px;
+  position: relative;
+  width: 120px;
+  height: 60px;
+  bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.itemName {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 25px;
+  display: flex;
+  align-items: center;
+  color: #042521;
+  mix-blend-mode: normal;
+}
+.itemLocation {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 25px;
+  display: flex;
+  align-items: center;
+  color: #b8becd;
+  mix-blend-mode: normal;
+}
