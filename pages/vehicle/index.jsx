@@ -6,15 +6,19 @@ import Image from "next/image";
 import { ChevronRight, StarFill } from "react-bootstrap-icons";
 import { useRouter } from "next/router";
 import axios from "utilities/axiosClient";
+import { useDispatch, useSelector } from "react-redux";
+import { getLocation } from "stores/action/vehicle";
 
 export default function Vehicle() {
   const [category, setCategory] = useState([]);
-  const [location, setLocation] = useState([]);
+  const locationData = useSelector((state) => state.vehicle.location);
   const router = useRouter();
+  const data = router.query;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getCategory();
-    getLocation();
+    getLocationData();
   }, []);
 
   const getCategory = async () => {
@@ -25,14 +29,11 @@ export default function Vehicle() {
       setCategory([]);
     }
   };
-  const getLocation = async () => {
+
+  const getLocationData = async () => {
     try {
-      const result = await axios.get("/api/location");
-      console.log(result);
-      setLocation(result.data.data);
-    } catch (error) {
-      setLocation([]);
-    }
+      await dispatch(getLocation());
+    } catch (error) {}
   };
 
   return (
@@ -43,15 +44,21 @@ export default function Vehicle() {
             type="text"
             placeholder="Vehicle name"
             className={styles.inputType}
+            defaultValue={data.keyword}
           />
         </div>
         <div className={`col-sm-12 col-md-6 col-lg-3 pb-1 pe-1`}>
-          <select name="cars" id="cars" className={styles.inputLocation}>
-            <option value="saab">Location</option>
-            {location.length > 0 ? (
-              location.map((item) => {
+          <select
+            name="cars"
+            id="cars"
+            className={styles.inputLocation}
+            defaultValue={data.location}
+          >
+            <option value="">Location</option>
+            {locationData.length > 0 ? (
+              locationData.map((item) => {
                 return (
-                  <option value="volvo" key={item.locationId}>
+                  <option value={item.locationId} key={item.locationId}>
                     {item.name}
                   </option>
                 );
@@ -68,6 +75,7 @@ export default function Vehicle() {
             className={styles.inputDate}
             onFocus={(e) => (e.target.type = "date")}
             onBlur={(e) => (e.target.type = "text")}
+            defaultValue={data.date}
           />
         </div>
         <div className={`col-sm-12 col-md-6 col-lg-3 pb-1 pe-1`}>
