@@ -48,11 +48,11 @@ function Header(props) {
             router.push("/");
           }}
         >
-          <Image
+          <img
             src={
               dataUser
                 ? dataUser.image
-                  ? `${process.env.URL_CLOUDINARY}${image}`
+                  ? `${process.env.URL_CLOUDINARY}${dataUser.image}`
                   : require("../../public/Logo-1.png")
                 : require("../../public/Logo-1.png")
             }

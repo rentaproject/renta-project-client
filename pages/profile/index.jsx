@@ -88,12 +88,12 @@ export default function Profile() {
               className="d-inline-block mb-2 img-profile"
               style={{ width: "20%", height: "20%", borderRadius: "50%" }}
             >
-              <Image
+              <img
                 src={
                   lengthImage > 0
                     ? imagePreview
                     : data.image
-                    ? `${URL_CLOUDINARY$}${dataUser.image}`
+                    ? `${process.env.URL_CLOUDINARY$}${dataUser.image}`
                     : defaultImage
                 }
                 alt="profile picture"

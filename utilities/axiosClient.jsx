@@ -34,7 +34,7 @@ axiosApiIntances.interceptors.response.use(
 
     if (error.response.data.status === 403) {
       Cookies.remove("token");
-      window.location.href = "/auth/signin";
+      window.location.href = "/auth/register";
     }
     return Promise.reject(error);
   }

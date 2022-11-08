@@ -42,10 +42,6 @@ export default function Signin() {
       setShowToast(true);
       router.push("/");
     } catch (error) {
-<<<<<<< HEAD:pages/auth/signin.jsx
-      console.log(error);
-=======
->>>>>>> 465c5b837ff3429177f2c1d15f60eb02611477a6:pages/auth/login/index.jsx
       setMsg(error.response.data.msg);
       setLoading(false);
       setShowToast(true);
@@ -140,14 +136,9 @@ export default function Signin() {
               <button
                 // type="button"
                 className="btn btn--or w-100 mb-3"
-<<<<<<< HEAD:pages/auth/signin.jsx
-                onClick={() => {
-                  router.push("signup");
-=======
                 //   onClick={handleSignin}
                 onClick={() => {
                   router.push("/auth/register");
->>>>>>> 465c5b837ff3429177f2c1d15f60eb02611477a6:pages/auth/login/index.jsx
                 }}
               >
                 Signup
