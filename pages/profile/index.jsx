@@ -93,7 +93,7 @@ export default function Profile() {
                   lengthImage > 0
                     ? imagePreview
                     : data.image
-                    ? `${URL_CLOUDINARY$}${dataUser.image}`
+                    ? process.env.URL_CLOUDINARY + `${dataUser.image}`
                     : defaultImage
                 }
                 alt="profile picture"
