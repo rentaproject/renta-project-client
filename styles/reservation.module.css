@@ -43,15 +43,17 @@
 .inputDate{
     display: block;
     background-color: red;
-    width: 335px;
+    width: 100%;
     padding-left: 20px;
     height: 45px;
     padding-top: 11px;
-    background-color: #afb0b9e0;
+    background-color: #EFEFEF;
     color: #393939;
     border-radius: 6px;
     border: none;
     font-family: 'Custom-font', nunito;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .vehicleImg{
@@ -70,7 +72,7 @@
     width: 100%;
     margin-bottom: 10px;
     height: 45px;
-    background-color: #afb0b9e0;
+    background-color: #EFEFEF;
     color: #393939;
     border-radius: 6px;
     border: none;
@@ -89,6 +91,20 @@
     font-family: 'Custom-font', nunito2;
     font-weight: bold;
     font-size: 20px;
+    background-color: #EFEFEF;
+    color: black;
+}
+
+.btncountPlus{
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'Custom-font', nunito2;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #FFCD61;
+    color: black;
 }
 
 .btn{
@@ -114,12 +130,32 @@
     }
 
     .inputDate{
-        width: 230px;
+        width: 315px;
     }
     .imgwrapper{
         width: 636px;
     }
     .btn{
         height: 70px;
+    }
+    .opt{
+        width: 315px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .inputDate{
+        width: 400px;
+    }
+    .opt{
+        width: 400px;
+    }
+}
+@media (min-width: 1400px) {
+    .inputDate{
+        width: 470px;
+    }
+    .opt{
+        width: 470px;
     }
 }
