@@ -45,7 +45,7 @@ export default function Add2() {
       .then((response) => {
         setData(response.value.data.data[0]);
       })
-      .catch((error) => console.log(error.response.msg));
+      .catch((error) => console.log(error));
   };
 
   const getDataCategory = async () => {
@@ -63,28 +63,28 @@ export default function Add2() {
 
   const handleInputImage1 = (e) => {
     const { name, files } = e.target;
-    setNewImage({ [name]: files[0] });
-    setImagePreview(URL.createObjectURL(files[0]));
+    setNewImage1({ [name]: files[0] });
+    setImagePreview1(URL.createObjectURL(files[0]));
   };
 
   const handleInputImage2 = (e) => {
     const { name, files } = e.target;
-    setNewImage({ [name]: files[0] });
-    setImagePreview(URL.createObjectURL(files[0]));
+    setNewImage2({ [name]: files[0] });
+    setImagePreview2(URL.createObjectURL(files[0]));
   };
   const handleInputImage3 = (e) => {
     const { name, files } = e.target;
-    setNewImage({ [name]: files[0] });
-    setImagePreview(URL.createObjectURL(files[0]));
+    setNewImage3({ [name]: files[0] });
+    setImagePreview3(URL.createObjectURL(files[0]));
   };
 
   const handleUpdateImage = () => {
     const imageData = new FormData();
-    imageData.append("image", newImage1.image);
-    imageData.append("image", newImage1.image);
-    imageData.append("image", newImage1.image);
+    imageData.append("image1", newImage1.image);
+    imageData.append("image2", newImage1.image);
+    imageData.append("image3", newImage1.image);
     axios
-      .patch(`/api/vehicle/${userId}`, imageData)
+      .patch(`/api/vehicle/${data.vehicleId}`, imageData)
       .then((response) => {
         alert(response.value.data.msg);
       })
@@ -118,7 +118,8 @@ export default function Add2() {
               type="text"
               name="name"
               value={data.name}
-              placeholder="Name (max up to 50 words"
+              placeholder="Name (max up to 50 words)"
+              onChange={inputData}
             />
 
             <label htmlFor="image1" className={styles.cam}>
@@ -208,9 +209,10 @@ export default function Add2() {
             <input
               className={styles.input}
               type="text"
-              name="location"
+              name="locationName"
               placeholder="Locations"
               value={data.locationName}
+              onChange={inputData}
             />
 
             <InputVehicle
