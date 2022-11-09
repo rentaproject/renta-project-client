@@ -6,8 +6,9 @@ const InputVehicle2 = (props) => {
     <Fragment>
       <span className={styles.inputTitle}>{props.title}</span>
       <input
+        value={props.value}
         defaultValue={props.defaultValue}
-        onChange={(e) => props?.onChange(e)}
+        onChange={props.onChange}
         name={props.name}
         type="text"
         placeholder={props.placeholder}

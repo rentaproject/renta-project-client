@@ -1,20 +1,67 @@
 /* eslint-disable @next/next/no-img-element */
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import Image from "next/image";
 import BtnPayment from "../../components/BtnPayment/index.jsx";
 import styles from "../../styles/payment.module.css";
 // import { useRouter } from "next/router";
+import axios from "../../utilities/axiosClient";
 // import axios from "utilities/axiosClient";
 // import Cookies from "js-cookie";
 import swal from "sweetalert";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/index.jsx";
+import { useRouter } from "next/router.js";
 // import { useState, useEffect } from "react";
-// import { useSelector } from "react-redux";
 
-const Payment = () => {
+export const getServerSideProps = async (context) => {
+  try {
+    const params = context.query;
+    const result = await axios.get(
+      `${process.env.URL_BACKEND}/api/vehicle/${params.vehicleId}`
+    );
+    const vehicle = result.data.data[0];
+    const image = vehicle
+      ? vehicle.image1
+        ? `https://res.cloudinary.com/dnhoxflfj/image/upload/v1667823115/${vehicle.image1}`
+        : require("../../../public/Item-Empty.webp")
+      : require("../../../public/Item-Empty.webp");
+    console.log(result.data.data[0].image1);
+    return {
+      props: { vehicle, image },
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const Payment = (props) => {
+  const router = useRouter();
+  const { query } = router;
+  const { vehicle, image } = props;
   const admin = false;
   const rentalStatus = "";
+  const days = query.totalPayment / vehicle.price / query.quantity;
+
+  useEffect(() => {
+    console.log(query);
+    // console.log(amount + "amount");
+  }, []);
+
+  const handlePayment = () => {
+    axios
+      .post(`http://localhost:8000/api/reservation/`, query)
+      .then((res) => {
+        swal("Success", "Success, please wait payment confirmation", "success");
+        // .then(() => {
+        //   // push('/history')
+        // })
+        return res
+      })
+      .catch((err) => {
+        swal("Error", "Rental failed, please check vehicle info", "error");
+        // console.log(err.response);
+      });
+  };
 
   return (
     <Fragment>
@@ -35,15 +82,15 @@ const Payment = () => {
           <div className="mainContainer">
             <div className="row">
               <div className="col-12 col-md-6 col-lg-4">
-                <img
-                  className="img-history"
-                  src={`https://res.cloudinary.com/di6rwbzkv/image/upload/v1667466293/User/robert-bye-tG36rvCeqng-unsplash_3_qbhxiv.png`}
-                  alt="imgVechile"
-                />
+                <img className="img-history" src={image} alt="imgVechile" />
               </div>
               <div className={`${styles.rightItem} col-12 col-md-6 col-lg-6`}>
-                <span className={`d-block ${styles.itemTitle}`}>Fixie</span>
-                <span className={`d-block ${styles.itemLoc}`}>Jakarta</span>
+                <span className={`d-block ${styles.itemTitle}`}>
+                  {vehicle.name}
+                </span>
+                <span className={`d-block ${styles.itemLoc}`}>
+                  {vehicle.locationName}
+                </span>
                 <span className={`d-block ${styles.itemPay}`}>Available</span>
                 <span className={`d-block ${styles.bookingCode}`}>
                   #FG1209878YZS
@@ -56,7 +103,9 @@ const Payment = () => {
             <div className="row mt-2">
               <div className="col-12 col-md-6 col-lg-4">
                 <div className={styles.box}>
-                  <span className={styles.boxtitle}>Quantity : 1 bikes</span>
+                  <span className={styles.boxtitle}>
+                    Quantity : {query.quantity} vehicle
+                  </span>
                 </div>
                 <div className={styles.box}>
                   <span className={`${styles.boxtitle} mb-3 d-block`}>
@@ -67,11 +116,11 @@ const Payment = () => {
                     //   key={index}
                     className="d-block"
                   >
-                    1 Bike : Rp. 10000 x 3 day
+                    1 vehicle : Rp. {vehicle.price} x {days} day
                   </span>
                   {/* ))} */}
                   <span className={`mt-3 d-block ${styles.boxtitle}`}>
-                    Total : Rp. 30000
+                    Total : Rp. {query.totalPayment}
                   </span>
                 </div>
               </div>
@@ -79,7 +128,7 @@ const Payment = () => {
                 <div className={styles.boxRes}>
                   <span className={styles.boxtitle}>Reservation Date :</span>
                   <span className="d-inline-block ms-0 ms-md-0 ms-lg-5">
-                    01-01-2022 to 04-2-2022
+                    {query.startDate} to {query.returnDate}
                   </span>
                 </div>
                 <div className={styles.boxIden}>
@@ -111,11 +160,13 @@ const Payment = () => {
                 </span>
               </div>
               <div className={`${styles.boxPayRight} col-12 col-md-4 col-lg-4`}>
-                <span
+                <select
                   className={`${styles.box} ${styles.boxPay} mb-3 d-inline-block`}
                 >
-                  Select payment method
-                </span>
+                  <option value="Cash">Select payment method</option>
+                  <option value="Cash">Cash</option>
+                  <option value="Transfer">Transfer</option>
+                </select>
               </div>
             </div>
           </div>
@@ -221,16 +272,15 @@ const Payment = () => {
           ) : (
             <>
               <BtnPayment
-                // onClick={handlePayment}
-                text="Finish Payment "
-                className="w-100 mt-lg-3 bg-black"
+                onClick={handlePayment}
+                text="Finish Payment"
+                className="w-100 mt-lg-3 bg-black mb-3"
               />
-
-              <BtnPayment
+              {/* <BtnPayment
                 // onClick={handleCancelRental}
                 text="Cancel rental"
                 className="w-100 mt-lg-3 bg-orange"
-              />
+              /> */}
             </>
           )}
         </div>
