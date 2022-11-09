@@ -45,6 +45,7 @@ export default function LandingPage() {
           keyword: form.keyword,
           date: form.date,
           location: form.location,
+          search: true,
         },
       },
       "/vehicle"
@@ -127,8 +128,8 @@ export default function LandingPage() {
         </div>
         {isLoading ? (
           <div className={styles.itemContainerEmpty}>
-            <div class="spinner-border spinner-border-sm" role="status">
-              <span class="visually-hidden">Loading...</span>
+            <div className="spinner-border spinner-border-sm" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         ) : (
@@ -148,8 +149,8 @@ export default function LandingPage() {
                   >
                     <Image
                       src={
-                        item.vehicleImage
-                          ? process.env.URL_CLOUDINARY
+                        item.image1
+                          ? `${process.env.URL_CLOUDINARY}${item.image1}`
                           : require("../public/Item-Empty.webp")
                       }
                       alt="item"
@@ -161,7 +162,7 @@ export default function LandingPage() {
                     <div className={styles.itemDetail}>
                       <div className={styles.itemName}>{item.name}</div>
                       <div className={styles.itemLocation}>
-                        {item.location ? item.location : "Indonesia"}
+                        {item.locationName ? item.locationName : "Indonesia"}
                       </div>
                     </div>
                   </div>

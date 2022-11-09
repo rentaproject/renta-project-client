@@ -4,9 +4,40 @@ import styles from "styles/Details.module.css";
 import Image from "next/image";
 import { ChevronLeft, Plus, Dash, HeartFill } from "react-bootstrap-icons";
 import { useRouter } from "next/router";
+import axiosApiIntances from "utilities/axiosClient";
+import { useEffect } from "react";
+import { useState } from "react";
 
 export default function Vehicle() {
+  const [vehicleData, setVehicleData] = useState();
+  const [quantity, setQuantity] = useState(0);
   const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    getVehicleById();
+  }, []);
+
+  const getVehicleById = async () => {
+    try {
+      const result = await axiosApiIntances.get(`/api/vehicle/${id}`);
+      setVehicleData(result.data.data[0]);
+    } catch (error) {}
+  };
+
+  const increaseHandler = () => {
+    if (quantity > 4) {
+      return;
+    }
+    setQuantity(quantity + 1);
+  };
+  const decreaseHandler = () => {
+    if (quantity === 0) {
+      return;
+    }
+    setQuantity(quantity - 1);
+  };
+
   return (
     <Layout title="Vehicle">
       <div className={styles.title}>
@@ -17,7 +48,13 @@ export default function Vehicle() {
         <div className={`col-sm-12 col-md-12 col-lg-6 ${styles.leftContainer}`}>
           <div className={styles.mainImageContainer}>
             <Image
-              src={require("../../../public/Item-Empty.webp")}
+              src={
+                vehicleData
+                  ? vehicleData.image1
+                    ? `${process.env.URL_CLOUDINARY}${vehicleData.image1}`
+                    : require("../../../public/Item-Empty.webp")
+                  : require("../../../public/Item-Empty.webp")
+              }
               alt="item"
               className={styles.mainImage}
               width={250}
@@ -28,7 +65,13 @@ export default function Vehicle() {
           <div className={styles.sideImageWrapper}>
             <div className={styles.sideImageContainer}>
               <Image
-                src={require("../../../public/Item-Empty.webp")}
+                src={
+                  vehicleData
+                    ? vehicleData.image2
+                      ? `${process.env.URL_CLOUDINARY}${vehicleData.image2}`
+                      : require("../../../public/Item-Empty.webp")
+                    : require("../../../public/Item-Empty.webp")
+                }
                 alt="item"
                 className={styles.sideImage}
                 width={250}
@@ -38,7 +81,13 @@ export default function Vehicle() {
             </div>
             <div className={styles.sideImageContainer}>
               <Image
-                src={require("../../../public/Item-Empty.webp")}
+                src={
+                  vehicleData
+                    ? vehicleData.image3
+                      ? `${process.env.URL_CLOUDINARY}${vehicleData.image3}`
+                      : require("../../../public/Item-Empty.webp")
+                    : require("../../../public/Item-Empty.webp")
+                }
                 alt="item"
                 className={styles.sideImage}
                 width={250}
@@ -51,22 +100,50 @@ export default function Vehicle() {
         <div
           className={`col-sm-12 col-md-12 col-lg-6 ${styles.rightContainer}`}
         >
-          <div className={styles.name}>Title</div>
-          <div className={styles.location}>Yogyakarta</div>
-          <div className={styles.stock}>Available</div>
+          <div className={styles.name}>
+            {vehicleData ? vehicleData.name : ""}
+          </div>
+          <div className={styles.location}>
+            {vehicleData ? vehicleData.locationName : ""}
+          </div>
+          <div className={styles.stock}>
+            {vehicleData
+              ? vehicleData.stock > 0
+                ? "Available"
+                : "Out of Stock"
+              : ""}
+          </div>
           <div className={styles.repayment}>No prepayment</div>
           <div className={styles.description}>
-            <div>Capacity : 1 person</div>
-            <div>Type : Bike</div>
+            <div>
+              {vehicleData
+                ? vehicleData.description
+                  ? `Description : ${vehicleData.description}`
+                  : "Capacity : 1 person"
+                : ""}
+            </div>
+            <div>
+              {vehicleData
+                ? vehicleData.typeName
+                  ? `Type : ${vehicleData.typeName}`
+                  : "Type : unknown"
+                : ""}
+            </div>
             <div>Reservation before 2 PM</div>
           </div>
-          <div className={styles.price}>Rp. 78.000/day</div>
+          <div className={styles.price}>
+            {vehicleData
+              ? vehicleData.price
+                ? `Rp. ${vehicleData.price}`
+                : "Out of Stock"
+              : ""}
+          </div>
           <div className={styles.quantityContainer}>
-            <div className={styles.plusButton}>
+            <div className={styles.plusButton} onClick={increaseHandler}>
               <Plus />
             </div>
-            <div className={styles.quantity}>3</div>
-            <div className={styles.minusButton}>
+            <div className={styles.quantity}>{quantity}</div>
+            <div className={styles.minusButton} onClick={decreaseHandler}>
               <Dash />
             </div>
           </div>
@@ -81,7 +158,19 @@ export default function Vehicle() {
         <div
           className={`col-sm-12 col-md-4 col-lg-4  ${styles.reservation}`}
           onClick={() => {
-            router.push(`/reservation/s`);
+            router.push(
+              {
+                pathname: `/reservation/${id}`,
+                query: {
+                  name: vehicleData.name,
+                  location: vehicleData.locationName,
+                  quantity: quantity,
+                  price: vehicleData.price,
+                  image: vehicleData.image1,
+                },
+              },
+              `/reservation/${id}`
+            );
           }}
         >
           Reservation

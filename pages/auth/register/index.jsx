@@ -36,10 +36,12 @@ export default function Signup() {
       setLoading(false);
       setMsg(result.data.msg);
       setShowToast(true);
-      Router.push("/auth/signin");
+      Router.push("signin");
     } catch (error) {
       console.log(error);
       setMsg(error.response.data.msg);
+      // Router.push("signup");
+
       setLoading(false);
       setShowToast(true);
       //   console.log(error);
@@ -118,17 +120,6 @@ export default function Signup() {
                 </button>
               )}
 
-              <Link href="forgot-password" className="mb-5 color-black ">
-                <p
-                  style={{
-                    cursor: "pointer",
-
-                    marginRight: "380px",
-                  }}
-                >
-                  Forgot password?
-                </p>
-              </Link>
               <p className="legend mt-5 mb-5">
                 <span> or try another way</span>
               </p>
