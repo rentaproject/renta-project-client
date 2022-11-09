@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "layout/main.jsx";
 import styles from "styles/Vehicle.module.css";
-import {} from "react-bootstrap-icons";
+import { Windows } from "react-bootstrap-icons";
 import Image from "next/image";
 import { X, ChevronRight } from "react-bootstrap-icons";
 import { useRouter } from "next/router";
@@ -17,6 +17,9 @@ export default function Vehicle() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [category, setCategory] = useState([]);
   const [popularData, setPopularData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [pageUpdate, setPageUpdate] = useState(false);
   const locationData = useSelector((state) => state.vehicle.location);
   const router = useRouter();
   const data = router.query;
@@ -30,6 +33,12 @@ export default function Vehicle() {
       getSearchDataFromHome();
     }
   }, []);
+
+  useEffect(() => {
+    if (pageUpdate) {
+      getSearchData();
+    }
+  }, [pageUpdate]);
 
   const getCategory = async () => {
     try {
@@ -46,38 +55,48 @@ export default function Vehicle() {
   };
   const getSearchData = async () => {
     try {
+      window.scrollTo(0, 0);
       setSearchLoading(true);
       setSearchData([]);
       const location = form.location || "";
       const keyword = form.keyword || "";
       const result = await axios.get(
-        `/api/vehicle?page=${1}&limit=${20}&orderBy=${"rentCount"}&orderType=${"asc"}&location=${location}&keyword=${keyword}`
+        `/api/vehicle?page=${page}&limit=${8}&orderBy=${"rentCount"}&orderType=${"asc"}&location=${location}&keyword=${keyword}`
       );
+      console.log(result);
+      setTotalPage(result.data.pagination.totalPage);
       setSearchData(result.data.data);
       setSearchLoading(false);
+      setPageUpdate(false);
       setSearchActive(true);
     } catch (error) {
       setSearchData([]);
       setSearchLoading(false);
+      setPageUpdate(false);
       console.log(error);
     }
   };
   const getSearchDataFromHome = async () => {
     try {
+      window.scrollTo(0, 0);
       setSearchLoading(true);
       setSearchData([]);
       const location = data.location || "";
       const keyword = data.keyword || "";
       setForm({ ...form, location, keyword });
       const result = await axios.get(
-        `/api/vehicle?page=${1}&limit=${20}&orderBy=${"rentCount"}&orderType=${"asc"}&location=${location}&keyword=${keyword}`
+        `/api/vehicle?page=${page}&limit=${8}&orderBy=${"rentCount"}&orderType=${"asc"}&location=${location}&keyword=${keyword}`
       );
+      console.log(result);
+      setTotalPage(result.data.pagination.totalPage);
       setSearchData(result.data.data);
       setSearchLoading(false);
+      setPageUpdate(false);
       setSearchActive(true);
     } catch (error) {
       setSearchData([]);
       setSearchLoading(false);
+      setPageUpdate(false);
       console.log(error);
     }
   };
@@ -97,6 +116,22 @@ export default function Vehicle() {
   const closeHandler = () => {
     setSearchActive(false);
     setSearchData([]);
+    setPage(1);
+    setTotalPage(1);
+  };
+  const nextPageHandler = () => {
+    if (page === totalPage) {
+      return;
+    }
+    setPage(page + 1);
+    setPageUpdate(true);
+  };
+  const prevPageHandler = () => {
+    if (page === 1) {
+      return;
+    }
+    setPage(page - 1);
+    setPageUpdate(true);
   };
 
   return (
@@ -175,7 +210,7 @@ export default function Vehicle() {
       )}
 
       <section className={styles.resultContainer}>
-        <div className={styles.itemContainer}>
+        <div className={styles.resultItemContainer}>
           {searchActive ? (
             searchData.length > 0 ? (
               searchData.map((item, index) => {
@@ -219,6 +254,25 @@ export default function Vehicle() {
             <></>
           )}
         </div>
+        {searchActive ? (
+          searchData.length > 0 ? (
+            <div className={styles.pagination}>
+              <div onClick={prevPageHandler} className={styles.prevButton}>
+                prev
+              </div>
+              <div className={styles.page}>
+                {page}/{totalPage}
+              </div>
+              <div onClick={nextPageHandler} className={styles.nextButton}>
+                next
+              </div>
+            </div>
+          ) : (
+            <></>
+          )
+        ) : (
+          <></>
+        )}
       </section>
 
       {!searchActive && !searchLoading ? (
