@@ -40,9 +40,10 @@
 .itemContainer {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   row-gap: 20px;
+  column-gap: 20px;
   flex-wrap: wrap;
 }
 .item {
@@ -98,4 +99,47 @@
   align-items: center;
   color: #b8becd;
   mix-blend-mode: normal;
+}
+.pagination {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5vh;
+}
+.page {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 25px;
+  color: #000000;
+  padding: 10px;
+  border: 2px solid transparent;
+}
+.nextButton,
+.prevButton {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 25px;
+  color: #000000;
+  padding: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+.nextButton:active,
+.prevButton:active {
+  border-bottom: 2px solid black;
+}
+
+.empty {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 25px;
+  color: #000000;
 }
