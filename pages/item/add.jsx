@@ -145,7 +145,7 @@ export default function Additem() {
                     type="file"
                     name="image"
                     id="formfile"
-                    class="inputfile"
+                    className="inputfile"
                     onChange={handleSelectFile}
                   />
                 </div>
@@ -269,11 +269,11 @@ export default function Additem() {
               <label htmlFor="" className="mt-2 fw-bold">
                 Price:
               </label>
-              <div class="input-group mb-3 ">
+              <div className="input-group mb-3 ">
                 <input
                   onChange={handleChangeForm}
                   type="text"
-                  class="form-control bg-light"
+                  className="form-control bg-light"
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-default"
                   name="price"
@@ -311,7 +311,7 @@ export default function Additem() {
 
             <div className="d-flex justify-content-center  mt-3 gap-2 ">
               <select
-                class="form-select form-select-md mb-3 btn  shadow btn-dark  btn-sm rounded h-100 "
+                className="form-select form-select-md mb-3 btn  shadow btn-dark  btn-sm rounded h-100 "
                 style={{ width: "30%", fontSize: "100%" }}
                 aria-label=".form-select-md fs-6 example"
                 // id="typeId"

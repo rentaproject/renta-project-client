@@ -85,16 +85,16 @@ export default function addItem() {
             <label htmlFor="" className="mt-2 fw-bold">
               Price:
             </label>
-            <div class="input-group mb-3 ">
+            <div className="input-group mb-3 ">
               <input
                 type="text"
-                class="form-control bg-light"
+                className="form-control bg-light"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-default"
               />
             </div>
             <select
-              class="form-select form-select-md mb-3"
+              className="form-select form-select-md mb-3"
               aria-label=".form-select-md fs-6 example"
             >
               <option selected>Open this select menu</option>
@@ -109,7 +109,7 @@ export default function addItem() {
 
           <div className="d-flex justify-content-center  mt-3 gap-2 ">
             <select
-              class="form-select form-select-md mb-3 btn  shadow btn-dark  btn-sm rounded h-100  text-warning "
+              className="form-select form-select-md mb-3 btn  shadow btn-dark  btn-sm rounded h-100  text-warning "
               style={{ width: "50%", fontSize: "100%" }}
               aria-label=".form-select-md fs-6 example"
             >

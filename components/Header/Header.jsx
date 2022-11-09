@@ -131,9 +131,9 @@ function Header(props) {
           </ul>
           <div className="nav-item dropdown">
             {login ? (
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <div
-                  // class="dropdown-toggle"
+                  // className="dropdown-toggle"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
@@ -147,19 +147,19 @@ function Header(props) {
                     />
                   </div>
                 </div>
-                <ul class="dropdown-menu">
+                <ul className="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="profile">
+                    <a className="dropdown-item" href="profile">
                       Profile
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       History
                     </a>
                   </li>
                   <li>
-                    <div class="dropdown-item" onClick={logoutHandler}>
+                    <div className="dropdown-item" onClick={logoutHandler}>
                       Logout
                     </div>
                   </li>
