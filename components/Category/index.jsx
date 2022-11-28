@@ -20,7 +20,9 @@ function Category(props) {
   const getCategoryData = async () => {
     try {
       setIsLoading(true);
-      const result = await axios.get(`/api/vehicle/type/${item.typeId}`);
+      const result = await axios.get(
+        `/api/vehicle/type/${item.typeId}?limit=4`
+      );
       setCategoryData(result.data.data);
       setIsLoading(false);
     } catch (error) {
