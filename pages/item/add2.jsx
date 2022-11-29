@@ -10,6 +10,7 @@ import BtnPayment from "components/BtnPayment/index.jsx";
 import defaultItem from "public/defaultPhotoItem.png";
 import swal from "sweetalert";
 import axios from "utilities/axiosClient";
+import { addVehicle } from "stores/action/vehicle";
 
 export default function Add2() {
   const { push, back } = useRouter();
@@ -28,18 +29,20 @@ export default function Add2() {
     image1: "",
     image2: "",
     image3: "",
+    rentCount: 0,
   });
   const [types, settypes] = useState();
   const [locations, setlocations] = useState();
   const [searchLocations, setsearchLocations] = useState("");
   const [dropdown, setdropdown] = useState(0);
   const [dropdowncategory, setdropdowncategory] = useState(0);
-  const [textCategory, settextCategory] = useState();
-  const [textLocation, settextLocation] = useState();
+  const [textCategory, settextCategory] = useState("");
+  const [textLocation, settextLocation] = useState("");
   const [status, setstatus] = useState("Select status");
   const [urlImage1, seturlImage1] = useState(defaultItem.src);
   const [urlImage2, seturlImage2] = useState(defaultItem.src);
   const [urlImage3, seturlImage3] = useState(defaultItem.src);
+  const [locationId, setLocationId] = useState("");
 
   useEffect(() => {
     getTypes();
@@ -77,25 +80,44 @@ export default function Add2() {
       [e.target.name]: e.target.value,
     });
   };
+  console.log(form);
 
   const handleImg = (e) => {
-    const urlImage = URL.createObjectURL(e.target.files[0]);
+    const urlImage1 = URL.createObjectURL(e.target.files[0]);
+    const urlImage2 = URL.createObjectURL(e.target.files[0]);
+    const urlImage3 = URL.createObjectURL(e.target.files[0]);
     const inputId = e.target.id;
     if (inputId === "image1") {
       setform({
         ...form,
-        vehicle_image: e.target.files[0],
+        image1: e.target.files[0],
       });
-      seturlImage1(urlImage);
+      seturlImage1(urlImage1);
     } else if (inputId === "image2") {
-      seturlImage2(urlImage);
+      setform({
+        ...form,
+        image2: e.target.files[0],
+      });
+      seturlImage2(urlImage2);
     } else {
-      seturlImage3(urlImage);
+      setform({
+        ...form,
+        image3: e.target.files[0],
+      });
+      seturlImage3(urlImage3);
     }
   };
 
   const handleSave = () => {
-    dispatch(addVehicle(form, push));
+    const formData = new FormData();
+    for (const data in form) {
+      formData.append(data, form[data]);
+    }
+    console.log(formData);
+
+    dispatch(addVehicle(formData))
+      .then((result) => console.log(result.data))
+      .catch((error) => console.log(error));
   };
 
   const handleDrop = () => {
@@ -123,7 +145,7 @@ export default function Add2() {
     setstatus(e.target.textContent);
     setform({
       ...form,
-      status: e.target.id,
+      status: e.target.value,
     });
     setdropdown(0);
   };
@@ -131,7 +153,7 @@ export default function Add2() {
   const changetype = (e) => {
     setform({
       ...form,
-      type_id: e.target.id,
+      typeId: e.target.id,
     });
     settextCategory(e.target.textContent);
     setdropdowncategory(0);
@@ -140,11 +162,12 @@ export default function Add2() {
   const changeLocations = (e) => {
     setform({
       ...form,
-      locationId: e.target.id,
+      locationId: e.target.value,
     });
+    setLocationId(locationId);
     settextLocation(e.target.textContent);
-    setsearchLocations("");
   };
+  console.log(locations);
 
   return (
     <Layout>
@@ -162,11 +185,16 @@ export default function Add2() {
           <div className="col-12 col-md-6 col-lg-7">
             <InputVehicle1
               onChange={(e) => handleForm(e)}
-              name="vehicle_name"
+              name="name"
               placeholder="Name (max up to 50 words)"
             />
-            <label htmlFor="image1" className={styles.cam}>
-              <div className={styles.cam}>
+            <label
+              htmlFor="image1"
+              className={
+                urlImage1 !== defaultItem.src ? styles.image1 : styles.cam
+              }
+            >
+              <div className={urlImage1 ? styles.image1 : styles.cam}>
                 <img src={urlImage1} alt="" />
               </div>
             </label>
@@ -215,73 +243,61 @@ export default function Add2() {
                 <select
                   className={styles.status}
                   aria-label=".form-select-md fs-6 example"
+                  id={locationId}
+                  onClick={(e) => changeLocations(e)}
                 >
                   <option selected>
                     <BtnPayment
                       onClick={() => handleLocations()}
-                      text={textCategory ? textCategory : "Select Location"}
+                      text={"Select Location"}
                       className={styles.status}
                     />
                   </option>
+
                   {locations &&
-                    locations?.map((type, index) => (
+                    locations?.map((location, index) => (
                       <option
                         key={index}
-                        onClick={(e) => changeLocations(e)}
-                        value="1"
+                        className={styles.dropmenu}
+                        value={location.locationId}
                       >
-                        <span id={type.typeId} className={styles.category}>
-                          {type.name}
-                        </span>
+                        <span className={styles.category}>{location.name}</span>
                       </option>
                     ))}
                 </select>
               </div>
             </div>
+            <span className={styles.inputTitle}>Description : </span>
+            <InputVehicle1
+              onChange={(e) => handleForm(e)}
+              name="description"
+              placeholder="Description (max up to 150 words)"
+            />
+            <InputVehicle2
+              onChange={(e) => handleForm(e)}
+              name="price"
+              placeholder="Type the price"
+              title="Price : "
+            />
             <span className={styles.inputTitle}>Status : </span>
 
             <div className="row mt-3">
               <div className="col-12 col-md-6 col-lg-6">
                 <select
                   className={styles.status}
-                  onClick={() => handleDrop()}
                   aria-label=".form-select-md fs-6 example"
+                  onClick={(e) => changeStatus(e)}
                 >
                   <option selected>
                     <BtnPayment
-                      onClick={() => handleCategory()}
+                      onClick={() => status()}
                       text={textCategory ? textCategory : "Select Status"}
                       className={styles.status}
                     />
                   </option>
-                  <option value="1">Available</option>
-                  <option value="2">Full Booked</option>
+                  <option value="Available">Available</option>
+                  <option value="Full Booking">Full Booked</option>
                 </select>
-
-                {dropdowncategory === 1 && (
-                  <div className={styles.dropdowncategory}>
-                    <div
-                      className={styles.dropmenu}
-                      onClick={() => setdropdowncategory(0)}
-                    >
-                      <span className={styles.category}>
-                        <b>Choose Category</b>
-                      </span>
-                    </div>
-                    {types &&
-                      types.map((type, index) => (
-                        <div
-                          key={index}
-                          onClick={(e) => changetype(e)}
-                          className={styles.dropmenu}
-                        >
-                          <span id={type.typeId} className={styles.category}>
-                            {type.name}
-                          </span>
-                        </div>
-                      ))}
-                  </div>
-                )}
               </div>
             </div>
 
