@@ -82,6 +82,7 @@
   border: none;
   border-radius: 10px;
   color: #ffcd61;
+  /* margin-top: -200px; */
 }
 .buttonyes {
   width: 100px;
@@ -90,9 +91,13 @@
   border: none;
   border-radius: 10px;
   color: black;
+  margin-left: 70px;
 }
 .group_button_modal {
-  padding: 10vh;
+  /* padding: 10vh; */
+}
+.group_button_modall {
+  width: 100px;
 }
 .modal_tittle {
   width: 300px;
