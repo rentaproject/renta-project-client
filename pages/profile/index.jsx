@@ -20,12 +20,8 @@ export default function Profile() {
   const [imagePreview, setImagePreview] = useState("");
   const lengthImage = Object.keys(newImage).length;
   const [show, setShow] = useState(false);
-  console.log(data);
-  console.log(userId);
   const isError = true;
   const message = true;
-
-  console.log(data);
 
   useEffect(() => {
     getDataUser();
@@ -97,7 +93,7 @@ export default function Profile() {
                   lengthImage > 0
                     ? imagePreview
                     : data.image
-                    ? `${URL_CLOUDINARY$}${dataUser.image}`
+                    ? process.env.URL_CLOUDINARY + `${dataUser.image}`
                     : defaultImage
                 }
                 alt="profile picture"
@@ -172,26 +168,26 @@ export default function Profile() {
             Has been active since 2013
           </p>
           <div className="d-flex mt-4 mb-3 gap-5 text-start">
-            <div class="form-check ms-5 me-5">
+            <div className="form-check ms-5 me-5">
               <input
-                class="form-check-input "
+                className="form-check-input "
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault1"
               />
-              <label class="form-check-label" for="flexRadioDefault1">
+              <label className="form-check-label" for="flexRadioDefault1">
                 Male
               </label>
             </div>
-            <div class="form-check ms-3">
+            <div className="form-check ms-3">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault2"
                 gender
               />
-              <label class="form-check-label" for="flexRadioDefault2">
+              <label className="form-check-label" for="flexRadioDefault2">
                 Female
               </label>
             </div>

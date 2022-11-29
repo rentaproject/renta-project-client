@@ -127,10 +127,11 @@
 }
 .itemContainer {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: row !important;
+  justify-content: flex-start;
   align-items: center;
   row-gap: 20px;
+  column-gap: 20px;
   flex-wrap: wrap;
 }
 .item {
@@ -186,4 +187,104 @@
   align-items: center;
   color: #b8becd;
   mix-blend-mode: normal;
+}
+.closeContainer {
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  padding: 0 10vw 5vh;
+  cursor: pointer;
+  justify-content: flex-end;
+}
+.closeButton {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 25px;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  mix-blend-mode: normal;
+  cursor: pointer;
+}
+.closeButton:active {
+  color: #ffcd61;
+}
+.loadingContainer {
+  padding: 0 10vw 20vh;
+  text-align: center;
+}
+.resultContainer {
+  padding: 0 10vw 0;
+}
+.emptyContainer {
+  padding: 0 10vw 10vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.notFound {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 25px;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  mix-blend-mode: normal;
+  cursor: pointer;
+}
+.typeContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10vw 10vh;
+}
+.resultItemContainer {
+  display: flex;
+  flex-direction: row !important;
+  justify-content: flex-start;
+  align-items: center;
+  row-gap: 20px;
+  column-gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 5vh;
+}
+
+.pagination {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5vh;
+}
+.page {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 25px;
+  color: #000000;
+  padding: 10px;
+  border: 2px solid transparent;
+}
+.nextButton,
+.prevButton {
+  font-family: Nunito, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 25px;
+  color: #000000;
+  padding: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.nextButton:active,
+.prevButton:active {
+  border-bottom: 2px solid black;
 }

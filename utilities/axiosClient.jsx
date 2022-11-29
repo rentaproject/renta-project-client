@@ -32,9 +32,9 @@ axiosApiIntances.interceptors.response.use(
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
 
-    if (error.response.status === 403) {
+    if (error.response.data.status === 403) {
       Cookies.remove("token");
-      window.location.href = "/auth/login";
+      window.location.href = "/auth/signin";
     }
     return Promise.reject(error);
   }

@@ -62,6 +62,7 @@ export default function Signin() {
               width={600}
               height={800}
               layout="responsive"
+              alt=""
               // style={{ margin: "0" }}
             />
           </div>

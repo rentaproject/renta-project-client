@@ -1,13 +1,43 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../../styles/Header.module.css";
+import Cookies from "js-cookie";
+import { useSelector, useDispatch } from "react-redux";
+import { getDataUserById } from "stores/action/user";
+import axios from "utilities/axiosClient";
 
 function Header(props) {
   const role = "admin";
-  const login = false;
+  const login = Cookies.get("token");
   const router = useRouter();
   const title = props.title;
+  const dispatch = useDispatch();
+  const dataUser = useSelector((state) => state.user.data[0]);
+  const userId = Cookies.get("userId");
+
+  useEffect(() => {
+    getDataUser();
+  }, []);
+
+  const getDataUser = () => {
+    if (login) {
+      dispatch(getDataUserById(userId));
+    }
+  };
+  const logoutHandler = async () => {
+    try {
+      const result = await axios.post(`/api/auth/logout`);
+      console.log(result);
+      Cookies.remove("token");
+      Cookies.remove("userId");
+      window.location.href = "/";
+    } catch (error) {
+      Cookies.remove("token");
+      Cookies.remove("userId");
+      window.location.href = "/";
+    }
+  };
 
   return (
     <nav className="navbar navbar-expand-lg py-0">
@@ -19,7 +49,13 @@ function Header(props) {
           }}
         >
           <Image
-            src={require("../../public/Logo-1.png")}
+            src={
+              dataUser
+                ? dataUser.image
+                  ? `${process.env.URL_CLOUDINARY}${image}`
+                  : require("../../public/Logo-1.png")
+                : require("../../public/Logo-1.png")
+            }
             alt="Logo"
             className={styles.logo}
           />
@@ -95,9 +131,9 @@ function Header(props) {
           </ul>
           <div className="nav-item dropdown">
             {login ? (
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <div
-                  // class="dropdown-toggle"
+                  // className="dropdown-toggle"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
@@ -111,21 +147,21 @@ function Header(props) {
                     />
                   </div>
                 </div>
-                <ul class="dropdown-menu">
+                <ul className="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="profile">
                       Profile
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#">
                       History
                     </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <div className="dropdown-item" onClick={logoutHandler}>
                       Logout
-                    </a>
+                    </div>
                   </li>
                 </ul>
               </ul>
