@@ -14,7 +14,7 @@ export default function HistoryUser() {
   const [showDelete, setShowDelete] = useState(false);
   const [show, setShow] = useState(false);
   const [datahistory, setDataHistory] = useState([]);
-  console.log(datahistory);
+  // console.log(datahistory);
   const userid = Cookies.get("userId");
   useEffect(() => {
     getDataHistory();
@@ -22,7 +22,7 @@ export default function HistoryUser() {
   const getDataHistory = async () => {
     try {
       const result = await axios.get(`/api/reservation/user/${userid}`);
-      console.log(result.data.data);
+      // console.log(result.data.data);
       setDataHistory(result.data.data);
       alert("succes");
     } catch (error) {
