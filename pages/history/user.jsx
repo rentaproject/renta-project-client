@@ -46,7 +46,7 @@ export default function HistoryUser() {
             {/* start search */}
             <div className="history_search d-flex mt-3">
               <input
-                className="form-control me-2"
+                className="form-control form-control__history me-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
@@ -95,8 +95,9 @@ export default function HistoryUser() {
 
             {/* end modal delete */}
             <div className="history_main">
+              <div className="row history_phone_">History Order</div>
               <div className="row history_tittle">Today</div>
-              <div className="row">
+              <div className="row history_row_one">
                 <div className="col col-md-8">
                   <h6 className="history_message">
                     Please Finish your payment for vespa for Vespa Rental Jogja
@@ -126,7 +127,7 @@ export default function HistoryUser() {
                 </div>
               </div>
               {/* row 2 */}
-              <div className="row">
+              <div className="row history_row_two">
                 <div className="col col-md-8">
                   <h6 className="history_message">
                     Your Payment has been confirmed
