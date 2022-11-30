@@ -10,3 +10,7 @@ export const getAllVehicle = (id) => ({
     `/api/vehicle?page=1&limit=20&orderBy=rentCount&orderType=asc`
   ),
 });
+export const getVehicleById = (id) => ({
+  type: "GET_VEHICLE_BY_ID",
+  payload: axios.get(`/api/vehicle/${id}`),
+});

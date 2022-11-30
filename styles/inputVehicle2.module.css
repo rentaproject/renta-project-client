@@ -12,6 +12,10 @@
   outline: none;
 }
 
+.input::-ms-value {
+  background: black;
+}
+
 .input::placeholder {
   color: #80918e;
 }
