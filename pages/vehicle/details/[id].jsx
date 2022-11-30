@@ -38,6 +38,12 @@ export default function Vehicle() {
     setQuantity(quantity - 1);
   };
 
+  const currency = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  });
+
   return (
     <Layout title="Vehicle">
       <div className={styles.title}>
@@ -134,7 +140,8 @@ export default function Vehicle() {
           <div className={styles.price}>
             {vehicleData
               ? vehicleData.price
-                ? `Rp. ${vehicleData.price}`
+                ? // ? `Rp. ${vehicleData.price}`
+                  currency.format(vehicleData.price)
                 : "Out of Stock"
               : ""}
           </div>

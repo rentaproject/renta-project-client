@@ -14,3 +14,7 @@ export const getVehicleById = (id) => ({
   type: "GET_VEHICLE_BY_ID",
   payload: axios.get(`/api/vehicle/${id}`),
 });
+export const addVehicle = (data) => ({
+  type: "ADD_ITEM",
+  payload: axios.post(`/api/vehicle/`, data),
+});

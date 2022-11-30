@@ -13,9 +13,12 @@ import {
 
 export default function Profile() {
   const dispatch = useDispatch();
-  const dataUser = useSelector((state) => state.user.data);
+  const dataUser = useSelector((state) => state.user.data[0]);
+  const [gender, setGender] = useState(dataUser?.gneder);
+  console.log(dataUser);
   const userId = Cookies.get("userId");
   const [data, setData] = useState({ dataUser });
+  console.log(data);
   const [newImage, setNewImage] = useState({});
   const [imagePreview, setImagePreview] = useState("");
   const lengthImage = Object.keys(newImage).length;
@@ -33,12 +36,14 @@ export default function Profile() {
     });
   };
   const dateOfBirth = data.dateOfBirth?.split("T")[0];
+  console.log(dataUser?.image);
 
   const { name, mobileNumber, email } = data;
 
   const inputData = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
+    setGender(value.gender);
     setShow(true);
   };
 
@@ -93,7 +98,7 @@ export default function Profile() {
                   lengthImage > 0
                     ? imagePreview
                     : data.image
-                    ? process.env.URL_CLOUDINARY + `${dataUser.image}`
+                    ? process.env.URL_CLOUDINARY + `${dataUser?.image}`
                     : defaultImage
                 }
                 alt="profile picture"
@@ -168,26 +173,31 @@ export default function Profile() {
             Has been active since 2013
           </p>
           <div className="d-flex mt-4 mb-3 gap-5 text-start">
-            <div class="form-check ms-5 me-5">
+            <div className="form-check ms-5 me-5">
               <input
-                class="form-check-input "
+                className="form-check-input "
                 type="radio"
-                name="flexRadioDefault"
+                value={"male"}
+                checked={dataUser?.gender == "male" ? true : false}
+                name="gender"
                 id="flexRadioDefault1"
+                onChange={inputData}
               />
-              <label class="form-check-label" for="flexRadioDefault1">
+              <label className="form-check-label" for="flexRadioDefault1">
                 Male
               </label>
             </div>
-            <div class="form-check ms-3">
+            <div className="form-check ms-3">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="radio"
-                name="flexRadioDefault"
+                name="gender"
+                value={"female"}
+                onChange={inputData}
                 id="flexRadioDefault2"
-                gender
+                checked={dataUser?.gender == "female" ? true : false}
               />
-              <label class="form-check-label" for="flexRadioDefault2">
+              <label className="form-check-label" for="flexRadioDefault2">
                 Female
               </label>
             </div>

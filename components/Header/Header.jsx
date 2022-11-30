@@ -48,14 +48,8 @@ function Header(props) {
             router.push("/");
           }}
         >
-          <img
-            src={
-              dataUser
-                ? dataUser.image
-                  ? `${process.env.URL_CLOUDINARY}${dataUser.image}`
-                  : require("../../public/Logo-1.png")
-                : require("../../public/Logo-1.png")
-            }
+          <Image
+            src={require("../../public/Logo-1.png")}
             alt="Logo"
             className={styles.logo}
           />
@@ -139,7 +133,13 @@ function Header(props) {
                 >
                   <div className={styles.profileContainer}>
                     <Image
-                      src={require("../../public/Profile-Empty.png")}
+                      src={
+                        dataUser
+                          ? dataUser?.image
+                            ? `${process.env.URL_CLOUDINARY}${dataUser?.image}`
+                            : require("../../public/Profile-Empty.png")
+                          : require("../../public/Profile-Empty.png")
+                      }
                       alt="profile"
                       className={styles.profile}
                       width={40}

@@ -1,57 +1,131 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
 import Layout from "layout/main";
 import styles from "styles/addItem.module.css";
 import Image from "next/image";
-import InputVehicel1 from "components/inputVehicle/inputVehicle1";
+import InputVehicle1 from "components/inputVehicle/inputVehicle1";
 import InputVehicle2 from "components/inputVehicle/inputVehicle2";
 import BtnPayment from "components/BtnPayment/index.jsx";
 import defaultItem from "public/defaultPhotoItem.png";
+import swal from "sweetalert";
+import axios from "utilities/axiosClient";
+import { addVehicle } from "stores/action/vehicle";
 
 export default function Add2() {
-  const [searchLocations, setsearchLocations] = useState("");
-  const [dropdown, setdropdown] = useState(1);
-  const [textCategory, settextCategory] = useState();
-  const [dropdowncategory, setdropdowncategory] = useState(0);
-  const [types, settypes] = useState();
+  const { push, back } = useRouter();
+  const dataUser = useSelector((state) => state.user.data[0]);
+
+  const dispatch = useDispatch();
+
   const [form, setform] = useState({
-    location_id: "",
-    type_id: "",
-    vehicle_name: "",
+    locationId: "",
+    typeId: "",
+    name: "",
     price: "",
     status: "",
     stock: "",
     description: "",
-    vehicle_img: {},
+    image1: "",
+    image2: "",
+    image3: "",
+    rentCount: 0,
   });
+  const [types, settypes] = useState();
+  const [locations, setlocations] = useState();
+  const [searchLocations, setsearchLocations] = useState("");
+  const [dropdown, setdropdown] = useState(0);
+  const [dropdowncategory, setdropdowncategory] = useState(0);
+  const [textCategory, settextCategory] = useState("");
+  const [textLocation, settextLocation] = useState("");
+  const [status, setstatus] = useState("Select status");
+  const [urlImage1, seturlImage1] = useState(defaultItem.src);
+  const [urlImage2, seturlImage2] = useState(defaultItem.src);
+  const [urlImage3, seturlImage3] = useState(defaultItem.src);
+  const [locationId, setLocationId] = useState("");
+
+  useEffect(() => {
+    getTypes();
+    getLocations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchLocations]);
+  console.log(types);
+  const getTypes = () => {
+    axios
+      .get(`/api/category`)
+      .then((result) => {
+        console.log(result);
+        settypes(result.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  console.log(locations);
+
+  const getLocations = () => {
+    axios
+      .get(`api/location/`)
+      .then((result) => {
+        setlocations(result.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleForm = (e) => {
+    setform({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+  console.log(form);
+
   const handleImg = (e) => {
-    const urlImg = URL.createObjectURL(e.target.files[0]);
+    const urlImage1 = URL.createObjectURL(e.target.files[0]);
+    const urlImage2 = URL.createObjectURL(e.target.files[0]);
+    const urlImage3 = URL.createObjectURL(e.target.files[0]);
     const inputId = e.target.id;
-    if (inputId === "img1") {
+    if (inputId === "image1") {
       setform({
         ...form,
-        vehicle_img: e.target.files[0],
+        image1: e.target.files[0],
       });
-      seturlImage(urlImg);
-    } else if (inputId === "img2") {
-      seturlImage2(urlImg);
+      seturlImage1(urlImage1);
+    } else if (inputId === "image2") {
+      setform({
+        ...form,
+        image2: e.target.files[0],
+      });
+      seturlImage2(urlImage2);
     } else {
-      seturlImage3(urlImg);
+      setform({
+        ...form,
+        image3: e.target.files[0],
+      });
+      seturlImage3(urlImage3);
     }
   };
+
+  const handleSave = () => {
+    const formData = new FormData();
+    for (const data in form) {
+      formData.append(data, form[data]);
+    }
+    console.log(formData);
+
+    dispatch(addVehicle(formData))
+      .then((result) => console.log(result.data))
+      .catch((error) => console.log(error));
+  };
+
   const handleDrop = () => {
     if (dropdown === 0) {
       setdropdown(1);
     } else {
       setdropdown(0);
     }
-  };
-  const changetype = (e) => {
-    setform({
-      ...form,
-      type_id: e.target.id,
-    });
-    settextCategory(e.target.textContent);
-    setdropdowncategory(0);
   };
 
   const handleCategory = () => {
@@ -62,13 +136,46 @@ export default function Add2() {
     }
   };
 
+  const handleLocations = (e) => {
+    setsearchLocations(e.target.value);
+    settextLocation(e.target.value);
+  };
+
+  const changeStatus = (e) => {
+    setstatus(e.target.textContent);
+    setform({
+      ...form,
+      status: e.target.value,
+    });
+    setdropdown(0);
+  };
+
+  const changetype = (e) => {
+    setform({
+      ...form,
+      typeId: e.target.id,
+    });
+    settextCategory(e.target.textContent);
+    setdropdowncategory(0);
+  };
+
+  const changeLocations = (e) => {
+    setform({
+      ...form,
+      locationId: e.target.value,
+    });
+    setLocationId(locationId);
+    settextLocation(e.target.textContent);
+  };
+  console.log(locations);
+
   return (
     <Layout>
       <div className="container mb-5 pb-5">
         <div className="d-flex align-item-center mt-3 mb-lg-5 mb-md-4 mb-4">
           <button
             className="btn px-1 py-0 me-2 button-update-profile"
-            onClick={() => router.back()}
+            onClick={() => back()}
           >
             <i className="bi bi-chevron-left fw-bold"></i>
           </button>
@@ -76,50 +183,33 @@ export default function Add2() {
         </div>
         <div className="row">
           <div className="col-12 col-md-6 col-lg-7">
-            <InputVehicel1
-              className={styles.input}
-              type="text"
+            <InputVehicle1
+              onChange={(e) => handleForm(e)}
               name="name"
-              placeholder="Name (max up to 50 words"
+              placeholder="Name (max up to 50 words)"
             />
-            <label htmlFor="image1" className={styles.cam}>
-              <div className={styles.cam}>
-                <Image
-                  className=""
-                  src={defaultItem}
-                  alt="itempicture"
-                  width={30}
-                  height={30}
-                  objectFit="cover"
-                />
+            <label
+              htmlFor="image1"
+              className={
+                urlImage1 !== defaultItem.src ? styles.image1 : styles.cam
+              }
+            >
+              <div className={urlImage1 ? styles.image1 : styles.cam}>
+                <img src={urlImage1} alt="" />
               </div>
             </label>
-            <div className="row  mt-3">
-              <div className="col-12 col-md-12 col-lg-6 text-center">
-                <label htmlFor="image2">
+            <div className="row mt-3">
+              <div className="col-12 col-md-12 col-lg-6">
+                <label htmlFor="image2" className={styles.subcam}>
                   <div className={styles.subcam}>
-                    <Image
-                      className=""
-                      src={defaultItem}
-                      alt="itempicture"
-                      width={30}
-                      height={30}
-                      objectFit="cover"
-                    />
+                    <img src={urlImage2} alt="" />
                   </div>
                 </label>
               </div>
-              <div className="col-12 col-md-12 col-lg-6 mt-3 mt-md-3 mt-lg-0 text-center">
-                <label htmlFor="image3">
+              <div className="col-12 col-md-12 col-lg-6 mt-3 mt-md-3 mt-lg-0">
+                <label htmlFor="image3" className={styles.subcam}>
                   <div className={styles.subcam}>
-                    <Image
-                      className=""
-                      src={defaultItem}
-                      alt="itempicture"
-                      width={30}
-                      height={30}
-                      objectFit="cover"
-                    />
+                    <img src={urlImage3} alt="" />
                   </div>
                 </label>
               </div>
@@ -128,61 +218,57 @@ export default function Add2() {
               onChange={(e) => handleImg(e)}
               className="d-none"
               type="file"
-              name="vehicle_img"
-              id="img1"
+              name="image1"
+              id="image1"
             />
             <input
               onChange={(e) => handleImg(e)}
               className="d-none"
               type="file"
-              name="vehicle_img"
-              id="img1"
+              name="image2"
+              id="image2"
             />
             <input
               onChange={(e) => handleImg(e)}
               className="d-none"
               type="file"
-              name="vehicle_img"
-              id="img1"
+              name="image3"
+              id="image3"
             />
           </div>
           <div className="col-12 col-md-6 col-lg-5">
-            <input
-              className={styles.input}
-              type="text"
-              name="location_id"
-              placeholder="Locations"
-            />
-            {searchLocations !== "" && (
-              <div className={styles.dropdownlocations}>
-                <div
-                  className={styles.dropmenu}
-                  onClick={() => setsearchLocations("")}
+            <div className="row mt-3">
+              <div className="col-12 col-md-6 col-lg-6">
+                <span className={styles.inputTitle}>Location : </span>
+                <select
+                  className={styles.status}
+                  aria-label=".form-select-md fs-6 example"
+                  id={locationId}
+                  onClick={(e) => changeLocations(e)}
                 >
-                  <span className={styles.category}>
-                    <b>
-                      {locations ? "Choose location" : "Locations not found"}
-                    </b>
-                  </span>
-                </div>
-                {locations &&
-                  locations.map((location, index) => (
-                    <div
-                      key={index}
-                      className={styles.dropmenu}
-                      onClick={(e) => changeLocations(e)}
-                    >
-                      <span
-                        id={location.location_id}
-                        className={styles.category}
+                  <option selected>
+                    <BtnPayment
+                      onClick={() => handleLocations()}
+                      text={"Select Location"}
+                      className={styles.status}
+                    />
+                  </option>
+
+                  {locations &&
+                    locations?.map((location, index) => (
+                      <option
+                        key={index}
+                        className={styles.dropmenu}
+                        value={location.locationId}
                       >
-                        {location.location_name}
-                      </span>
-                    </div>
-                  ))}
+                        <span className={styles.category}>{location.name}</span>
+                      </option>
+                    ))}
+                </select>
               </div>
-            )}
-            <InputVehicel1
+            </div>
+            <span className={styles.inputTitle}>Description : </span>
+            <InputVehicle1
               onChange={(e) => handleForm(e)}
               name="description"
               placeholder="Description (max up to 150 words)"
@@ -200,19 +286,18 @@ export default function Add2() {
                 <select
                   className={styles.status}
                   aria-label=".form-select-md fs-6 example"
+                  onClick={(e) => changeStatus(e)}
                 >
                   <option selected>
                     <BtnPayment
-                      onClick={() => handleCategory()}
+                      onClick={() => status()}
                       text={textCategory ? textCategory : "Select Status"}
                       className={styles.status}
                     />
                   </option>
-                  <option value="1">Available</option>
-                  <option value="2">Full Booked</option>
+                  <option value="Available">Available</option>
+                  <option value="Full Booking">Full Booked</option>
                 </select>
-
-                <div className={styles.dropdowncategory}></div>
               </div>
             </div>
 
@@ -242,14 +327,14 @@ export default function Add2() {
                   </span>
                 </div>
                 {types &&
-                  types.map((type, index) => (
+                  types?.map((type, index) => (
                     <div
                       key={index}
                       onClick={(e) => changetype(e)}
                       className={styles.dropmenu}
                     >
-                      <span id={type.type_id} className={styles.category}>
-                        {type.type_name}
+                      <span id={type.typeId} className={styles.category}>
+                        {type.name}
                       </span>
                     </div>
                   ))}
