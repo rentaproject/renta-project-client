@@ -1,81 +1,65 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
 import Layout from "layout/main";
 import styles from "styles/addItem.module.css";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import InputVehicle1 from "components/inputVehicle/inputVehicle1";
 import InputVehicle2 from "components/inputVehicle/inputVehicle2";
 import BtnPayment from "components/BtnPayment/index.jsx";
 import defaultItem from "public/defaultPhotoItem.png";
-import swal from "sweetalert";
+import { useDispatch, useSelector } from "react-redux";
+import { getVehicleById } from "stores/action/vehicle";
+import InputVehicle from "components/inputVehicle/inputVehicle1";
 import axios from "utilities/axiosClient";
-import { addVehicle } from "stores/action/vehicle";
 
 export default function Add2() {
-  const { push, back } = useRouter();
-  const dataUser = useSelector((state) => state.user.data[0]);
-
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { id } = router?.query;
 
-  const [form, setform] = useState({
-    locationId: "",
-    typeId: "",
-    name: "",
-    price: "",
-    status: "",
-    stock: "",
-    description: "",
-    image1: "",
-    image2: "",
-    image3: "",
-    rentCount: 0,
-  });
-  const [types, settypes] = useState();
-  const [locations, setlocations] = useState();
-  const [searchLocations, setsearchLocations] = useState("");
-  const [dropdown, setdropdown] = useState(0);
+  const dataVehicle = useSelector((state) => state.vehicle.dataVehicle[0]);
+  const [types, setTypes] = useState();
+  const [status, setstatus] = useState("Select status");
   const [dropdowncategory, setdropdowncategory] = useState(0);
   const [textCategory, settextCategory] = useState("");
   const [textLocation, settextLocation] = useState("");
-  const [status, setstatus] = useState("Select status");
-  const [urlImage1, seturlImage1] = useState(defaultItem.src);
+
+  const [urlImage1, seturlImage1] = useState("");
   const [urlImage2, seturlImage2] = useState(defaultItem.src);
   const [urlImage3, seturlImage3] = useState(defaultItem.src);
+  const [form, setForm] = useState({});
   const [locationId, setLocationId] = useState("");
+  const [category, setCategory] = useState({});
 
   useEffect(() => {
+    getDataVehicle();
     getTypes();
-    getLocations();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchLocations]);
-  console.log(types);
+  }, [id]);
+  console.log(id);
+  console.log(dataVehicle);
+
+  const getDataVehicle = () => {
+    dispatch(getVehicleById(id))
+      .then((response) => {
+        setForm(response.value.data.data[0]);
+      })
+      .catch((error) => console.log(error));
+  };
   const getTypes = () => {
     axios
       .get(`/api/category`)
       .then((result) => {
         console.log(result);
-        settypes(result.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  console.log(locations);
-
-  const getLocations = () => {
-    axios
-      .get(`api/location/`)
-      .then((result) => {
-        setlocations(result.data.data);
+        setTypes(result.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const handleForm = (e) => {
-    setform({
+  const inputData = (e) => {
+    setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
@@ -88,46 +72,25 @@ export default function Add2() {
     const urlImage3 = URL.createObjectURL(e.target.files[0]);
     const inputId = e.target.id;
     if (inputId === "image1") {
-      setform({
+      setForm({
         ...form,
         image1: e.target.files[0],
       });
       seturlImage1(urlImage1);
     } else if (inputId === "image2") {
-      setform({
+      setForm({
         ...form,
         image2: e.target.files[0],
       });
       seturlImage2(urlImage2);
     } else {
-      setform({
+      setForm({
         ...form,
         image3: e.target.files[0],
       });
       seturlImage3(urlImage3);
     }
   };
-
-  const handleSave = () => {
-    const formData = new FormData();
-    for (const data in form) {
-      formData.append(data, form[data]);
-    }
-    console.log(formData);
-
-    dispatch(addVehicle(formData))
-      .then((result) => console.log(result.data))
-      .catch((error) => console.log(error));
-  };
-
-  const handleDrop = () => {
-    if (dropdown === 0) {
-      setdropdown(1);
-    } else {
-      setdropdown(0);
-    }
-  };
-
   const handleCategory = () => {
     if (dropdowncategory === 0) {
       setdropdowncategory(1);
@@ -136,22 +99,16 @@ export default function Add2() {
     }
   };
 
-  const handleLocations = (e) => {
-    setsearchLocations(e.target.value);
-    settextLocation(e.target.value);
-  };
-
   const changeStatus = (e) => {
     setstatus(e.target.textContent);
-    setform({
+    setForm({
       ...form,
       status: e.target.value,
     });
-    setdropdown(0);
   };
 
   const changetype = (e) => {
-    setform({
+    setForm({
       ...form,
       typeId: e.target.id,
     });
@@ -159,15 +116,14 @@ export default function Add2() {
     setdropdowncategory(0);
   };
 
-  const changeLocations = (e) => {
-    setform({
-      ...form,
-      locationId: e.target.value,
-    });
-    setLocationId(locationId);
-    settextLocation(e.target.textContent);
+  const handleUpdataItem = () => {
+    axios
+      .patch(`/api/vehicle/${form.vehicleId}`, form)
+      .then((response) => {
+        alert(response.data.msg);
+      })
+      .catch((error) => alert(error.response?.data.msg));
   };
-  console.log(locations);
 
   return (
     <Layout>
@@ -175,109 +131,116 @@ export default function Add2() {
         <div className="d-flex align-item-center mt-3 mb-lg-5 mb-md-4 mb-4">
           <button
             className="btn px-1 py-0 me-2 button-update-profile"
-            onClick={() => back()}
+            onClick={() => router.back()}
           >
             <i className="bi bi-chevron-left fw-bold"></i>
           </button>
-          <span className="fw-bold d-block ms-3">Add new item</span>
+          <span className="fw-bold d-block ms-3">Edit Item</span>
         </div>
         <div className="row">
           <div className="col-12 col-md-6 col-lg-7">
             <InputVehicle1
-              onChange={(e) => handleForm(e)}
+              className={styles.input}
+              type="text"
               name="name"
+              value={form.name}
               placeholder="Name (max up to 50 words)"
+              onChange={(e) => inputData(e)}
             />
-            <label
-              htmlFor="image1"
-              className={
-                urlImage1 !== defaultItem.src ? styles.image1 : styles.cam
-              }
-            >
-              <div className={urlImage1 ? styles.image1 : styles.cam}>
-                <img src={urlImage1} alt="" />
+
+            <label htmlFor="image1" className={styles.cam}>
+              <div className={styles.cam}>
+                <Image
+                  className=""
+                  src={
+                    urlImage1
+                      ? urlImage1
+                      : form.image1
+                      ? process.env.URL_CLOUDINARY + `${form?.image1}`
+                      : defaultItem
+                  }
+                  alt="itempicture"
+                  width={600}
+                  height={300}
+                  objectFit="cover"
+                />
               </div>
+              <input
+                onChange={(e) => handleImg(e)}
+                className="d-none"
+                type="file"
+                name="image1"
+                id="image1"
+              />
             </label>
-            <div className="row mt-3">
-              <div className="col-12 col-md-12 col-lg-6">
-                <label htmlFor="image2" className={styles.subcam}>
+
+            <div className="row  mt-3">
+              <div className="col-12 col-md-12 col-lg-6 text-center">
+                <label htmlFor="image2">
                   <div className={styles.subcam}>
-                    <img src={urlImage2} alt="" />
+                    <Image
+                      className=""
+                      src={process.env.URL_CLOUDINARY + `${form.image2}`}
+                      alt="itempicture"
+                      width={350}
+                      height={200}
+                      objectFit="cover"
+                    />
                   </div>
+                  <input
+                    onChange={(e) => handleImg(e)}
+                    className="d-none"
+                    type="file"
+                    name="image2"
+                    id="image2"
+                  />
                 </label>
               </div>
-              <div className="col-12 col-md-12 col-lg-6 mt-3 mt-md-3 mt-lg-0">
-                <label htmlFor="image3" className={styles.subcam}>
+              <div className="col-12 col-md-12 col-lg-6 mt-3 mt-md-3 mt-lg-0 text-center">
+                <label htmlFor="image3">
                   <div className={styles.subcam}>
-                    <img src={urlImage3} alt="" />
+                    <Image
+                      className=""
+                      src={process.env.URL_CLOUDINARY + `${form.image3}`}
+                      alt="itempicture"
+                      width={350}
+                      height={200}
+                      objectFit="cover"
+                    />
                   </div>
+                  <input
+                    onChange={(e) => handleImg(e)}
+                    className="d-none"
+                    type="file"
+                    name="image3"
+                    id="image3"
+                  />
                 </label>
               </div>
             </div>
-            <input
-              onChange={(e) => handleImg(e)}
-              className="d-none"
-              type="file"
-              name="image1"
-              id="image1"
-            />
-            <input
-              onChange={(e) => handleImg(e)}
-              className="d-none"
-              type="file"
-              name="image2"
-              id="image2"
-            />
-            <input
-              onChange={(e) => handleImg(e)}
-              className="d-none"
-              type="file"
-              name="image3"
-              id="image3"
-            />
           </div>
           <div className="col-12 col-md-6 col-lg-5">
-            <div className="row mt-3">
-              <div className="col-12 col-md-6 col-lg-6">
-                <span className={styles.inputTitle}>Location : </span>
-                <select
-                  className={styles.status}
-                  aria-label=".form-select-md fs-6 example"
-                  id={locationId}
-                  onClick={(e) => changeLocations(e)}
-                >
-                  <option selected>
-                    <BtnPayment
-                      onClick={() => handleLocations()}
-                      text={"Select Location"}
-                      className={styles.status}
-                    />
-                  </option>
+            <span className={styles.inputTitle}>Location : </span>
+            <InputVehicle1
+              onChange={(e) => inputData(e)}
+              name="locationName"
+              value={form.locationName}
+              placeholder="Description (max up to 150 words)"
+            />
 
-                  {locations &&
-                    locations?.map((location, index) => (
-                      <option
-                        key={index}
-                        className={styles.dropmenu}
-                        value={location.locationId}
-                      >
-                        <span className={styles.category}>{location.name}</span>
-                      </option>
-                    ))}
-                </select>
-              </div>
-            </div>
             <span className={styles.inputTitle}>Description : </span>
             <InputVehicle1
-              onChange={(e) => handleForm(e)}
+              onChange={(e) => inputData(e)}
               name="description"
               placeholder="Description (max up to 150 words)"
             />
             <InputVehicle2
-              onChange={(e) => handleForm(e)}
+              onChange={(e) => inputData(e)}
               name="price"
+              type="text"
               placeholder="Type the price"
               title="Price : "
+              value={form.price}
             />
             <span className={styles.inputTitle}>Status : </span>
 
@@ -286,26 +249,31 @@ export default function Add2() {
                 <select
                   className={styles.status}
                   aria-label=".form-select-md fs-6 example"
-                  onClick={(e) => changeStatus(e)}
+                  name="status"
                 >
                   <option selected>
                     <BtnPayment
-                      onClick={() => status()}
-                      text={textCategory ? textCategory : "Select Status"}
+                      onClick={(e) => changeStatus(e)}
+                      text={"Select Status"}
                       className={styles.status}
                     />
                   </option>
-                  <option value="Available">Available</option>
-                  <option value="Full Booking">Full Booked</option>
+                  <option value="Available" onClick={(e) => changeStatus(e)}>
+                    Available
+                  </option>
+                  <option value="Full Booking" onClick={(e) => changeStatus(e)}>
+                    Full Booked
+                  </option>
                 </select>
               </div>
             </div>
-
             <InputVehicle2
-              onChange={(e) => handleForm(e)}
+              onChange={(e) => inputData(e)}
               name="stock"
+              type="text"
               placeholder="Insert stock"
               title="Stock : "
+              value={form.stock}
             />
           </div>
         </div>
@@ -343,7 +311,7 @@ export default function Add2() {
           </div>
           <div className="col-12 col-md-6 col-lg-6 mt-3 mt-md-0 mt-lg-0">
             <BtnPayment
-              onClick={() => handleSave()}
+              onClick={handleUpdataItem}
               text="Save"
               className="w-100 bg-orange"
             />

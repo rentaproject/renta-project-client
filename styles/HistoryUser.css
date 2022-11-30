@@ -82,6 +82,7 @@
   border: none;
   border-radius: 10px;
   color: #ffcd61;
+  /* margin-top: -200px; */
 }
 .buttonyes {
   width: 100px;
@@ -90,9 +91,13 @@
   border: none;
   border-radius: 10px;
   color: black;
+  margin-left: 70px;
 }
 .group_button_modal {
-  padding: 10vh;
+  /* padding: 10vh; */
+}
+.group_button_modall {
+  width: 100px;
 }
 .modal_tittle {
   width: 300px;
@@ -103,6 +108,10 @@
   width: 25%;
   height: 20%;
   border-radius: 10px;
+}
+.history_phone_ {
+  display: none;
+  visibility: hidden;
 }
 @media (max-width: 575.98px) {
   .history_tittle {
@@ -119,9 +128,7 @@
     margin-left: -10px;
     font-family: "Nunito";
   }
-  .form-control-history {
-    display: none !important;
-  }
+
   .history_filter {
     display: none !important;
   }
@@ -137,5 +144,24 @@
   }
   .history_info_vehicle {
     font-size: 6px !important;
+  }
+  .form-control__history {
+    display: none !important;
+  }
+  .history_tittle {
+    display: none !important;
+  }
+  .history_row_one {
+    display: none !important;
+  }
+  .history_row_two {
+    display: none !important;
+  }
+  .history_phone_ {
+    /* display: block; */
+    visibility: visible;
+    /* text-align: end; */
+    margin-left: 130px !important;
+    font-size: 20px;
   }
 }
