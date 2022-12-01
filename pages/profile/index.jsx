@@ -29,6 +29,7 @@ export default function Profile() {
   useEffect(() => {
     getDataUser();
   }, []);
+  console.log(data);
 
   const getDataUser = () => {
     dispatch(getDataUserById(userId)).then((response) => {
@@ -239,9 +240,9 @@ export default function Profile() {
                 type="text"
                 className="form-control ps-0"
                 id=""
-                name="mobileNumber"
+                name="phoneNumber"
                 placeholder="Input Mobile Number"
-                value={data.mobileNumber ? data.mobileNumber : ""}
+                value={data?.phoneNumber}
                 onChange={inputData}
                 required
               />
