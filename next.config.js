@@ -18,6 +18,16 @@ const nextConfig = {
   },
 };
 const withImages = require("next-images");
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    config.module.rules.push({
+      test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+      loader: require.resolve("url-loader"),
+    });
+
+    return config;
+  },
+};
 
 module.exports = withImages();
 module.exports = nextConfig;
