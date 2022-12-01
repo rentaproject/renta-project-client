@@ -148,7 +148,7 @@ export default function ChangePassword() {
                   <div className={` ${styles.footerMain}`}>
                     <div className={styles.footerLogoContainer}>
                       <Image
-                        src={require("../../../public/Logo-1.png")}
+                        src={require("../../../../public/Logo-1.png")}
                         alt="logo"
                         className={styles.footerLogo}
                       />
