@@ -7,11 +7,10 @@ import { useRouter } from "next/router";
 import InputVehicle1 from "components/inputVehicle/inputVehicle1";
 import InputVehicle2 from "components/inputVehicle/inputVehicle2";
 import BtnPayment from "components/BtnPayment/index.jsx";
-import defaultItem from "public/defaultPhotoItem.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getVehicleById } from "stores/action/vehicle";
-import InputVehicle from "components/inputVehicle/inputVehicle1";
 import axios from "utilities/axiosClient";
+import swal from "sweetalert";
 
 export default function Add2() {
   const dispatch = useDispatch();
@@ -23,14 +22,11 @@ export default function Add2() {
   const [status, setstatus] = useState("Select status");
   const [dropdowncategory, setdropdowncategory] = useState(0);
   const [textCategory, settextCategory] = useState("");
-  const [textLocation, settextLocation] = useState("");
-
-  const [urlImage1, seturlImage1] = useState("");
-  const [urlImage2, seturlImage2] = useState(defaultItem.src);
-  const [urlImage3, seturlImage3] = useState(defaultItem.src);
+  const [imagePreview1, setImagePreview1] = useState("");
+  const [imagePreview2, setImagePreview2] = useState("");
+  const [imagePreview3, setImagePreview3] = useState("");
   const [form, setForm] = useState({});
-  const [locationId, setLocationId] = useState("");
-  const [category, setCategory] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getDataVehicle();
@@ -76,19 +72,22 @@ export default function Add2() {
         ...form,
         image1: e.target.files[0],
       });
-      seturlImage1(urlImage1);
+
+      setImagePreview1(urlImage1);
     } else if (inputId === "image2") {
       setForm({
         ...form,
         image2: e.target.files[0],
       });
-      seturlImage2(urlImage2);
+
+      setImagePreview2(urlImage2);
     } else {
       setForm({
         ...form,
         image3: e.target.files[0],
       });
-      seturlImage3(urlImage3);
+
+      setImagePreview3(urlImage3);
     }
   };
   const handleCategory = () => {
@@ -106,6 +105,27 @@ export default function Add2() {
       status: e.target.value,
     });
   };
+  const cancel1 = () => {
+    setForm({
+      ...form,
+      image1: dataVehicle?.image1,
+    });
+    setImagePreview1("");
+  };
+  const cancel2 = () => {
+    setForm({
+      ...form,
+      image2: dataVehicle?.image2,
+    });
+    setImagePreview2("");
+  };
+  const cancel3 = () => {
+    setForm({
+      ...form,
+      image3: dataVehicle?.image3,
+    });
+    setImagePreview3("");
+  };
 
   const changetype = (e) => {
     setForm({
@@ -117,12 +137,14 @@ export default function Add2() {
   };
 
   const handleUpdataItem = () => {
+    setLoading(true);
     axios
       .patch(`/api/vehicle/${form.vehicleId}`, form)
       .then((response) => {
-        alert(response.data.msg);
+        setLoading(false);
+        swal(response.data.msg);
       })
-      .catch((error) => alert(error.response?.data.msg));
+      .catch((error) => swal(error.response?.data.msg));
   };
 
   return (
@@ -148,21 +170,21 @@ export default function Add2() {
               onChange={(e) => inputData(e)}
             />
 
-            <label htmlFor="image1" className={styles.cam}>
-              <div className={styles.cam}>
+            <label htmlFor="image1" className={styles.mainImageContainer}>
+              <div className={styles.mainImageContainer}>
                 <Image
-                  className=""
                   src={
-                    urlImage1
-                      ? urlImage1
+                    imagePreview1
+                      ? imagePreview1
                       : form.image1
-                      ? process.env.URL_CLOUDINARY + `${form?.image1}`
-                      : defaultItem
+                      ? `${process.env.URL_CLOUDINARY}${form.image1}`
+                      : require("../../../public/Item-Empty.webp")
                   }
-                  alt="itempicture"
-                  width={600}
-                  height={300}
-                  objectFit="cover"
+                  alt="item"
+                  className={styles.mainImage}
+                  width={250}
+                  height={150}
+                  layout="responsive"
                 />
               </div>
               <input
@@ -173,50 +195,83 @@ export default function Add2() {
                 id="image1"
               />
             </label>
+            {imagePreview1 ? (
+              <div className="text-center">
+                <button className={styles.cancel} onClick={cancel1}>
+                  cancel
+                </button>
+              </div>
+            ) : (
+              ""
+            )}
+            <div className={styles.sideImageWrapper}>
+              <label htmlFor="image2" className={styles.sideImageContainer}>
+                <Image
+                  src={
+                    imagePreview2
+                      ? imagePreview2
+                      : form.image2
+                      ? `${process.env.URL_CLOUDINARY}${form.image2}`
+                      : require("../../../public/Item-Empty.webp")
+                  }
+                  alt="item"
+                  className={styles.sideImage}
+                  width={250}
+                  height={150}
+                  layout="responsive"
+                />
+                <input
+                  onChange={(e) => handleImg(e)}
+                  className="d-none"
+                  type="file"
+                  name="image2"
+                  id="image2"
+                />
+              </label>
 
-            <div className="row  mt-3">
-              <div className="col-12 col-md-12 col-lg-6 text-center">
-                <label htmlFor="image2">
-                  <div className={styles.subcam}>
-                    <Image
-                      className=""
-                      src={process.env.URL_CLOUDINARY + `${form.image2}`}
-                      alt="itempicture"
-                      width={350}
-                      height={200}
-                      objectFit="cover"
-                    />
-                  </div>
-                  <input
-                    onChange={(e) => handleImg(e)}
-                    className="d-none"
-                    type="file"
-                    name="image2"
-                    id="image2"
-                  />
-                </label>
-              </div>
-              <div className="col-12 col-md-12 col-lg-6 mt-3 mt-md-3 mt-lg-0 text-center">
-                <label htmlFor="image3">
-                  <div className={styles.subcam}>
-                    <Image
-                      className=""
-                      src={process.env.URL_CLOUDINARY + `${form.image3}`}
-                      alt="itempicture"
-                      width={350}
-                      height={200}
-                      objectFit="cover"
-                    />
-                  </div>
-                  <input
-                    onChange={(e) => handleImg(e)}
-                    className="d-none"
-                    type="file"
-                    name="image3"
-                    id="image3"
-                  />
-                </label>
-              </div>
+              <label htmlFor="image3" className={styles.sideImageContainer}>
+                <Image
+                  src={
+                    imagePreview3
+                      ? imagePreview3
+                      : form.image3
+                      ? `${process.env.URL_CLOUDINARY}${form.image3}`
+                      : require("../../../public/Item-Empty.webp")
+                  }
+                  alt="item"
+                  className={styles.sideImage}
+                  width={250}
+                  height={150}
+                  layout="responsive"
+                />
+                <input
+                  onChange={(e) => handleImg(e)}
+                  className="d-none"
+                  type="file"
+                  name="image3"
+                  id="image3"
+                />
+              </label>
+            </div>
+            <div className="d-flex justify-content-center gap-5">
+              {imagePreview2 ? (
+                <div className="text-center me-5">
+                  <button className={styles.cancel} onClick={cancel2}>
+                    cancel
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
+              {imagePreview3 ? (
+                <div className="text-center ">
+                  <button className={styles.cancel} onClick={cancel3}>
+                    cancel
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
           <div className="col-12 col-md-6 col-lg-5">
@@ -310,11 +365,17 @@ export default function Add2() {
             )}
           </div>
           <div className="col-12 col-md-6 col-lg-6 mt-3 mt-md-0 mt-lg-0">
-            <BtnPayment
-              onClick={handleUpdataItem}
-              text="Save"
-              className="w-100 bg-orange"
-            />
+            {loading ? (
+              <div className="spinner-border text-dark" role="status">
+                <span className="sr-only"></span>
+              </div>
+            ) : (
+              <BtnPayment
+                onClick={handleUpdataItem}
+                text="Save"
+                className="w-100 bg-orange"
+              />
+            )}
           </div>
         </div>
       </div>
