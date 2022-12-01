@@ -163,6 +163,27 @@ function Header(props) {
                       Logout
                     </div>
                   </li>
+                  {dataUser?.role === "admin" ? (
+                    <>
+                      <li>
+                        <div
+                          className="dropdown-item"
+                          onClick={() => router.push("item/add")}
+                        >
+                          Add Item
+                        </div>
+                      </li>
+                      <div
+                        className="dropdown-item"
+                        onClick={() => router.push("item/edit")}
+                      >
+                        Edit Item
+                      </div>
+                      <li></li>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </ul>
               </ul>
             ) : (

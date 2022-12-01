@@ -103,7 +103,10 @@ export default function Signin() {
                   disabled={loading}
                 >
                   {loading ? (
-                    <div className="spinner-border text-dark" role="status">
+                    <div
+                      className="spinner-border text-dark ms-auto"
+                      role="status"
+                    >
                       <span className="sr-only"></span>
                     </div>
                   ) : (

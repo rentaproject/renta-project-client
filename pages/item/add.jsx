@@ -10,8 +10,9 @@ import defaultItem from "public/defaultPhotoItem.png";
 import swal from "sweetalert";
 import axios from "utilities/axiosClient";
 import { addVehicle } from "stores/action/vehicle";
+import Image from "next/image";
 
-export default function Add2() {
+export default function Add() {
   const { push, back } = useRouter();
   const dataUser = useSelector((state) => state.user.data[0]);
 
@@ -36,10 +37,11 @@ export default function Add2() {
   const [textCategory, settextCategory] = useState("");
   const [textLocation, settextLocation] = useState("");
   const [status, setstatus] = useState("Select status");
-  const [urlImage1, seturlImage1] = useState(defaultItem.src);
-  const [urlImage2, seturlImage2] = useState(defaultItem.src);
-  const [urlImage3, seturlImage3] = useState(defaultItem.src);
+  const [imagePreview1, setImagePreview1] = useState("");
+  const [imagePreview2, setImagePreview2] = useState("");
+  const [imagePreview3, setImagePreview3] = useState("");
   const [locationId, setLocationId] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getTypes();
@@ -78,6 +80,27 @@ export default function Add2() {
     });
   };
   console.log(form);
+  const cancel1 = () => {
+    setform({
+      ...form,
+      image1: form.image1,
+    });
+    setImagePreview1("");
+  };
+  const cancel2 = () => {
+    setform({
+      ...form,
+      image2: dataVehicle?.image2,
+    });
+    setImagePreview2("");
+  };
+  const cancel3 = () => {
+    setform({
+      ...form,
+      image3: form.image3,
+    });
+    setImagePreview3("");
+  };
 
   const handleImg = (e) => {
     const urlImage1 = URL.createObjectURL(e.target.files[0]);
@@ -89,23 +112,24 @@ export default function Add2() {
         ...form,
         image1: e.target.files[0],
       });
-      seturlImage1(urlImage1);
+      setImagePreview1(urlImage1);
     } else if (inputId === "image2") {
       setform({
         ...form,
         image2: e.target.files[0],
       });
-      seturlImage2(urlImage2);
+      setImagePreview2(urlImage2);
     } else {
       setform({
         ...form,
         image3: e.target.files[0],
       });
-      seturlImage3(urlImage3);
+      setImagePreview3(urlImage3);
     }
   };
 
   const handleSave = () => {
+    setLoading(true);
     const formData = new FormData();
     for (const data in form) {
       formData.append(data, form[data]);
@@ -115,6 +139,7 @@ export default function Add2() {
     dispatch(addVehicle(formData))
       .then((result) => {
         console.log(result.value.data.data[0]);
+        setLoading(false);
         swal(`${result.value.data.msg}`);
         push(`/item/edit/${result.value.data.data[0]?.vehicleId}`);
       })
@@ -179,31 +204,84 @@ export default function Add2() {
               name="name"
               placeholder="Name (max up to 50 words)"
             />
-            <label
-              htmlFor="image1"
-              className={
-                urlImage1 !== defaultItem.src ? styles.image1 : styles.cam
-              }
-            >
-              <div className={urlImage1 ? styles.image1 : styles.cam}>
-                <img src={urlImage1} alt="" />
-              </div>
-            </label>
-            <div className="row mt-3">
-              <div className="col-12 col-md-12 col-lg-6">
+            <div className={styles.mainImageContainer}>
+              {imagePreview1 ? (
+                <div className={styles.mainImageContainer}>
+                  <Image
+                    src={imagePreview1}
+                    alt="item"
+                    className={styles.mainImage}
+                    width={250}
+                    height={150}
+                    layout="responsive"
+                  />
+
+                  <div className="text-center">
+                    <button className={styles.cancel} onClick={cancel1}>
+                      cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="mb-4">
+                  <label htmlFor="image1" className={styles.cam}>
+                    <div className={styles.cam}>
+                      <img src={defaultItem.src} alt="" />
+                    </div>
+                  </label>
+                </div>
+              )}
+            </div>
+            <div className={styles.sideImageWrapper}>
+              {imagePreview2 ? (
+                <div className={styles.sideImageContainer}>
+                  <Image
+                    src={imagePreview2}
+                    alt="item"
+                    className={styles.mainImage}
+                    width={250}
+                    height={150}
+                    layout="responsive"
+                  />
+
+                  <div className="text-center">
+                    <button className={styles.cancel} onClick={cancel2}>
+                      cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
                 <label htmlFor="image2" className={styles.subcam}>
                   <div className={styles.subcam}>
-                    <img src={urlImage2} alt="" />
+                    <img src={defaultItem.src} alt="" />
                   </div>
                 </label>
-              </div>
-              <div className="col-12 col-md-12 col-lg-6 mt-3 mt-md-3 mt-lg-0">
+              )}
+
+              {imagePreview3 ? (
+                <div className={styles.sideImageContainer}>
+                  <Image
+                    src={imagePreview3}
+                    alt="item"
+                    className={styles.mainImage}
+                    width={250}
+                    height={150}
+                    layout="responsive"
+                  />
+
+                  <div className="text-center">
+                    <button className={styles.cancel} onClick={cancel2}>
+                      cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
                 <label htmlFor="image3" className={styles.subcam}>
                   <div className={styles.subcam}>
-                    <img src={urlImage3} alt="" />
+                    <img src={defaultItem.src} alt="" />
                   </div>
                 </label>
-              </div>
+              )}
             </div>
             <input
               onChange={(e) => handleImg(e)}
@@ -333,11 +411,17 @@ export default function Add2() {
             )}
           </div>
           <div className="col-12 col-md-6 col-lg-6 mt-3 mt-md-0 mt-lg-0">
-            <BtnPayment
-              onClick={() => handleSave()}
-              text="Save"
-              className="w-100 bg-orange"
-            />
+            {loading ? (
+              <div className="spinner-border text-dark" role="status">
+                <span className="sr-only"></span>
+              </div>
+            ) : (
+              <BtnPayment
+                onClick={handleSave}
+                text="Save"
+                className="w-100 bg-orange"
+              />
+            )}
           </div>
         </div>
       </div>
