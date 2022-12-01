@@ -24,7 +24,7 @@ export const getServerSideProps = async (context) => {
       : require("../../../public/Item-Empty.webp");
     console.log(result.data.data[0].image1);
     return {
-      props: { vehicle, image },
+      props: { vehicle, image, params },
     };
   } catch (error) {
     console.log(error);
@@ -32,10 +32,11 @@ export const getServerSideProps = async (context) => {
 };
 
 const Reservation = (props) => {
+  const { vehicle, image, params } = props;
   const router = useRouter();
   const { query } = router;
   const { back, push } = useRouter();
-  let [amount, setamount] = useState(1);
+  let [amount, setamount] = useState(parseInt(params.quantity));
   const [date, setdate] = useState("Select date");
   const [day, setday] = useState(1);
   const dataDate = [
@@ -44,7 +45,6 @@ const Reservation = (props) => {
     { id: 3, text: "3 Day" },
   ];
 
-  const { vehicle, image } = props;
   const [rental, setrental] = useState({
     vehicleId: vehicle.vehicleId,
     totalPayment: vehicle.price,
@@ -58,7 +58,7 @@ const Reservation = (props) => {
 
   useEffect(() => {
     rental;
-    console.log(reservation);
+    console.log(params);
     // console.log(amount + "amount");
   }, [rental]);
 
@@ -130,6 +130,12 @@ const Reservation = (props) => {
       `/payment/${vehicle.vehicleId}`
     );
   };
+
+  const currency = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  });
 
   return (
     <Fragment>
@@ -238,7 +244,7 @@ const Reservation = (props) => {
             onClick={handlePay}
             className={`${styles.btn} bg-orange w-100 mt-5 mb-5`}
           >
-            Pay now : Rp. {rental.totalPayment}
+            Pay now : {currency.format(rental.totalPayment)}
           </button>
         </div>
       </div>

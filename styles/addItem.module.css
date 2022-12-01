@@ -8,9 +8,18 @@
   margin-bottom: 10px;
   padding-bottom: 10px;
 }
-
+.mainImage {
+  object-fit: cover;
+  border-radius: 10px;
+}
 .input:focus {
   outline: none;
+}
+.image1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 }
 .cam {
   width: 100%;
@@ -86,7 +95,31 @@
   margin-top: 10px;
   margin-bottom: 5px;
 }
-
+.mainImageContainer {
+  width: 100%;
+  cursor: pointer;
+}
+.sideImageContainer {
+  width: 40%;
+  cursor: pointer;
+}
+.sideImage {
+  object-fit: cover;
+  border-radius: 10px;
+}
+.sideImageWrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.cancel {
+  border-radius: 5px;
+  background-color: #ffcd61;
+  align-items: center;
+  margin: 10px 10px;
+}
 @media (min-width: 768px) {
   .dropdown {
     right: 50px;

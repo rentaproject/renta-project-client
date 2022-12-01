@@ -3,7 +3,8 @@ import Cookies from "js-cookie";
 
 const axiosApiIntances = axios.create({
   baseURL: process.env.URL_BACKEND,
-  // baseURL: "http://localhost:8000/",
+
+  // baseURL: "http://localhost:8000",
 });
 
 // Add a request interceptor
@@ -34,7 +35,7 @@ axiosApiIntances.interceptors.response.use(
 
     if (error.response.data.status === 403) {
       Cookies.remove("token");
-      window.location.href = "/auth/signin";
+      window.location.href = "/auth/register";
     }
     return Promise.reject(error);
   }

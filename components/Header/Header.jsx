@@ -49,13 +49,7 @@ function Header(props) {
           }}
         >
           <Image
-            src={
-              dataUser
-                ? dataUser.image
-                  ? `${process.env.URL_CLOUDINARY}${image}`
-                  : require("../../public/Logo-1.png")
-                : require("../../public/Logo-1.png")
-            }
+            src={require("../../public/Logo-1.png")}
             alt="Logo"
             className={styles.logo}
           />
@@ -131,15 +125,21 @@ function Header(props) {
           </ul>
           <div className="nav-item dropdown">
             {login ? (
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <div
-                  // className="dropdown-toggle"
+                  // class="dropdown-toggle"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   <div className={styles.profileContainer}>
                     <Image
-                      src={require("../../public/Profile-Empty.png")}
+                      src={
+                        dataUser
+                          ? dataUser?.image
+                            ? `${process.env.URL_CLOUDINARY}${dataUser?.image}`
+                            : require("../../public/Profile-Empty.png")
+                          : require("../../public/Profile-Empty.png")
+                      }
                       alt="profile"
                       className={styles.profile}
                       width={40}
@@ -147,22 +147,43 @@ function Header(props) {
                     />
                   </div>
                 </div>
-                <ul className="dropdown-menu">
+                <ul class="dropdown-menu">
                   <li>
-                    <a className="dropdown-item" href="profile">
+                    <a class="dropdown-item" href="profile">
                       Profile
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <a class="dropdown-item" href="#">
                       History
                     </a>
                   </li>
                   <li>
-                    <div className="dropdown-item" onClick={logoutHandler}>
+                    <div class="dropdown-item" onClick={logoutHandler}>
                       Logout
                     </div>
                   </li>
+                  {dataUser?.role === "admin" ? (
+                    <>
+                      <li>
+                        <div
+                          className="dropdown-item"
+                          onClick={() => router.push("item/add")}
+                        >
+                          Add Item
+                        </div>
+                      </li>
+                      <div
+                        className="dropdown-item"
+                        onClick={() => router.push("item/edit")}
+                      >
+                        Edit Item
+                      </div>
+                      <li></li>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </ul>
               </ul>
             ) : (

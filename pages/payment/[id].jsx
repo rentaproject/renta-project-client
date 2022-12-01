@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import BtnPayment from "../../components/BtnPayment/index.jsx";
 import styles from "../../styles/payment.module.css";
@@ -11,6 +11,9 @@ import swal from "sweetalert";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/index.jsx";
 import { useRouter } from "next/router.js";
+import { useDispatch } from "react-redux";
+import { getDataUserById } from "stores/action/user.js";
+import Cookies from "js-cookie";
 // import { useState, useEffect } from "react";
 
 export const getServerSideProps = async (context) => {
@@ -35,33 +38,44 @@ export const getServerSideProps = async (context) => {
 };
 
 const Payment = (props) => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const { query } = router;
   const { vehicle, image } = props;
   const admin = false;
   const rentalStatus = "";
   const days = query.totalPayment / vehicle.price / query.quantity;
+  const [user, setUser] = useState("");
+  const userId = Cookies.get("userId");
 
   useEffect(() => {
-    console.log(query);
-    // console.log(amount + "amount");
+    getDataUser();
   }, []);
 
-  const handlePayment = () => {
-    axios
-      .post(`http://localhost:8000/api/reservation/`, query)
-      .then((res) => {
-        swal("Success", "Success, please wait payment confirmation", "success");
-        // .then(() => {
-        //   // push('/history')
-        // })
-        return res
-      })
-      .catch((err) => {
-        swal("Error", "Rental failed, please check vehicle info", "error");
-        // console.log(err.response);
-      });
+  const getDataUser = () => {
+    dispatch(getDataUserById(userId)).then((response) => {
+      setUser(response.value.data.data[0]);
+    });
   };
+
+  const handlePayment = async () => {
+    const result = await axios.post(
+      `http://localhost:8000/api/reservation/`,
+      query
+    );
+    // .then((res) => (window.location.href = res.value.data.data.redirectUrl))
+    // .catch((err) => {
+    //   swal("Error", "Rental failed, please check vehicle info", "error");
+    // });
+    // console.log(result.data.data.redirectUrl);
+    window.location.href = result.data.data.redirectUrl;
+  };
+
+  const currency = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  });
 
   return (
     <Fragment>
@@ -116,11 +130,11 @@ const Payment = (props) => {
                     //   key={index}
                     className="d-block"
                   >
-                    1 vehicle : Rp. {vehicle.price} x {days} day
+                    1 vehicle : {currency.format(vehicle.price)} x {days} day
                   </span>
                   {/* ))} */}
                   <span className={`mt-3 d-block ${styles.boxtitle}`}>
-                    Total : Rp. {query.totalPayment}
+                    Total : {currency.format(query.totalPayment)}
                   </span>
                 </div>
               </div>
@@ -133,8 +147,8 @@ const Payment = (props) => {
                 </div>
                 <div className={styles.boxIden}>
                   <span className={styles.boxtitle}>Identity : </span>
-                  <span className="d-block">User 0818181818</span>
-                  <span className="d-block">user@gmail.com</span>
+                  <span className="d-block">{user.name}</span>
+                  <span className="d-block">{user.email}</span>
                 </div>
               </div>
             </div>
