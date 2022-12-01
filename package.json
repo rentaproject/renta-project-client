@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "eslint": "8.26.0",
-    "eslint-config-next": "13.0.1"
+    "eslint-config-next": "13.0.1",
+    "url-loader": "^4.1.1"
   }
 }
